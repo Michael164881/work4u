@@ -1,6 +1,18 @@
 let map;
 let userMarker;
 
+const cityBoundaries = {
+  shahalam: { lat:3.0733 , lng:101.5185 },
+  subangjava: { lat:3.0567 , lng:101.5851 },
+  klang: { lat:3.0439 , lng:101.4456 },
+  petalingjaya: { lat:3.1279 , lng:101.5945 },
+  ampangjava: { lat:3.1314 , lng:101.7626 },
+  batucaves: { lat:3.2379 , lng:101.6840 },
+  puchong: { lat:3.0327 , lng:101.6188 },
+  serikembangan: { lat:3.0220 , lng:101.7055 },
+  kualalumpur: { lat:3.1319 , lng:101.6841 }
+};
+
 demo = {
   initPickColor: function() {
     $('.pick-class-label').click(function() {
@@ -299,12 +311,12 @@ demo = {
 
   initGoogleMaps: function() {
      // Define the coordinates of Selangor
-     const selangorBounds = {
-      north: 3.63,
-      south: 2.57,
-      west: 100.97,
-      east: 101.95,
-    };
+      const selangorBounds = {
+        north: 3.7787,
+        south: 2.5257,
+        west: 100.5254,
+        east: 101.8703,
+      };
 
     // Create a new map centered on the center of Selangor
     const centerSelangor = {
@@ -319,10 +331,19 @@ demo = {
       scrollwheel: false,
       disableDoubleClickZoom: true,
       zoomControl: true,
-      restriction: {
-        latLngBounds: selangorBounds,
-        strictBounds: true,
-      },
+      // restriction: {
+      //   latLngBounds: selangorBounds,
+      //   strictBounds: true,
+      // },
+      draggable:false,
+      styles: [
+        {
+          "featureType": "poi",
+          "stylers": [
+            { "visibility": "off" }
+          ]
+        }
+      ]  
     });
 
     // Try HTML5 geolocation to get the user's location
@@ -382,3 +403,6 @@ demo = {
   }
 
 };
+
+// Initialize the map when the window loads
+window.onload = initGoogleMaps;
