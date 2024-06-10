@@ -63,10 +63,6 @@
             font-size: 1vw;
         }
 
-        .cont-btn{
-            display: flex;
-        }
-
         .login-button {
             background-color: #ffcc00;
             color: #fff;
@@ -112,8 +108,8 @@
                             <label for="password">PASSWORD</label>
                             <input type="password" id="password" name="password" required>
                             <div class="cont-btn">
-                                <button type="button" class="register-button" onclick="window.location.href='{{ route('register') }}'">REGISTER</button> <!-- Use url() helper for generating URLs -->
                                 <button type="submit" class="login-button">LOGIN</button>
+                                <button type="button" class="register-button" onclick="window.location.href='{{ route('register') }}'">REGISTER</button> <!-- Use url() helper for generating URLs -->
                             </div>
                         </form>
                         

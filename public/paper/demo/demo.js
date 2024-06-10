@@ -1,3 +1,6 @@
+let map;
+let userMarker;
+
 demo = {
   initPickColor: function() {
     $('.pick-class-label').click(function() {
@@ -295,107 +298,70 @@ demo = {
   },
 
   initGoogleMaps: function() {
-    var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-    var mapOptions = {
-      zoom: 13,
-      center: myLatlng,
-      scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-      styles: [{
-        "featureType": "water",
-        "stylers": [{
-          "saturation": 43
-        }, {
-          "lightness": -11
-        }, {
-          "hue": "#0088ff"
-        }]
-      }, {
-        "featureType": "road",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "hue": "#ff0000"
-        }, {
-          "saturation": -100
-        }, {
-          "lightness": 99
-        }]
-      }, {
-        "featureType": "road",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-          "color": "#808080"
-        }, {
-          "lightness": 54
-        }]
-      }, {
-        "featureType": "landscape.man_made",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#ece2d9"
-        }]
-      }, {
-        "featureType": "poi.park",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#ccdca1"
-        }]
-      }, {
-        "featureType": "road",
-        "elementType": "labels.text.fill",
-        "stylers": [{
-          "color": "#767676"
-        }]
-      }, {
-        "featureType": "road",
-        "elementType": "labels.text.stroke",
-        "stylers": [{
-          "color": "#ffffff"
-        }]
-      }, {
-        "featureType": "poi",
-        "stylers": [{
-          "visibility": "off"
-        }]
-      }, {
-        "featureType": "landscape.natural",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "visibility": "on"
-        }, {
-          "color": "#b8cb93"
-        }]
-      }, {
-        "featureType": "poi.park",
-        "stylers": [{
-          "visibility": "on"
-        }]
-      }, {
-        "featureType": "poi.sports_complex",
-        "stylers": [{
-          "visibility": "on"
-        }]
-      }, {
-        "featureType": "poi.medical",
-        "stylers": [{
-          "visibility": "on"
-        }]
-      }, {
-        "featureType": "poi.business",
-        "stylers": [{
-          "visibility": "simplified"
-        }]
-      }]
+     // Define the coordinates of Selangor
+     const selangorBounds = {
+      north: 3.63,
+      south: 2.57,
+      west: 100.97,
+      east: 101.95,
+    };
 
-    }
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    // Create a new map centered on the center of Selangor
+    const centerSelangor = {
+      lat: (selangorBounds.north + selangorBounds.south) / 2,
+      lng: (selangorBounds.east + selangorBounds.west) / 2,
+    };
 
-    var marker = new google.maps.Marker({
-      position: myLatlng,
-      title: "Hello World!"
+    map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 10,
+      center: centerSelangor,
+      disableDefaultUI: true,
+      scrollwheel: false,
+      disableDoubleClickZoom: true,
+      zoomControl: true,
+      restriction: {
+        latLngBounds: selangorBounds,
+        strictBounds: true,
+      },
     });
 
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
+    // Try HTML5 geolocation to get the user's location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          timeout: 50000,
+
+          // Add a marker at the user's location
+          userMarker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: "Your Location",
+          });
+
+          // Center and zoom the map on the user's location
+          map.setCenter(pos);
+          map.setZoom(13); // Adjust the zoom level as desired
+        },
+        () => {
+          handleLocationError(true, map.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, map.getCenter());
+    }
+  },
+
+  handleLocationError: function(browserHasGeolocation, pos) {
+    console.log(
+      browserHasGeolocation
+        ? "Error: The Geolocation service failed."
+        : "Error: Your browser doesn't support geolocation."
+    );
   },
 
   showNotification: function(from, align) {
