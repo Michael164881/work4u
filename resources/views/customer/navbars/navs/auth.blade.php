@@ -34,7 +34,7 @@
 
 </style>
 
-<h1>ADMIN</h1>
+<h1>CUSTOMER</h1>
 <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent" id="nav-expand">
 
     <form class="dropdown-item" action="{{ route('logout') }}" id="formLogOut" method="POST" style="display: none;">

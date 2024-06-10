@@ -1,72 +1,73 @@
-@extends('layouts.app', [
-    'class' => 'register-page',
-    'backgroundImagePath' => 'img/bg/jan-sendereks.jpg'
-])
+<!--     Fonts and icons     -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <!-- CSS Files -->
+    <link href="{{ asset('paper') }}/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
 
-@section('content')
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .content{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-body{
+        width: 80%;
+        margin: 5% 0 5% 0;
+    }
+
+    .card-title{
+        text-align: center;
+        margin: 10% 0 10% 0;
+    }
+
+    #in-container{
+        background-color: #7C638F;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30vw;
+    }
+
+    h4{
+        color: white;
+        font-weight: bolder;
+    }
+
+    #txt-agree{
+        color: white;
+    }
+
+    input{
+        width: 100%;
+    }
+
+    select{
+        width: 100%;
+    }
+
+    #reg-btn{
+        background-color: #ffcc00;
+    }
+</style>
+
     <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5 col-md-5 ml-auto">
-                    <div class="info-area info-horizontal mt-5">
-                        <div class="icon icon-primary">
-                            <i class="nc-icon nc-tv-2"></i>
-                        </div>
-                        <div class="description">
-                            <h5 class="info-title">{{ __('Marketing') }}</h5>
-                            <p class="description">
-                                {{ __('We\'ve created the marketing campaign of the website. It was a very interesting collaboration.') }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="info-area info-horizontal">
-                        <div class="icon icon-primary">
-                            <i class="nc-icon nc-html5"></i>
-                        </div>
-                        <div class="description">
-                            <h5 class="info-title">{{ __('Fully Coded in HTML5') }}</h5>
-                            <p class="description">
-                                {{ __('We\'ve developed the website with HTML5 and CSS3. The client has access to the code using GitHub.') }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="info-area info-horizontal">
-                        <div class="icon icon-info">
-                            <i class="nc-icon nc-atom"></i>
-                        </div>
-                        <div class="description">
-                            <h5 class="info-title">{{ __('Built Audience') }}</h5>
-                            <p class="description">
-                                {{ __('There is also a Fully Customizable CMS Admin Dashboard for this product.') }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 mr-auto">
-                    <div class="card card-signup text-center">
-                        <div class="card-header ">
-                            <h4 class="card-title">{{ __('Register') }}</h4>
-                            <div class="social">
-                                <button class="btn btn-icon btn-round btn-twitter">
-                                    <i class="fa fa-twitter"></i>
-                                </button>
-                                <button class="btn btn-icon btn-round btn-dribbble">
-                                    <i class="fa fa-dribbble"></i>
-                                </button>
-                                <button class="btn btn-icon btn-round btn-facebook">
-                                    <i class="fa fa-facebook-f"></i>
-                                </button>
-                                <p class="card-description">{{ __('or be classical') }}</p>
-                            </div>
-                        </div>
-                        <div class="card-body ">
+        <div class="card card-signup text-center" id="in-container">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ __('CREATE ACCOUNT') }}</h4>
+                            
                             <form class="form" method="POST" action="{{ route('register') }}">
+
+                                <!--Name-->
                                 @csrf
                                 <div class="input-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="nc-icon nc-single-02"></i>
-                                        </span>
                                     </div>
                                     <input name="name" type="text" class="form-control" placeholder="Name" value="{{ old('name') }}" required autofocus>
                                     @if ($errors->has('name'))
@@ -75,11 +76,23 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                <!-- IC -->
+                                <div class="input-group{{ $errors->has('ic') ? ' has-danger' : '' }}">
+                                    <div class="input-group-prepend">
+                                    </div>
+                                    <input name="ic" type="text" class="form-control" placeholder="IC" value="{{ old('ic') }}" required>
+                                    @if ($errors->has('ic'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('ic') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <!-- Email -->
                                 <div class="input-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="nc-icon nc-email-85"></i>
-                                        </span>
+                                        
                                     </div>
                                     <input name="email" type="email" class="form-control" placeholder="Email" required value="{{ old('email') }}">
                                     @if ($errors->has('email'))
@@ -88,11 +101,51 @@
                                         </span>
                                     @endif
                                 </div>
+
+                                <!-- Phone Number -->
+                                <div class="input-group{{ $errors->has('phone_number') ? ' has-danger' : '' }}">
+                                    <div class="input-group-prepend">
+                                    </div>
+                                    <input name="phone_number" type="text" class="form-control" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
+                                    @if ($errors->has('phone_number'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('phone_number') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <!-- Location -->
+                                <div class="input-group{{ $errors->has('location') ? ' has-danger' : '' }}">
+                                    <div class="input-group-prepend">
+                                    </div>
+                                    <input name="location" type="text" class="form-control" placeholder="Location" value="{{ old('location') }}" required>
+                                    @if ($errors->has('location'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('location') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <!-- Role -->
+                                <div class="input-group{{ $errors->has('role') ? ' has-danger' : '' }}">
+                                    <div class="input-group-prepend">
+                                    </div>
+                                    <select class="form-control" id="role" name="role" required>
+                                        <option value="" selected disabled>{{ __('Choose role') }}</option>
+                                        <option value="freelancer" {{ old('role') == 'freelancer' ? 'selected' : '' }}>{{ __('Freelancer') }}</option>
+                                        <option value="customer" {{ old('role') == 'customer' ? 'selected' : '' }}>{{ __('Customer') }}</option>
+                                    </select>
+                                    @if ($errors->has('role'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('role') }}</strong>
+                                        </span>
+                                    @endif
+                                </div><br><br>
+
+                                <!-- Password -->
                                 <div class="input-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="nc-icon nc-key-25"></i>
-                                        </span>
+                                        
                                     </div>
                                     <input name="password" type="password" class="form-control" placeholder="Password" required>
                                     @if ($errors->has('password'))
@@ -103,9 +156,7 @@
                                 </div>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="nc-icon nc-key-25"></i>
-                                        </span>
+                                        
                                     </div>
                                     <input name="password_confirmation" type="password" class="form-control" placeholder="Password confirmation" required>
                                     @if ($errors->has('password_confirmation'))
@@ -118,8 +169,7 @@
                                     <label class="form-check-label">
                                         <input class="form-check-input" name="agree_terms_and_conditions" type="checkbox">
                                         <span class="form-check-sign"></span>
-                                            {{ __('I agree to the') }}
-                                        <a href="#something">{{ __('terms and conditions') }}</a>.
+                                            <div id="txt-agree">{{ __('I agree to the') }} <a href="#something">{{ __('terms and conditions') }}</a>.</div>
                                     </label>
                                     @if ($errors->has('agree_terms_and_conditions'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
@@ -128,21 +178,9 @@
                                     @endif
                                 </div>
                                 <div class="card-footer ">
-                                    <button type="submit" class="btn btn-info btn-round">{{ __('Get Started') }}</button>
+                                    <button type="submit" class="btn btn-info btn-round" id="reg-btn">{{ __('REGISTER') }}</button>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-             </div>
-        </div>
+                        </div> 
+        </div>               
      </div> 
-@endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            demo.checkFullPageBackgroundImage();
-        });
-    </script>
-@endpush

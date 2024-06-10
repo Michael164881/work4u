@@ -1,32 +1,130 @@
-@extends('layouts.app', [
-    'class' => 'login-page',
-    'elementActive' => ''
-])
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-@section('content')
-    <div class="content col-md-12 ml-auto mr-auto">
-        <div class="header py-5 pb-7 pt-lg-9">
-            <div class="container col-md-10">
-                <div class="header-body text-center mb-7">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8 col-md-12 pt-5">
-                            <h1 class="@if(Auth::guest()) text-white @endif">{{ __('Welcome to Paper Dashboard Laravel Live Preview.') }}</h1>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-                            <p class="@if(Auth::guest()) text-white @endif text-lead mt-3 mb-0">
-                                {{ __('Log in and see how you can save more than 90 hours of work with CRUDs for managing: #users, #roles, #items, #categories, #tags and more.') }}
-                            </p>
-                        </div>
-                    </div>
+        .main-container{
+            width: 30%;
+        }
+
+        .outer-container{
+            background-color: #7C638F;
+            padding: 10%;
+            border-radius: 10px;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .login-box {
+            background-color: #e1d4ed;
+            padding: 10%;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            width: 70%;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1vw;
+        }
+
+        .cont-btn{
+            display: flex;
+        }
+
+        .login-button {
+            background-color: #ffcc00;
+            color: #fff;
+            font-weight: bold;
+            width: 50%;
+            margin: 2%;
+        }
+
+        .register-button {
+            background-color: #a39477;
+            color: #fff;
+            font-weight: bold;
+            width: 50%;
+            margin: 2%;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .footer p {
+            margin-top: 10px;
+            color: #999;
+        }
+    </style>
+
+<body>
+    <div class="main-container">
+        <div class="outer-container">
+            <div class="container">
+                <div class="login-box">
+                    <img src="{{ asset('images/work4u.png') }}" alt="Work4U Logo" class="logo">
+                        <form action="{{ url('/login') }}" method="POST"> <!-- Use url() helper for generating URLs -->
+                            @csrf <!-- CSRF token -->
+                            <label for="email">EMAIL / IC</label>
+                            <input type="text" id="login" name="login" required>
+                            <label for="password">PASSWORD</label>
+                            <input type="password" id="password" name="password" required>
+                            <div class="cont-btn">
+                                <button type="button" class="register-button" onclick="window.location.href='{{ route('register') }}'">REGISTER</button> <!-- Use url() helper for generating URLs -->
+                                <button type="submit" class="login-button">LOGIN</button>
+                            </div>
+                        </form>
+                        
                 </div>
             </div>
         </div>
+        <div class="footer">
+            <p>© SARSAB TECHNOLOGY 2024</p>
+        </div>
     </div>
-@endsection
+</body>
 
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            demo.checkFullPageBackgroundImage();
-        });
-    </script>
-@endpush
+
+

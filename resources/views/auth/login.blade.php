@@ -1,4 +1,4 @@
-@extends('layouts.app', [
+@extends('welcome', [
     'class' => 'login-page',
     'backgroundImagePath' => 'img/bg/fabio-mangione.jpg'
 ])
@@ -23,11 +23,11 @@
                                         <i class="nc-icon nc-single-02"></i>
                                     </span>
                                 </div>
-                                <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" type="email" name="email" value="{{ old('email') }}" required autofocus>
+                                <input class="form-control{{ $errors->has('login') ? ' is-invalid' : '' }}" placeholder="{{ __('IC or Email') }}" type="text" name="login" value="{{ old('login') }}" required autofocus>
                                 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('login'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('login') }}</strong>
                                     </span>
                                 @endif
                             </div>

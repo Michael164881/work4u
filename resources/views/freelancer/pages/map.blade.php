@@ -1,6 +1,6 @@
-@extends('layouts.app', [
+@extends('freelancer.app', [
     'class' => '',
-    'elementActive' => 'dashboard'
+    'elementActive' => 'map'
 ])
 
 @section('content')
@@ -9,8 +9,7 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-header ">
-                        <h5 class="card-title">HIRE FREELANCER</h5>
-                        <p class="card-category">SELANGOR</p>
+                        Google Maps
                     </div>
                     <div class="card-body ">
                         <div id="map" class="map"></div>
@@ -24,14 +23,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-            demo.initChartsPages();
+            demo.initGoogleMaps();
         });
-    </script>
-
-    <script>
-            $(document).ready(function() {
-                demo.initGoogleMaps();
-            });
-    </script>
+  </script>
 @endpush

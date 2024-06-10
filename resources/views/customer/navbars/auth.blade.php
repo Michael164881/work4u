@@ -24,35 +24,30 @@
 <div class="sidebar-wrapper">
         <ul class="nav">
             <li class="nav-item {{ $elementActive == 'dashboard' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'dashboard') }}">
+                <a href="{{ route('pageCust.index', 'dashboard') }}">
                     <i class="nc-icon nc-pin-3"></i>
                     <p class="nav-text">{{ __('Dashboard') }}</p>
                 </a>
             </li>
             <li class="nav-item {{ $elementActive == 'icons' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'icons') }}">
+                <a href="{{ route('pageCust.index', 'icons') }}">
                     <i class="nc-icon nc-bell-55"></i>
                     <p class="nav-text">{{ __('Notifications') }}</p>
                 </a>
             </li>
             <li class="nav-item {{ $elementActive == 'map' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'map') }}">
+                <a href="{{ route('pageCust.index', 'map') }}">
                     <i class="nc-icon nc-settings"></i>
                     <p class="nav-text">{{ __('Jobs') }}</p>
                 </a>
             </li>
             <li class="nav-item {{ $elementActive == 'notifications' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'notifications') }}">
+                <a href="{{ route('pageCust.index', 'notifications') }}">
                     <i class="nc-icon nc-bookmark-2"></i>
                     <p class="nav-text">{{ __('Booking') }}</p>
                 </a>
             </li>
-            <li class="nav-item {{ $elementActive == 'tables' ? 'active' : '' }}">
-                <a href="{{ route('profile.edit') }}">
-                    <i class="nc-icon nc-circle-10"></i>
-                    <p class="nav-text">{{ __('Profile') }}</p>
-                </a>
-            </li>
+            
         </ul>
     </div>
 </div>

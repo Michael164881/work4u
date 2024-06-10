@@ -42,14 +42,14 @@ The above copyright notice and this permission notice shall be included in all c
     
 </head>
 
-<body class="{{ $class }}">
+<body>
     
     @auth()
-        @include('layouts.page_templates.auth')
+        @include('customer.page_templates.auth')
     @endauth
     
     @guest
-        @include('layouts.page_templates.guest')
+        @include('customer.page_templates.guest')
     @endguest
 
     <!--   Core JS Files   -->
@@ -72,7 +72,7 @@ The above copyright notice and this permission notice shall be included in all c
     
     @stack('scripts')
 
-    @include('layouts.navbars.fixed-plugin-js')
+    @include('customer.navbars.fixed-plugin-js')
 </body>
 
 </html>

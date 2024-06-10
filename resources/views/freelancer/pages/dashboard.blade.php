@@ -1,4 +1,4 @@
-@extends('layouts.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'dashboard'
 ])
@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="card ">
                     <div class="card-header ">
-                        <h5 class="card-title">HIRE FREELANCER</h5>
+                        <h5 class="card-title">SEARCH JOBS</h5>
                         <p class="card-category">SELANGOR</p>
                     </div>
                     <div class="card-body ">
