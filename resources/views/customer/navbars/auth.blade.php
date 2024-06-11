@@ -47,6 +47,12 @@
                     <p class="nav-text">{{ __('Booking') }}</p>
                 </a>
             </li>
+            <li class="nav-item {{ $elementActive == 'profile' ? 'active' : '' }}">
+                <a href="{{ route('pageCust.index', 'edit') }}">
+                    <i class="nc-icon nc-circle-10"></i>
+                    <p class="nav-text">{{ __(' User Profile ') }}</p>
+                </a>
+            </li>
             
         </ul>
     </div>

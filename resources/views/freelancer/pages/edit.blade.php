@@ -1,4 +1,4 @@
-@extends('layouts.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'profile'
 ])
@@ -9,8 +9,28 @@
         color: white;
     }
 
-    h2{
-        font-size: .1px;
+    .title-text{
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .title{
+        font-weight:bolder;
+        font-size: 30px;
+    }
+
+    #description{
+        color: #c8ccc9;
+    }
+
+    .title-ewallet{
+        color: white;
+        letter-spacing: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .amount{
+        font-weight: bolder;
     }
 </style>
 
@@ -35,45 +55,30 @@
                     <div class="card-body">
                         <div class="author">
                             <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
-                            <h5 class="title">{{ __(auth()->user()->name)}}</h5>
+                            <h5 class="title">{{ __(auth()->user()->name)}}</h5><br><br>
                             
-                            <h2 style="font-size: .1px;">Email</h2>
-                            <p class="description">{{ __(auth()->user()->email)}}</p><br>
+                            <h2 class="title-text">Email</h2>
+                            <p class="description" id="description">{{ __(auth()->user()->email)}}</p><br>
 
-                            <h2>IC</h2>
-                            <p class="description">{{ __(auth()->user()->ic)}}</p><br>
+                            <h2 class="title-text">IC</h2>
+                            <p class="description" id="description">{{ __(auth()->user()->ic)}}</p><br>
 
-                            <h2>Phone Number</h2>
-                            <p class="description">{{ __(auth()->user()->phone_number)}}</p><br>
+                            <h2 class="title-text">Phone Number</h2>
+                            <p class="description" id="description">{{ __(auth()->user()->phone_number)}}</p><br>
 
-                            <h2>Location</h2>
-                            <p class="description">{{ __(auth()->user()->location)}}</p><br>
+                            <h2 class="title-text">Location</h2>
+                            <p class="description" id="description">{{ __(auth()->user()->location)}}</p><br>
                         </div>
                     </div>
                     <div class="card-footer">
                         <hr>
                         <div class="button-container">
-                            <h1>E-WALLET</h1>
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6 col-6 ml-auto">
-                                    <h5>{{ __('12') }}
+                            <h1 class="title-ewallet">E-WALLET</h1><br><br>
+                                    <h5 class="amount">RM **.**
                                         <br>
-                                        <small>{{ __('Files') }}</small>
-                                    </h5>
-                                </div>
-                                <div class="col-lg-4 col-md-6 col-6 ml-auto mr-auto">
-                                    <h5>{{ __('2GB') }}
-                                        <br>
-                                        <small>{{ __('Used') }}</small>
-                                    </h5>
-                                </div>
-                                <div class="col-lg-3 mr-auto">
-                                    <h5>{{ __('24,6$') }}
-                                        <br>
-                                        <small>{{ __('Spent') }}</small>
-                                    </h5>
-                                </div>
-                            </div>
+                                        <small>{{ __('BALANCE') }}</small>
+                                    </h5><br>
+                                    <button type="submit" class="btn btn-info btn-round">{{ __('WITHDRAW') }}</button>
                         </div>
                     </div>
                 </div>
@@ -90,7 +95,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <label class="col-md-3 col-form-label">{{ __('Name') }}</label>
+                                <label class="col-md-3 col-form-label">{{ __('NAME') }}</label>
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <input type="text" name="name" class="form-control" placeholder="Name" value="{{ auth()->user()->name }}" required>
@@ -103,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <label class="col-md-3 col-form-label">{{ __('Email') }}</label>
+                                <label class="col-md-3 col-form-label">{{ __('EMAIL') }}</label>
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <input type="email" name="email" class="form-control" placeholder="Email" value="{{ auth()->user()->email }}" required>
@@ -111,6 +116,46 @@
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
                                             <strong>{{ $errors->first('email') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('IC') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="ic" name="ic" class="form-control" placeholder="IC" value="{{ auth()->user()->ic }}" required>
+                                    </div>
+                                    @if ($errors->has('ic'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('ic') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('PHONE NUMBER') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="phone_number" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ auth()->user()->phone_number }}" required>
+                                    </div>
+                                    @if ($errors->has('phone_number'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('phone_number') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('LOCATION') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="location" name="location" class="form-control" placeholder="Phone Number" value="{{ auth()->user()->location }}" required>
+                                    </div>
+                                    @if ($errors->has('location'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('location') }}</strong>
                                         </span>
                                     @endif
                                 </div>
