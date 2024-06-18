@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('freelancer', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('flancer_id');
+            $table->timestamps();
+            $table->string('flancer_id');
             $table->string('flancer_name');
             $table->char('flancer_gender', 1)->nullable();
             $table->integer('flancer_age')->unsigned()->nullable();
@@ -24,7 +25,6 @@ return new class extends Migration
             $table->text('flancer_work_experience')->nullable();
             $table->string('flancer_edu_quality')->nullable();
             $table->string('flancer_nickname')->nullable();
-            $table->timestamps();
         });
     }
 

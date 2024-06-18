@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('job_request', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
             $table->integer('job_request_id');
-            $table->integer('customer_id')->unsigned();
+            $table->string('cust_id');
             $table->string('job_description');
             $table->string('job_period')->nullable();
             $table->boolean('make_bidding')->default(0);
-            $table->timestamps();
         
             
         });

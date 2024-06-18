@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->string('ic');
             $table->string('role');
             $table->string('name');
@@ -21,7 +22,6 @@ return new class extends Migration
             $table->longText('location')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
             
         });
     }

@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('ewallet', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('wallet_cust_id')->unsigned()->nullable();
-            $table->integer('wallet_flancer_id')->unsigned()->nullable();
+            $table->timestamps();
+            $table->string('wallet_cust_id');
+            $table->string('wallet_flancer_id');
             $table->decimal('ewallet_balance', 10, 2)->default(0.00);
             $table->integer('notification_id')->unsigned()->nullable();
-            $table->timestamps();
+
         });
     }
 

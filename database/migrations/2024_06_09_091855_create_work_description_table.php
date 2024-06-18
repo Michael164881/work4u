@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('work_description', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
             $table->integer('work_description_id');
             $table->string('work_description')->unique();
             $table->index('work_description');
             $table->string('work_period')->nullable();
-            $table->timestamps();
         });
     }
 

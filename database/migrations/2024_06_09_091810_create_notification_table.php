@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('notification', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
             $table->integer('notification_id');
             $table->integer('wallet_flancer_id')->unsigned()->nullable();
-            $table->integer('cust_id')->unsigned()->nullable();
-            $table->integer('flancer_id')->unsigned()->nullable();
-            $table->integer('wallet_cust_id')->unsigned()->nullable();
+            $table->string('cust_id');
+            $table->string('flancer_id');
+            $table->string('wallet_cust_id');
             $table->integer('booking_id')->unsigned()->nullable();
             $table->integer('work_profile_id')->unsigned()->nullable();
             $table->integer('payment_id')->unsigned()->nullable();
             $table->text('notification_info');
-            $table->timestamps();
         });
     }
 

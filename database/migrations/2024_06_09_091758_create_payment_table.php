@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('payment', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
             $table->integer('payment_id');
             $table->integer('booking_id')->unsigned();
-            $table->integer('wallet_cust_id')->unsigned();
-            $table->integer('wallet_flancer_id')->unsigned();
+            $table->string('wallet_cust_id');
+            $table->string('wallet_flancer_id');
             $table->string('payment_method');
             $table->decimal('amount', 10, 2);
             $table->integer('notification_id')->unsigned()->nullable();
-            $table->timestamps();
         });
     }
 

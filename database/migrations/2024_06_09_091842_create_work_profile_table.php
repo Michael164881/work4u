@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('work_profile', function (Blueprint $table) {
             $table->increments('id');
+            $table->timestamps();
             $table->integer('work_profile_id');
-            $table->integer('flancer_id')->unsigned();
+            $table->string('flancer_id');
             $table->decimal('work_fee', 10, 2);
             $table->string('location')->nullable();
             $table->string('work_description')->unique();
             $table->index('work_description');
-            $table->timestamps();
         
             
         });

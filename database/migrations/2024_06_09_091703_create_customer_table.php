@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('customer', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cust_id');
+            $table->timestamps();
+            $table->bigInteger('cust_id');
             $table->string('cust_name');
             $table->char('cust_gender', 1)->nullable();
             $table->integer('cust_age')->unsigned()->nullable();
@@ -21,7 +22,6 @@ return new class extends Migration
             $table->string('cust_phone_no')->nullable();
             $table->string('cust_password');
             $table->string('cust_location')->nullable();
-            $table->timestamps();
         });
     }
 
