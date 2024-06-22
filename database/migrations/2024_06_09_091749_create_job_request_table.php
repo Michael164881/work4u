@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('job_request', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('job_request_id');
-            $table->string('cust_id');
+            $table->unsignedInteger('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('job_name');
             $table->string('job_description');
             $table->string('job_period')->nullable();
-            $table->boolean('make_bidding')->default(0);
-        
-            
+            $table->decimal('initial_price', 8, 2)->default(10.00);
         });
     }
 

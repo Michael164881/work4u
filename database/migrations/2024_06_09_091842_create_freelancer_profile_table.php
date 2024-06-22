@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('work_profile', function (Blueprint $table) {
+        Schema::create('freelancer_profile', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('work_profile_id');
-            $table->string('flancer_id');
-            $table->decimal('work_fee', 10, 2);
-            $table->string('location')->nullable();
-            $table->string('work_description')->unique();
-            $table->index('work_description');
-        
-            
+            $table->unsignedInteger('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('location');
+            $table->text('work_experience');
+            $table->text('edu_quality');
+            $table->string('nickname');
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('work_profile');
+        Schema::dropIfExists('freelancer_profile');
     }
 };

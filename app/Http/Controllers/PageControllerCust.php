@@ -27,7 +27,7 @@ class PageControllerCust extends Controller
         if (view()->exists("customer.pages.{$page}")) {
             return view("customer.pages.{$page}");
         }
-
+        
         return abort(404);
     }
 }

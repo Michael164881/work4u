@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('work_description', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('work_description_id');
-            $table->string('work_description')->unique();
-            $table->index('work_description');
-            $table->string('work_period')->nullable();
+            $table->unsignedInteger('freelancer_id')->references('id')->on('freelancer_profile')->onDelete('cascade');
+            $table->string('work_description_name');
+            $table->text('work_description');
+            $table->decimal('work_fee', 10, 2);
+            $table->integer('work_period');
+            $table->string('work_description_image')->nullable();
         });
     }
 

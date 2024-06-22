@@ -118,7 +118,18 @@
                                 <div class="input-group{{ $errors->has('location') ? ' has-danger' : '' }}">
                                     <div class="input-group-prepend">
                                     </div>
-                                    <input name="location" type="text" class="form-control" placeholder="Location" value="{{ old('location') }}" required>
+                                    <select class="form-control" id="location" name="location" required>
+                                        <option value="" selected disabled>{{ __('Select area')}}</option>
+                                        <option value="Shah Alam" {{ old('location') == 'Shah Alam' ? 'selected' : '' }}>{{ __('Shah Alam') }}</option>
+                                        <option value="Subang Jaya" {{ old('location') == 'Subang Jaya' ? 'selected' : '' }}>{{ __('Subang Jaya') }}</option>
+                                        <option value="Klang" {{ old('location') == 'Klang' ? 'selected' : '' }}>{{ __('Klang') }}</option>
+                                        <option value="Petaling Jaya" {{ old('location') == 'Petaling Jaya' ? 'selected' : '' }}>{{ __('Petaling Jaya') }}</option>
+                                        <option value="Ampang Jaya" {{ old('location') == 'Ampang Jaya' ? 'selected' : '' }}>{{ __('Ampang Jaya') }}</option>
+                                        <option value="Batu Caves" {{ old('location') == 'Batu Caves' ? 'selected' : '' }}>{{ __('Batu Caves') }}</option>
+                                        <option value="Puchong" {{ old('location') == 'Puchong' ? 'selected' : '' }}>{{ __('Puchong') }}</option>
+                                        <option value="Seri Kembangan" {{ old('location') == 'Seri Kembangan' ? 'selected' : '' }}>{{ __('Seri Kembangan') }}</option>
+                                        <option value="Kuala Lumpur" {{ old('location') == 'Kuala Lumpur' ? 'selected' : '' }}>{{ __('Kuala Lumpur') }}</option>
+                                    </select>
                                     @if ($errors->has('location'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
                                             <strong>{{ $errors->first('location') }}</strong>

@@ -14,6 +14,7 @@
                         <label>Area:</label>
                             <select id="citySelect" onchange="updateMap()">
                             <option value="">Select Area</option>
+                            <option value="shahalam">Shah Alam</option>
                             <option value="subangjava">Subang Jaya</option>
                             <option value="klang">Klang</option>
                             <option value="petalingjaya">Petaling Jaya</option>

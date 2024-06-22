@@ -40,4 +40,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function freelancerProfile()
+    {
+        return $this->hasOne(freelancer_profile::class);
+    }
+
+    public function jobRequests()
+    {
+        return $this->hasMany(job_request::class);
+    }
 }

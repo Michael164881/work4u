@@ -12,8 +12,16 @@ class work_description extends Model
     public $table = 'work_description';
 
     protected $fillable = [
-        'work_description_id',
+        'freelancer_id',
+        'work_description_name',
         'work_description',
+        'work_fee',
         'work_period',
+        'work_description_image'
     ];
+
+    public function freelancerProfile()
+    {
+        return $this->belongsTo(freelancer_profile::class, 'freelancer_id');
+    }
 }

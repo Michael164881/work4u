@@ -13,18 +13,39 @@ class JobRequestSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        $job_request_seed = [
-            ['id' => '1', 
-            'job_request_id' => '30001', 
-            'cust_id' => '840517130566', 
-            'job_description' => 'Baby Sitting', 
-            'job_period' => '7 days', 
-            'make_bidding' => '7.00'],
+        $jobRequests = [
+            [
+                'user_id' => 8,
+                'job_name' => 'Mobile App Development',
+                'job_description' => 'Develop a native mobile application for iOS and Android.',
+                'job_period' => '20',
+                'initial_price' => 3000.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 8,
+                'job_name' => 'SEO Optimization',
+                'job_description' => 'Optimize website content and meta tags for search engines.',
+                'job_period' => '5',
+                'initial_price' => 800.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'user_id' => 8,
+                'job_name' => 'Content Writing',
+                'job_description' => 'Write blog articles and website content.',
+                'job_period' => '10',
+                'initial_price' => 500.00,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            // Add more seed data as needed
         ];
 
-        foreach ($job_request_seed as $seed) {
-            job_request::firstOrCreate($seed);
+        foreach ($jobRequests as $jobRequest) {
+            job_request::firstOrCreate($jobRequest);
         }
     }
 }

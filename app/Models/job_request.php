@@ -12,10 +12,10 @@ class job_request extends Model
     public $table = 'job_request';
 
     protected $fillable = [
-        'job_request_id',
-        'customer_id',
+        'user_id',
+        'job_name',
         'job_description',
         'job_period',
-        'make_bidding',
+        'initial_price',
     ];
 }
