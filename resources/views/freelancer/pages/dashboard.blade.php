@@ -36,6 +36,7 @@
 
 @push('scripts')
     <script>
+
         function updateMap() {
             const selectedCity = document.getElementById('citySelect').value;
             const coordinates = cityBoundaries[selectedCity];

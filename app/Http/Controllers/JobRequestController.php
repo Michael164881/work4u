@@ -35,6 +35,7 @@ class JobRequestController extends Controller
             'job_description' => 'required|string',
             'job_period' => 'required|integer',
             'initial_price' => 'required|numeric',
+            'jobAddress' => 'required|string',
         ]);
 
         DB::table('job_request')->insert([
@@ -42,6 +43,7 @@ class JobRequestController extends Controller
             'job_description' => $request->job_description,
             'job_period' => $request->job_period,
             'initial_price' => $request->initial_price,
+            'job_address' => $request->jobAddress,
             'user_id' => Auth::id(),
             'created_at' => now(),
             'updated_at' => now()
@@ -78,6 +80,7 @@ class JobRequestController extends Controller
             'job_description' => 'required|string',
             'job_period' => 'required|integer',
             'initial_price' => 'required|numeric',
+            'jobAddress' => 'required|string',
         ]);
 
         DB::table('job_request')->where('id', $request->id)->update([
@@ -85,6 +88,7 @@ class JobRequestController extends Controller
             'job_description' => $request->job_description,
             'job_period' => $request->job_period,
             'initial_price' => $request->initial_price,
+            'job_address' => $request->jobAddressInput,
             'user_id' => Auth::id(),
             'updated_at' => now()
         ]);

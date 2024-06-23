@@ -39,6 +39,7 @@
             margin-top: 0;
             color: #333;
             font-weight: bolder;
+            font-size: 150%;
         }
 
         .service-card p {

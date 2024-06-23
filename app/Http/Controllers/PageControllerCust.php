@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\work_description;
+use App\Models\job_request;
 
 class PageControllerCust extends Controller
 {
@@ -25,9 +27,11 @@ class PageControllerCust extends Controller
     public function index(string $page)
     {
         if (view()->exists("customer.pages.{$page}")) {
-            return view("customer.pages.{$page}");
+            $workAddress = work_description::all();
+            $jobRequest = job_request::all();
+            return view("customer.pages.{$page}",compact('workAddress', 'jobRequest'));
         }
-        
+
         return abort(404);
     }
 }

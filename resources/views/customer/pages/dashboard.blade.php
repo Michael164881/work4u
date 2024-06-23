@@ -35,7 +35,151 @@
 @endsection
 
 @push('scripts')
-<script>
+    <style>
+        .marker-label {
+            color: white !important;
+            background-color: #7C638F; /* Green */
+            padding: 1px 1px;
+            border-radius: 5px;
+            font-size: 8px;
+            white-space: nowrap;
+            position: absolute;
+            transform: translate(10px, -50%);
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+
+    <script>
+        function geocode(location, title, description, fee, period, id, role){
+            axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+                params:{
+                    address: location,
+                    key:'AIzaSyAvktvZMwSDAGbmqg4hIIMug8ApH-L4bzU',
+                }
+            })
+            .then(function(response){
+                //Log full response
+                console.log(response);
+
+                //Geomerty
+                var latitude = response.data.results[0].geometry.location.lat;
+                var longitude = response.data.results[0].geometry.location.lng;
+
+                var marker = new google.maps.Marker({
+                    position: {lat: latitude, lng: longitude},
+                    map: map,
+                    title: title,
+                    label: {
+                        text: title,
+                        className: 'marker-label'
+                    }
+                });
+
+                //To be used inside infoWindow
+                if(role == "freelancer"){
+                    var contentString = '<div>' +
+                                    '<p>' + title + '</p>' +
+                                    '<p>' + description + '</p>' +
+                                    '<p>RM' + fee + '</p>' +
+                                    '<p>' + period + ' Days</p>' +
+                                    '<a href="/service/' + id + '">More detail</a>' +
+                                    '</div>';
+
+                    // Create a pop up box
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+
+                    // Add click event listener to the marker
+                    marker.addListener('click', function() {
+                        infoWindow.open(map, marker);
+                    });
+                }else if (role == "customer"){
+                    var contentString = '<div>' +
+                                    '<p><strong>Your Job Request</strong></p>' +
+                                    '<p>' + title + '</p>' +
+                                    '<p>' + description + '</p>' +
+                                    '<p>RM' + fee + '</p>' +
+                                    '<p>' + period + ' Days</p>' +
+                                    '<a href="/job-request/' + id + '">More detail</a>' +
+                                    '</div>';
+
+                    // Create a pop up box
+                    var infoWindow = new google.maps.InfoWindow({
+                            content: contentString
+                        });
+
+                    // Add click event listener to the marker
+                    marker.addListener('click', function() {
+                        infoWindow.open(map, marker);
+                    });
+                }   
+
+                // Add custom label
+                var labelDiv = document.createElement('div');
+                labelDiv.className = 'marker-label';
+
+                // Position the label
+                var overlay = new google.maps.OverlayView();
+                overlay.onAdd = function() {
+                    var layer = this.getPanes().overlayLayer;
+                    layer.appendChild(labelDiv);
+                };
+
+                // Update label position on marker position change
+                marker.addListener('position_changed', function() {
+                    var position = overlay.getProjection().fromLatLngToDivPixel(marker.getPosition());
+                    labelDiv.style.left = (position.x + 10) + 'px'; // Offset to the right
+                    labelDiv.style.top = (position.y - labelDiv.offsetHeight / 2) + 'px'; // Center vertically
+                });
+                
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        }
+
+        //FORBIDDEN ICON
+        // function createMarkerIcon(text) {
+        //     // Create an HTML canvas element
+        //     var canvas = document.createElement('canvas');
+        //     canvas.width = 200;
+        //     canvas.height = 50;
+        //     var context = canvas.getContext('2d');
+
+        //     // Draw background rectangle
+        //     context.fillStyle = 'white';
+        //     context.fillRect(0, 0, canvas.width, canvas.height);
+
+        //     // Draw border
+        //     context.strokeStyle = 'black';
+        //     context.lineWidth = 2;
+        //     context.strokeRect(0, 0, canvas.width, canvas.height);
+
+        //     // Set text properties
+        //     context.fillStyle = 'black';
+        //     context.font = 'bold 14px Arial';
+        //     context.textAlign = 'center';
+        //     context.textBaseline = 'middle';
+
+        //     // Draw text
+        //     context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        //     // Create an image from the canvas
+        //     var image = new Image();
+        //     image.src = canvas.toDataURL();
+
+        //     return {
+        //         url: image.src,
+        //         size: new google.maps.Size(canvas.width, canvas.height),
+        //         origin: new google.maps.Point(0, 0),
+        //         anchor: new google.maps.Point(canvas.width / 2, canvas.height)
+        //     };
+        // }
+    </script>
+
+    <script>
         function updateMap() {
             const selectedCity = document.getElementById('citySelect').value;
             const coordinates = cityBoundaries[selectedCity];
@@ -51,4 +195,31 @@
                 demo.initChartsPages();
             });
     </script>
+
+    @foreach($workAddress as $workAddress)
+        <script>//call geocode
+            var role = "freelancer"
+            var address = "{{$workAddress->work_address}}";
+            var title = "{{$workAddress->work_description_name}}";
+            var description = "{{$workAddress->work_description, 4, '...'}}";
+            var fee = "{{$workAddress->work_fee}}";
+            var period = "{{$workAddress->work_period}}";
+            var id = "{{$workAddress->id}}";
+            geocode(address, title, description, fee, period, id, role);
+        </script>
+    @endforeach
+
+    @foreach($jobRequest as $jobRequest)
+        <script>//call geocode
+            var role = "customer";
+            var address = "{{$jobRequest->job_address}}";
+            var title = "{{$jobRequest->job_name}}";
+            var description = "{{$jobRequest->job_description, 4, '...'}}";
+            var fee = "{{$jobRequest->initial_price}}";
+            var period = "{{$jobRequest->job_period}}";
+            var id = "{{$jobRequest->id}}";
+            geocode(address, title, description, fee, period, id, role);
+        </script>
+    @endforeach
+
 @endpush

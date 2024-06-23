@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Models\work_description;
+use App\Models\job_request;
 
 class LoginController extends Controller
 {
@@ -74,7 +76,9 @@ class LoginController extends Controller
         if ($user->role === 'freelancer') {
             return view('freelancer.pages.dashboard',compact('user'));
         } elseif ($user->role === 'customer') {
-            return view('customer.pages.dashboard',compact('user'));
+            $workAddress = work_description::all();
+            $jobRequest = job_request::all();
+            return view('customer.pages.dashboard',compact('user', 'workAddress', 'jobRequest'));
         }
     }
 }

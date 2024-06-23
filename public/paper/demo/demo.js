@@ -336,6 +336,10 @@ demo = {
       //   strictBounds: true,
       // },
       draggable:false,
+      restriction: {
+          latLngBounds: selangorBounds,
+          strictBounds: true,
+        },
       styles: [
         {
           "featureType": "poi",
