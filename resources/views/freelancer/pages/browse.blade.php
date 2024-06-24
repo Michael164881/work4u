@@ -2,7 +2,7 @@
     use Illuminate\Support\Str;
 @endphp
 
-@extends('customer.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'map'
 ])
@@ -143,10 +143,10 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>Browse Services</h2>
-                        <a href="{{ route('pageCustMap.index' , 'map') }}" class="back">Back</a>
+                        <a href="{{ route('pageFLMap.index' , 'map') }}" class="back">Back</a>
                     </div>
                     <div class="card-body">
-                        <form class="filter-form" method="GET" action="{{ route('pageCustBrowse.index', 'browse')}}">
+                        <form class="filter-form" method="GET" action="{{ route('pageFLBrowse.index', 'browse')}}">
                             <div>
                                 <input type="text" name="search" placeholder="Search by description name" value="{{ request('search') }}">
                                 <select name="location">
@@ -161,13 +161,13 @@
                         <div class="row">
                             @foreach($services as $service)
                                 <div class="col-md-3">
-                                    <div class="service-card" onclick="window.location='{{ route('service.index', $service->id) }}'">
-                                        <h3>{{ $service->work_description_name }}</h3>
-                                        <p>{{ Str::words($service->work_description, 4, '...') }}</p>
-                                        <p>Fee: RM{{ $service->work_fee }}</p>
-                                        <p>Period: {{ $service->work_period }} days</p>
-                                        <p>Freelancer: {{ $service->freelancerProfile->nickname }}</p>
-                                        <p><strong>Location: {{ $service->freelancerProfile->location }}</strong></p>
+                                    <div class="service-card" onclick="window.location='{{ route('serviceFL.index', $service->id) }}'">
+                                    <h3>{{ $service->job_name }}</h3>
+                                        <p>{{ Str::words($service->job_description, 4, '...') }}</p>
+                                        <p>Fee: RM{{ $service->initial_price }}</p>
+                                        <p>Period: {{ $service->job_period }} days</p>
+                                        <p>Freelancer: {{ $service->user->name }}</p>
+                                        <p><strong>Location: {{ $service->user->location }}</strong></p>
                                     </div>
                                 </div>
                             @endforeach

@@ -20,7 +20,7 @@ class WorkProfileController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

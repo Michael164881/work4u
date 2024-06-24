@@ -74,11 +74,15 @@ class LoginController extends Controller
     {
         // Check the role of the user and set the redirect path accordingly
         if ($user->role === 'freelancer') {
-            return view('freelancer.pages.dashboard',compact('user'));
-        } elseif ($user->role === 'customer') {
+            $userLocation = $user->location;
             $workAddress = work_description::all();
             $jobRequest = job_request::all();
-            return view('customer.pages.dashboard',compact('user', 'workAddress', 'jobRequest'));
+            return view('freelancer.pages.dashboard',compact('user', 'workAddress', 'jobRequest', 'userLocation'));
+        } elseif ($user->role === 'customer') {
+            $userLocation = $user->location;
+            $workAddress = work_description::all();
+            $jobRequest = job_request::all();
+            return view('customer.pages.dashboard',compact('user', 'workAddress', 'jobRequest', 'userLocation'));
         }
     }
 }

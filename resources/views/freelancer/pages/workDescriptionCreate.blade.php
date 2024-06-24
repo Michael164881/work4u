@@ -1,4 +1,4 @@
-@extends('customer.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'map'
 ])
@@ -81,16 +81,16 @@
     <div class="content">
         <div class="form-container">
             <div class="form-header">
-                <h2>Create New Job Request</h2>
+                <h2>Create New Work Description</h2>
             </div>
-            <form action="{{ route('jobRequest.store') }}" method="POST">
+            <form action="{{ route('workDescription.store') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="job_name">Job Name</label>
+                    <label for="job_name">Work Name</label>
                     <input type="text" id="job_name" name="job_name" value="{{ old('job_name') }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="job_description">Job Description</label>
+                    <label for="job_description">Work Description</label>
                     <textarea id="job_description" name="job_description" required>{{ old('job_description') }}</textarea>
                 </div>
                 <div class="form-group">
@@ -102,11 +102,11 @@
                     <div id="map"></div>
                 </div>
                 <div class="form-group">
-                    <label for="job_period">Job Period (days)</label>
+                    <label for="job_period">Work Period (days)</label>
                     <input type="number" id="job_period" name="job_period" value="{{ old('job_period') }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="initial_price">Initial Price (RM)</label>
+                    <label for="initial_price">Work Fee (RM)</label>
                     <input type="number" id="initial_price" name="initial_price" step="0.01" value="{{ old('initial_price') }}" required>
                 </div>
                 <div class="form-group">

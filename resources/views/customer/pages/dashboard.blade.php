@@ -3,6 +3,32 @@
     'elementActive' => 'dashboard'
 ])
 
+<style>
+    h2{
+        font-weight: bolder;
+        font-size: 10px;
+    }
+    .info-window {
+        cursor: pointer;
+        transition: .5s;
+    }
+    .info-window:hover {
+        font-size:15px;
+        transition: .5s;
+        color: #7C638F;
+        font-weight: bolder;
+    }
+    .map {
+        height: 100%; /* Make map fill its container */
+        width: 100%; /* Ensure map fills its container */
+    }
+
+    .card-body {
+        height: 70vh; /* Adjust height as needed */
+        padding: 0; /* Remove padding to maximize available space */
+    }
+</style>
+
 @section('content')
     <div class="content">
         <div class="row">
@@ -11,22 +37,24 @@
                     <div class="card-header ">
                         <h5 class="card-title">HIRE FREELANCER</h5>
                         <p class="card-category">SELANGOR</p>
-                        <label>Area:</label>
-                            <select id="citySelect" onchange="updateMap()">
-                            <option value="">Select Area</option>
-                            <option value="shahalam">Shah Alam</option>
-                            <option value="subangjava">Subang Jaya</option>
-                            <option value="klang">Klang</option>
-                            <option value="petalingjaya">Petaling Jaya</option>
-                            <option value="ampangjava">Ampang Jaya</option>
-                            <option value="batucaves">Batu Caves</option>
-                            <option value="puchong">Puchong</option>
-                            <option value="serikembangan">Seri Kembangan</option>
-                            <option value="kualalumpur">Kuala Lumpur</option>
-                        </select>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <strong><label class="mr-2 mb-0" style="font-size:25px;color: #7C638F;">Area:</label></strong>
+                                <select id="citySelect" onchange="updateMap()" class="form-control mr-2">
+                                    <option value="">Select Area</option>
+                                    <option value="shahalam">Shah Alam</option>
+                                    <option value="subangjava">Subang Jaya</option>
+                                    <option value="klang">Klang</option>
+                                    <option value="petalingjaya">Petaling Jaya</option>
+                                    <option value="ampangjava">Ampang Jaya</option>
+                                    <option value="batucaves">Batu Caves</option>
+                                    <option value="puchong">Puchong</option>
+                                    <option value="serikembangan">Seri Kembangan</option>
+                                    <option value="kualalumpur">Kuala Lumpur</option>
+                                </select>
+                            </div>
                     </div>
                     <div class="card-body ">
-                        <div id="map" class="map"></div>
+                        <div id="map" class="map" style="height: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -38,19 +66,23 @@
     <style>
         .marker-label {
             color: white !important;
-            background-color: #7C638F; /* Green */
-            padding: 1px 1px;
+            background-color: #7C638F;
+            padding: 15px ;
             border-radius: 5px;
-            font-size: 8px;
+            font-size: 25px;
             white-space: nowrap;
             position: absolute;
-            transform: translate(10px, -50%);
+            transform: translate(-50%, 50%);
+            transition: .5s;
         }
+
+        
     </style>
 
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
     <script>
+
         function geocode(location, title, description, fee, period, id, role){
             axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
                 params:{
@@ -78,13 +110,13 @@
 
                 //To be used inside infoWindow
                 if(role == "freelancer"){
-                    var contentString = '<div>' +
-                                    '<p>' + title + '</p>' +
-                                    '<p>' + description + '</p>' +
-                                    '<p>RM' + fee + '</p>' +
-                                    '<p>' + period + ' Days</p>' +
-                                    '<a href="/service/' + id + '">More detail</a>' +
-                                    '</div>';
+                    var contentString = '<div class="info-window" onclick="window.location=\'/service/' + id + '\'">' +
+                        '<h2><strong>Work Request</strong></h2>' +    
+                        '<h2><strong>' + title + '</strong></h2>' +
+                        '<p>' + description + '</p>' +
+                        '<p>RM' + fee + '</p>' +
+                        '<p>' + period + ' Days</p>' +
+                        '</div>';
 
                     // Create a pop up box
                     var infoWindow = new google.maps.InfoWindow({
@@ -95,26 +127,7 @@
                     marker.addListener('click', function() {
                         infoWindow.open(map, marker);
                     });
-                }else if (role == "customer"){
-                    var contentString = '<div>' +
-                                    '<p><strong>Your Job Request</strong></p>' +
-                                    '<p>' + title + '</p>' +
-                                    '<p>' + description + '</p>' +
-                                    '<p>RM' + fee + '</p>' +
-                                    '<p>' + period + ' Days</p>' +
-                                    '<a href="/job-request/' + id + '">More detail</a>' +
-                                    '</div>';
-
-                    // Create a pop up box
-                    var infoWindow = new google.maps.InfoWindow({
-                            content: contentString
-                        });
-
-                    // Add click event listener to the marker
-                    marker.addListener('click', function() {
-                        infoWindow.open(map, marker);
-                    });
-                }   
+                }
 
                 // Add custom label
                 var labelDiv = document.createElement('div');
@@ -193,31 +206,19 @@
             $(document).ready(function() {
                 demo.initGoogleMaps();
                 demo.initChartsPages();
+                updateMap();
             });
     </script>
 
     @foreach($workAddress as $workAddress)
         <script>//call geocode
-            var role = "freelancer"
+            var role = "freelancer";
             var address = "{{$workAddress->work_address}}";
             var title = "{{$workAddress->work_description_name}}";
             var description = "{{$workAddress->work_description, 4, '...'}}";
             var fee = "{{$workAddress->work_fee}}";
             var period = "{{$workAddress->work_period}}";
             var id = "{{$workAddress->id}}";
-            geocode(address, title, description, fee, period, id, role);
-        </script>
-    @endforeach
-
-    @foreach($jobRequest as $jobRequest)
-        <script>//call geocode
-            var role = "customer";
-            var address = "{{$jobRequest->job_address}}";
-            var title = "{{$jobRequest->job_name}}";
-            var description = "{{$jobRequest->job_description, 4, '...'}}";
-            var fee = "{{$jobRequest->initial_price}}";
-            var period = "{{$jobRequest->job_period}}";
-            var id = "{{$jobRequest->id}}";
             geocode(address, title, description, fee, period, id, role);
         </script>
     @endforeach

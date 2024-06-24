@@ -36,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item {{ $elementActive == 'map' ? 'active' : '' }}">
-                <a href="{{ route('pageFL.index', 'map') }}">
+                <a href="{{ route('pageFLMap.index', 'map') }}">
                     <i class="nc-icon nc-settings"></i>
                     <p class="nav-text">{{ __('WORK') }}</p>
                 </a>

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\work_description;
+use App\Models\job_request;
 use Illuminate\Http\Request;
 
 class PageControllerFL extends Controller
@@ -25,7 +26,9 @@ class PageControllerFL extends Controller
     public function index(string $page)
     {
         if (view()->exists("freelancer.pages.{$page}")) {
-            return view("freelancer.pages.{$page}");
+            $workAddress = work_description::all();
+            $jobRequest = job_request::all();
+            return view("freelancer.pages.{$page}",compact('workAddress', 'jobRequest'));
         }
 
         return abort(404);

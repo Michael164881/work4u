@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('payment', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('payment_id');
             $table->integer('booking_id')->unsigned();
             $table->string('wallet_cust_id');
             $table->string('wallet_flancer_id');

@@ -18,4 +18,9 @@ class job_request extends Model
         'job_period',
         'initial_price',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
