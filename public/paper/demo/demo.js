@@ -365,6 +365,7 @@ demo = {
             position: pos,
             map: map,
             title: "Your Location",
+            animation: google.maps.Animation.DROP
           });
 
           // Center and zoom the map on the user's location
