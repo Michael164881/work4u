@@ -59,6 +59,9 @@ Route::get('pageCustBrowse/{page}', [App\Http\Controllers\PageControllerCustBrow
 Route::get('pageCustMap/{page}', [App\Http\Controllers\PageControllerCustMap::class, 'index'])->name('pageCustMap.index');
 Route::get('pageCust/{page}', [App\Http\Controllers\PageControllerCust::class, 'index'])->name('pageCust.index');
 
+Route::get('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'showHirePage'])->name('hire.show');
+Route::post('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'processHire'])->name('hire.process');
+
 /* Freelancer */
 Route::get('/work-description/create', [App\Http\Controllers\WorkDescriptionController::class, 'create'])->name('workDescription.create');
 Route::post('/work-description/store', [App\Http\Controllers\WorkDescriptionController::class, 'store'])->name('workDescription.store');

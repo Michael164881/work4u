@@ -5,74 +5,42 @@
 
 @section('content')
     <style>
-        h2{
-            font-size: 30px;
-            font-weight: bold;
-            margin-left: 2%;
-        }
-
-        .service-detail-container {
+        .hire-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            justify-content: space-between;
         }
 
-        .service-card {
+        .work-description, .payment-method {
+            width: 48%;
+            padding: 20px;
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 5px;
-            padding: 20px;
-            margin-bottom: 20px;
-            width: 48%;
-            box-sizing: border-box;
         }
 
-        .service-card h4 {
-            margin-top: 0;
-            color: #333;
+        .payment-method form {
+            display: flex;
+            flex-direction: column;
         }
 
-        .service-card p {
-            color: #666;
+        .payment-method form input, .payment-method form select {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
-        .hire-now-btn {
-            display: block;
-            margin: 20px auto;
-            margin-top: 5%;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-            width: 40%;
+        .payment-method form button {
+            padding: 10px;
+            background-color: #28a745;
             color: white;
-            background-color: #f1d05c;
-            padding: 5px;
-            border-radius: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
-        .hire-now-btn:hover {
-            color: #7C638F; 
-            text-decoration: none;
-        }
-
-        .service-description{
-            background-color: #7C638F;
-            color: white;
-        }
-
-        .service-description p{
-            color: white;
-        }
-
-        .service-description h4{
-            color: white;
-        }
-
-        .service-description h5{
-            font-size: 30px;
-            font-weight: bold;
-            color: white;
+        .payment-method form button:hover {
+            background-color: #218838;
         }
 
         #map {
@@ -83,39 +51,77 @@
         }
     </style>
 
-    <div class="content">
-        <div class="row">
-            <h2>SERVICE DETAILS</h2>
-            <div class="col-md-12">
-                <div class="service-detail-container">
-                    <div class="service-card freelancer-profile">
-                        <h4>Freelancer Profile</h4>
-                        <p><strong>Nickname:</strong> {{ $service->freelancerProfile->nickname }}</p>
-                        <p><strong>Name:</strong> {{ $service->freelancerProfile->user->name }}</p>
-                        <p><strong>Location:</strong> {{ $service->freelancerProfile->location }}</p>
-                        <p><strong>Work Experience:</strong> {{ $service->freelancerProfile->work_experience }}</p>
-                        <p><strong>Educational Qualification:</strong> {{ $service->freelancerProfile->edu_quality }}</p>
-                        <p><strong>Email:</strong> {{ $service->freelancerProfile->user->email }}</p>
-                        <p><strong>Phone Number:</strong> {{ $service->freelancerProfile->user->phone_number }}</p>
-                    </div>
-                    <div class="service-card service-description">
-                        <center>
-                            <h4>{{ $service->work_description_name }}</h4>
-                            <p>{{ $service->work_description }}</p>
-                            <h5><strong>Fee:</strong> RM{{ $service->work_fee }}</h5>
-                            <h5><strong>Period:</strong> {{ $service->work_period }} days</h5>
-                            <a href="{{ route('hire.show', ['service' => $service->id]) }}" class="hire-now-btn">HIRE NOW</a>
-                        </center>
-                    </div>
-                </div>
+    <div class="container">
+        <h2>Hire Service</h2>
+        <div class="hire-container">
+            <div class="work-description">
+                <h4>Work Description</h4>
+                <p><strong>Job Name:</strong> {{ $service->work_description_name }}</p>
+                <p><strong>Description:</strong> {{ $service->work_description }}</p>
+                <p><strong>Fee:</strong> RM{{ $service->work_fee }}</p>
+                <p><strong>Period:</strong> {{ $service->work_period }} days</p>
                 <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $address->work_address }}">
                 <div id="jobAddressDisplay">{{ $address->work_address }}</div>
                 <div id="map"></div>
             </div>
+
+            <div class="payment-method">
+                <h4>Payment Method</h4>
+                
+                <form action="{{ route('hire.process', ['service' => $service->id]) }}" method="POST">
+                    @csrf
+                    <label for="payment-method">Choose Payment Method:</label>
+                    <select id="payment-method" name="payment_method" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="debit_card">Debit Card</option>
+                        <option value="ewallet">eWallet</option>
+                        <option value="qr_code">QR Code</option>
+                    </select>
+
+                    <div id="debit-card-fields" style="display: none;">
+                        <input type="text" name="card_number" placeholder="Card Number">
+                        <input type="text" name="card_name" placeholder="Card Name">
+                        <input type="text" name="expiry_date" placeholder="Expiry Date">
+                        <input type="text" name="cvv" placeholder="CVV">
+                    </div>
+
+                    <div id="ewallet-fields" style="display: none;">
+                        <br><br><br><p>Pay using your eWallet</p>
+                        <center><h3><strong>Your Balance:</strong> RM{{ $user->ewallet_balance }}</h3></center>
+                    </div>
+
+                    <div id="qr-code-fields" style="display: none;">
+                        <p>Scan the QR code to pay:</p>
+                        <img src="/path/to/your/qr-code-image.png" alt="QR Code">
+                    </div>
+
+                    <button type="submit">Pay Now</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe7wj_DF_0i-sP8vkZG-S2NxbuTqH63dI&callback=initMap" async defer></script>
+    <script>
+        document.getElementById('payment-method').addEventListener('change', function () {
+            var debitCardFields = document.getElementById('debit-card-fields');
+            var ewalletFields = document.getElementById('ewallet-fields');
+            var qrCodeFields = document.getElementById('qr-code-fields');
+
+            debitCardFields.style.display = 'none';
+            ewalletFields.style.display = 'none';
+            qrCodeFields.style.display = 'none';
+
+            if (this.value === 'debit_card') {
+                debitCardFields.style.display = 'block';
+            } else if (this.value === 'ewallet') {
+                ewalletFields.style.display = 'block';
+            } else if (this.value === 'qr_code') {
+                qrCodeFields.style.display = 'block';
+            }
+        });
+    </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe7wj_DF_0i-sP8vkZG-S2NxbuTqH63dI&callback=initMap" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -225,5 +231,4 @@
             initMap();
         });
     </script>
-
 @endsection
