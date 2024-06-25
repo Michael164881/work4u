@@ -160,16 +160,18 @@
                         </form>
                         <div class="row">
                             @foreach($services as $service)
-                                <div class="col-md-3">
-                                    <div class="service-card" onclick="window.location='{{ route('service.index', $service->id) }}'">
-                                        <h3>{{ $service->work_description_name }}</h3>
-                                        <p>{{ Str::words($service->work_description, 4, '...') }}</p>
-                                        <p>Fee: RM{{ $service->work_fee }}</p>
-                                        <p>Period: {{ $service->work_period }} days</p>
-                                        <p>Freelancer: {{ $service->freelancerProfile->nickname }}</p>
-                                        <p><strong>Location: {{ $service->freelancerProfile->location }}</strong></p>
+                                @if(str_contain($services->work_status, 'available'))
+                                    <div class="col-md-3">
+                                        <div class="service-card" onclick="window.location='{{ route('service.index', $service->id) }}'">
+                                            <h3>{{ $service->work_description_name }}</h3>
+                                            <p>{{ Str::words($service->work_description, 4, '...') }}</p>
+                                            <p>Fee: RM{{ $service->work_fee }}</p>
+                                            <p>Period: {{ $service->work_period }} days</p>
+                                            <p>Freelancer: {{ $service->freelancerProfile->nickname }}</p>
+                                            <p><strong>Location: {{ $service->freelancerProfile->location }}</strong></p>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
                         </div>
                     </div>

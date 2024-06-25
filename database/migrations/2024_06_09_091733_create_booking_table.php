@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('booking', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('booking_id');
-            $table->string('cust_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('job_request_id')->unsigned();
             $table->integer('work_profile_id')->unsigned();
             $table->string('booking_status');
@@ -24,6 +23,8 @@ return new class extends Migration
             $table->dateTime('booking_start_date')->nullable();
             $table->dateTime('booking_end_date')->nullable();
             $table->decimal('booking_fee', 10, 2)->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -32,6 +33,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('booking', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });
+
         Schema::dropIfExists('booking');
     }
 };

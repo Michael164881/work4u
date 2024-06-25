@@ -20,6 +20,7 @@ return new class extends Migration
             $table->decimal('work_fee', 10, 2);
             $table->integer('work_period');
             $table->string('work_address');
+            $table->string('work_status');
             $table->string('work_description_image')->nullable();
         });
     }

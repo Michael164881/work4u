@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('job_period')->nullable();
             $table->decimal('initial_price', 8, 2)->default(10.00);
             $table->string('job_address');
+            $table->string('job_status');
         });
     }
 
