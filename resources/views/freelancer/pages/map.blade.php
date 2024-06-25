@@ -161,16 +161,18 @@
                     <div class="card-body">
                         <div class="row">
                             @foreach($services->take(4) as $service)
-                                <div class="col-md-3">
-                                    <div class="service-card" onclick="window.location='{{ route('serviceFL.index', $service->id) }}'">
-                                        <h3>{{ $service->job_name }}</h3>
-                                        <p>{{ Str::words($service->job_description, 4, '...') }}</p>
-                                        <p>Fee: RM{{ $service->initial_price }}</p>
-                                        <p>Period: {{ $service->job_period }} days</p>
-                                        <p>Freelancer: {{ $service->user->name }}</p>
-                                        <p><strong>Location: {{ $service->user->location }}</strong></p>
+                                @if(strpos("{{$service->job_status}}", 'available') !== false) 
+                                    <div class="col-md-3">
+                                        <div class="service-card" onclick="window.location='{{ route('serviceFL.index', $service->id) }}'">
+                                            <h3>{{ $service->job_name }}</h3>
+                                            <p>{{ Str::words($service->job_description, 4, '...') }}</p>
+                                            <p>Fee: RM{{ $service->initial_price }}</p>
+                                            <p>Period: {{ $service->job_period }} days</p>
+                                            <p>Freelancer: {{ $service->user->name }}</p>
+                                            <p><strong>Location: {{ $service->user->location }}</strong></p>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
                         </div>
                         <a href="{{ route('pageFLBrowse.index' , 'browse') }}" class="view-more">View More</a>
@@ -184,12 +186,14 @@
 
                     <div class="card-body">
                         @foreach($workDescription as $workDescription)
-                            <div class="my-job-card" onclick="window.location='{{ route('workDescription.show', $workDescription->id) }}'">
-                                <h3>{{ $workDescription->work_description_name }}</h3>
-                                <p>{{ $workDescription->work_description }}</p>
-                                <p>Period: {{ $workDescription->work_period }}</p>
-                                <p>Initial Price: RM{{ $workDescription->work_fee }}</p>
-                            </div>
+                            @if(strpos("{{$workDescription->work_status}}", 'available') !== false) 
+                                <div class="my-job-card" onclick="window.location='{{ route('workDescription.show', $workDescription->id) }}'">
+                                    <h3>{{ $workDescription->work_description_name }}</h3>
+                                    <p>{{ $workDescription->work_description }}</p>
+                                    <p>Period: {{ $workDescription->work_period }}</p>
+                                    <p>Initial Price: RM{{ $workDescription->work_fee }}</p>
+                                </div>
+                            @endif
                         @endforeach
                         <a href="{{ route('workDescription.create') }}" class="add-job-button">Add New Job Request</a>
                     </div>
