@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('job_request_id')->unsigned();
             $table->integer('work_profile_id')->unsigned();
             $table->string('booking_status');
-            $table->string('bidding_status')->nullable();
             $table->integer('notification_id')->unsigned()->nullable();
             $table->dateTime('booking_start_date')->nullable();
             $table->dateTime('booking_end_date')->nullable();
