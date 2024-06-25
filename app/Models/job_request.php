@@ -17,6 +17,9 @@ class job_request extends Model
         'job_description',
         'job_period',
         'initial_price',
+        'job_address',
+        'job_status,'
+
     ];
 
     public function user()

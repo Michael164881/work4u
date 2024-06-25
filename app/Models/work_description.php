@@ -18,6 +18,7 @@ class work_description extends Model
         'work_fee',
         'work_period',
         'work_address',
+        'work_status',
         'work_description_image'
     ];
 
