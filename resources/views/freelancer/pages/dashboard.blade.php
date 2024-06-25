@@ -209,16 +209,18 @@
     </script>
 
     @foreach($jobRequest as $jobRequest)
-        <script>//call geocode
-            var role = "customer";
-            var address = "{{$jobRequest->job_address}}";
-            var title = "{{$jobRequest->job_name}}";
-            var description = "{{$jobRequest->job_description, 4, '...'}}";
-            var fee = "{{$jobRequest->initial_price}}";
-            var period = "{{$jobRequest->job_period}}";
-            var id = "{{$jobRequest->id}}";
-            geocode(address, title, description, fee, period, id, role);
-        </script>
+        @if(strpos("{{$jobRequest->job_status}}", 'available') !== false) 
+            <script>//call geocode
+                var role = "customer";
+                var address = "{{$jobRequest->job_address}}";
+                var title = "{{$jobRequest->job_name}}";
+                var description = "{{$jobRequest->job_description, 4, '...'}}";
+                var fee = "{{$jobRequest->initial_price}}";
+                var period = "{{$jobRequest->job_period}}";
+                var id = "{{$jobRequest->id}}";
+                geocode(address, title, description, fee, period, id, role);
+            </script>
+        @endif
     @endforeach
 
 @endpush

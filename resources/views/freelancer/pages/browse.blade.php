@@ -160,16 +160,18 @@
                         </form>
                         <div class="row">
                             @foreach($services as $service)
-                                <div class="col-md-3">
-                                    <div class="service-card" onclick="window.location='{{ route('serviceFL.index', $service->id) }}'">
-                                    <h3>{{ $service->job_name }}</h3>
-                                        <p>{{ Str::words($service->job_description, 4, '...') }}</p>
-                                        <p>Fee: RM{{ $service->initial_price }}</p>
-                                        <p>Period: {{ $service->job_period }} days</p>
-                                        <p>Freelancer: {{ $service->user->name }}</p>
-                                        <p><strong>Location: {{ $service->user->location }}</strong></p>
+                                @if(strpos("{{$service->job_status}}", 'available') !== false)
+                                    <div class="col-md-3">
+                                        <div class="service-card" onclick="window.location='{{ route('serviceFL.index', $service->id) }}'">
+                                        <h3>{{ $service->job_name }}</h3>
+                                            <p>{{ Str::words($service->job_description, 4, '...') }}</p>
+                                            <p>Fee: RM{{ $service->initial_price }}</p>
+                                            <p>Period: {{ $service->job_period }} days</p>
+                                            <p>Freelancer: {{ $service->user->name }}</p>
+                                            <p><strong>Location: {{ $service->user->location }}</strong></p>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
                         </div>
                     </div>
