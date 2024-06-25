@@ -1,6 +1,3 @@
-@php
-    use Illuminate\Support\Str;
-@endphp
 
 @extends('freelancer.app', [
     'class' => '',
@@ -79,15 +76,11 @@
             color: white;
         }
 
-        .map-container {
-            width: 100%;
+        #map {
             height: 500px;
-            margin-bottom: 20px;
-        }
-
-        .map {
-            height: 100%; /* Make map fill its container */
-            width: 100%; /* Ensure map fills its container */
+            width: 99%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
         }
     </style>
 
@@ -113,83 +106,123 @@
                         </center>
                     </div>
                 </div>
-                <div class="map-container">
-                    <div id="map" class="map" style="height: 100%;></div>
-                </div>
+                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $address->work_address }}">
+                <div id="jobAddressDisplay">{{ $address->work_address }}</div>
+                <div id="map"></div>
             </div>
         </div>
     </div>
-@endsection
-
-@push('scripts')
-    <style>
-        .marker-label {
-            color: white !important;
-            background-color: #7C638F;
-            padding: 1px 1px;
-            border-radius: 5px;
-            font-size: 8px;
-            white-space: nowrap;
-            position: absolute;
-            transform: translate(10px, -50%);
-        }
-    </style>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script> <!-- Replace YOUR_API_KEY -->
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe7wj_DF_0i-sP8vkZG-S2NxbuTqH63dI&callback=initMap" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        let map, marker, geocoder;
 
-        function geocode(location, title, description, fee, period, id) {
-            axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
-                params: {
-                    address: location,
-                    key: 'YOUR_API_KEY', // Replace with your Google Maps API key
+        function initMap() {
+            // Define bounds for Selangor
+            const selangorBounds = {
+                north: 3.2750,
+                south: 2.9500,
+                west: 101.3750,
+                east: 101.8003,
+            };
+            
+            // Calculate the center of Selangor
+            const centerSelangor = {
+                lat: (selangorBounds.north + selangorBounds.south) / 2,
+                lng: (selangorBounds.east + selangorBounds.west) / 2,
+            };
+
+            // Initialize the map
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: centerSelangor,
+                disableDefaultUI: true,
+                scrollwheel: false,
+                disableDoubleClickZoom: true,
+                zoomControl: true,
+                draggable: false,
+                // Apply custom styles
+                styles: [
+                    {
+                        "featureType": "poi",
+                        "elementType": "labels",
+                        "stylers": [
+                            { "visibility": "on" }
+                        ]
+                    },
+                ],
+
+                restriction: {
+                    latLngBounds: selangorBounds,
+                    strictBounds: true,
                 }
-            })
-            .then(function(response) {
-                var latitude = response.data.results[0].geometry.location.lat;
-                var longitude = response.data.results[0].geometry.location.lng;
+            });
 
-                var marker = new google.maps.Marker({
-                    position: { lat: latitude, lng: longitude },
+            disablePOIInfoWindow();
+
+            // Initialize geocoder
+            geocoder = new google.maps.Geocoder();
+
+            // Geocode the old address and place the marker
+            const oldAddress = document.getElementById('jobAddressInput').value;
+            if (oldAddress) {
+                geocodeAddress(oldAddress);
+            } else {
+                console.error('No old address provided.');
+            }
+        }
+
+        function disablePOIInfoWindow() {
+            var fnSet = google.maps.InfoWindow.prototype.set;
+            google.maps.InfoWindow.prototype.set = function () {
+                if (this.get('isCustomInfoWindow'))
+                    fnSet.apply(this, arguments);
+            };
+        }
+
+        // Function to place or move marker
+        function placeMarker(location) {
+            if (!marker) {
+                marker = new google.maps.Marker({
+                    position: location,
                     map: map,
-                    title: title,
-                    label: {
-                        text: title,
-                        className: 'marker-label'
-                    }
                 });
+            } else {
+                marker.setPosition(location);
+            }
+            map.setCenter(location);
+        }
 
-                var contentString = '<div class="info-window" onclick="window.location=\'/serviceFL/' + id + '\'">' +
-                                '<h2><strong>Job Request</strong></h2>' +
-                                '<p>' + title + '</p>' +
-                                '<p>' + description + '</p>' +
-                                '<p>RM' + fee + '</p>' +
-                                '<p>' + period + ' Days</p>' +
-                                '</div>';
-
-                var infoWindow = new google.maps.InfoWindow({
-                        content: contentString
-                    });
-
-                marker.addListener('click', function() {
-                    infoWindow.open(map, marker);
-                });
-            })
-            .catch(function(error) {
-                console.log(error);
+        // Function to geocode address
+        function geocodeAddress(address) {
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                if (status === 'OK') {
+                    placeMarker(results[0].geometry.location);
+                    displayAddress(results[0].formatted_address);
+                } else {
+                    console.error('Geocode was not successful for the following reason: ' + status);
+                }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        // Function to display address in address box
+        function displayAddress(address) {
+            document.getElementById('jobAddressDisplay').innerText = address;
+            document.getElementById('jobAddressInput').value = address;
+        }
+
+        function handleLocationError(browserHasGeolocation, pos) {
+            console.error(browserHasGeolocation
+                ? "Error: The Geolocation service failed."
+                : "Error: Your browser doesn't support geolocation.");
+        }
+
+        $(document).ready(function () {
             initMap();
-            var address = "{{ $service->job_address }}";
-            var title = "{{ $service->job_name }}";
-            var description = "{{ Str::limit($service->job_description, 50) }}";
-            var fee = "{{ $service->initial_price }}";
-            var period = "{{ $service->job_period }}";
-            var id = "{{ $service->id }}";
-            geocode(address, title, description, fee, period, id);
         });
     </script>
-@endpush
+
+
+@endsection
+

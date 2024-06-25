@@ -100,6 +100,7 @@
                     position: {lat: latitude, lng: longitude},
                     map: map,
                     title: title,
+                    animation: google.maps.Animation.DROP,
                     label: {
                         text: title,
                         className: 'marker-label'

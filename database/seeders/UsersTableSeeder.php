@@ -33,6 +33,7 @@ class UsersTableSeeder extends Seeder
                 'phone_number' => '1234567890',
                 'location' => 'Shah Alam',
                 'password' => Hash::make('123456789'),
+                'ewallet_balance' => '20.00',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -44,6 +45,7 @@ class UsersTableSeeder extends Seeder
                 'phone_number' => '1234567891',
                 'location' => 'Subang Jaya',
                 'password' => Hash::make('123456789'),
+                'ewallet_balance' => '00.00',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -55,6 +57,7 @@ class UsersTableSeeder extends Seeder
                 'phone_number' => '1234567892',
                 'location' => 'Kuala Lumpur',
                 'password' => Hash::make('123456789'),
+                'ewallet_balance' => '100.00',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -66,6 +69,7 @@ class UsersTableSeeder extends Seeder
                 'phone_number' => '1234567893',
                 'location' => 'Klang',
                 'password' => Hash::make('123456789'),
+                'ewallet_balance' => '50.00',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -77,6 +81,7 @@ class UsersTableSeeder extends Seeder
                 'phone_number' => '1234567894',
                 'location' => 'Shah Alam',
                 'password' => Hash::make('123456789'),
+                'ewallet_balance' => '200.00',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -88,6 +93,7 @@ class UsersTableSeeder extends Seeder
                 'phone_number' => '1234567895',
                 'location' => 'Klang',
                 'password' => Hash::make('password'),
+                'ewallet_balance' => '10.00',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -99,6 +105,7 @@ class UsersTableSeeder extends Seeder
                 'phone_number' => '0178562937',
                 'location' => 'Shah Alam',
                 'password' => Hash::make('123456789'),
+                'ewallet_balance' => '200.00',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

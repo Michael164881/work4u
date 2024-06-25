@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->longText('location')->nullable();
             $table->string('password');
+            $table->decimal('ewallet_balance', 10, 2)->default(0.00);
             $table->rememberToken();
             
         });

@@ -84,6 +84,7 @@ class WorkDescriptionController extends Controller
             'job_description' => 'required|string',
             'job_period' => 'required|integer',
             'initial_price' => 'required|numeric',
+            'jobAddress' => 'required|string',
         ]);
 
         $freelancerProfile = freelancer_profile::where('user_id', Auth::id())->firstOrFail();
@@ -94,6 +95,7 @@ class WorkDescriptionController extends Controller
             'work_period' => $request->job_period,
             'work_fee' => $request->initial_price,
             'freelancer_id' => $freelancerProfile->id,
+            'work_address' => $request->jobAddress,
             'created_at' => now(),
             'updated_at' => now()
         ]);
