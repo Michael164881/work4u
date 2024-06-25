@@ -70,6 +70,8 @@
                             <p class="description" id="description">{{ __(auth()->user()->location)}}</p><br>
                         </div>
                     </div>
+
+                    <!-- Card Footer -->
                     <div class="card-footer">
                         <hr>
                         <div class="button-container">
@@ -78,12 +80,14 @@
                                         <br>
                                         <small>{{ __('BALANCE') }}</small>
                                     </h5><br>
-                                    <button type="submit" class="btn btn-info btn-round">{{ __('TOP UP') }}</button>
+                                    <a href="{{ route('payment.method') }}" class="btn btn-info btn-round">{{ __('TOP UP') }}</a>
                         </div>
+                    <!-- End Card Footer -->    
                     </div>
                 </div>
             </div>
             <div class="col-md-8 text-center">
+
 
                 <!-- Edit profile -->
                 <form class="col-md-12" action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">

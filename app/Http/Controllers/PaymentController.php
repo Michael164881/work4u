@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\payment;
 use Illuminate\Http\Request;
 
+
 class PaymentController extends Controller
 {
     /**
@@ -13,6 +14,12 @@ class PaymentController extends Controller
     public function index()
     {
         //
+        return view('payment.method');
+    }
+
+    public function showPaymentMethod()
+    {
+        return view('payment.method');
     }
 
     /**
@@ -61,5 +68,12 @@ class PaymentController extends Controller
     public function destroy(payment $payment)
     {
         //
+    }
+
+    public function process(Request $request)
+    {
+        // Handle payment processing here
+        // Validate and process the payment details
+        // Redirect or respond accordingly
     }
 }
