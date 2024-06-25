@@ -62,6 +62,13 @@ Route::get('pageCust/{page}', [App\Http\Controllers\PageControllerCust::class, '
 Route::get('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'showHirePage'])->name('hire.show');
 Route::post('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'processHire'])->name('hire.process');
 
+use App\Http\Controllers\BookingController;
+
+Route::get('/bookings/{page}', [App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
+Route::post('/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
+Route::get('/bookings/{id}', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+
+
 /* Freelancer */
 Route::get('/work-description/create', [App\Http\Controllers\WorkDescriptionController::class, 'create'])->name('workDescription.create');
 Route::post('/work-description/store', [App\Http\Controllers\WorkDescriptionController::class, 'store'])->name('workDescription.store');

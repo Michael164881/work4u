@@ -12,14 +12,23 @@ class booking extends Model
 
     protected $fillable = [
         'booking_id', 
-        'cust_id',
+        'user_id',
         'job_request_id',
         'work_profile_id',
         'booking_status',
-        'biding_satus',
         'notification_id',
         'booking_start_date',
         'booking_end_date',
         'booking_fee',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function workDescription()
+    {
+        return $this->belongsTo(work_description::class, 'work_profile_id');
+    }
 }

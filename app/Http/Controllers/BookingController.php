@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\booking;
+use App\Models\user;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -12,7 +13,46 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        $user = auth()->user();
+        $bookings = collect(); // Initialize as an empty collection
+
+        if ($user) {
+            // Retrieve user ID
+            $userId = $user->id;
+            
+            // Execute the query to retrieve bookings and include work_description
+            $bookings = Booking::where('user_id', $userId)
+                ->with('workDescription') // Eager load the work_description relationship
+                ->get();
+        }
+
+        return view('customer.pages.booking', compact('bookings'));
+    }
+
+    public function cancel($id)
+    {
+        $booking = booking::findOrFail($id);
+        $user = auth()->user();
+
+        // Check if the booking belongs to the authenticated user
+        if ($booking->user_id != $user->id) {
+            return redirect()->back()->with('error', 'You do not have permission to cancel this booking.');
+        }
+
+        // Refund the eWallet balance if payment was made through eWallet
+        $user->balance += $booking->booking_fee;
+        $user->save();
+
+        // Update booking status to cancelled
+        $booking->booking_status = 'cancelled';
+        $booking->save();
+
+        // Update service status to available
+        $service = $booking->service;
+        $service->status = 'available';
+        $service->save();
+
+        return redirect()->route('bookings.index')->with('success', 'Booking cancelled and payment refunded.');
     }
 
     /**
@@ -34,9 +74,10 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(booking $booking)
+    public function show($id)
     {
-        //
+        $booking = booking::findOrFail($id);
+        return view('customer.pages.bookingDetails', compact('booking'));
     }
 
     /**
