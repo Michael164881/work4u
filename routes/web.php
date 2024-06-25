@@ -66,7 +66,7 @@ use App\Http\Controllers\BookingController;
 
 Route::get('/bookings/{page}', [App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
 Route::post('/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
-Route::get('/bookings/{id}', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+Route::get('/bookings/{id}/show', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
 
 
 /* Freelancer */

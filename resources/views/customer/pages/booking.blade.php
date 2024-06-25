@@ -4,7 +4,7 @@
 ])
 
 @section('content')
-    <style>
+<style>
         .card-header {
             margin-left: 2%;
             margin-top: 2%;
@@ -13,13 +13,14 @@
         .booking-card {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
-            border-radius: 25px;
+            border-radius: 10px; /* Adjusted border-radius for rectangular shape */
             padding: 20px;
             margin-bottom: 20px;
             text-align: center;
-            height: 100%;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 70%; /* Ensures cards take full width of parent */
+            margin: 0 auto; /* Centers cards horizontally */
         }
 
         .booking-card:hover {
@@ -35,11 +36,12 @@
             margin-top: 0;
             color: #333;
             font-weight: bolder;
-            font-size: 150%;
+            font-size: 18px; /* Adjust font size for better fit */
         }
 
         .booking-card p {
             color: #666;
+            margin-bottom: 10px; /* Adds space between paragraphs */
         }
 
         .content .card-header h2 {
@@ -49,76 +51,60 @@
             letter-spacing: 3px;
             font-size: 40px;
             font-weight: bold;
-        }
-
-        .card-body .row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-
-        .col-md-3 {
-            flex: 0 0 22%;
-            max-width: 22%;
-            margin: 1%;
-        }
-
-        @media (max-width: 768px) {
-            .col-md-3 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-        }
-
-        .view-more {
-            display: block;
-            margin: 20px auto;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            text-decoration: none;
-            width: 10%;
-            color: white;
-            background-color: #f1d05c;
-            padding: 5px;
-            border-radius: 15px;
-        }
-
-        .view-more:hover {
-            color: #7C638F;
-            text-decoration: none;
+            text-align: center; /* Center-aligns heading */
         }
 
         .my-bookings-section {
             margin-top: 40px;
         }
 
-        .my-booking-card {
-            background-color: #f1f1f1;
-            border: 1px solid #ccc;
-            border-radius: 25px;
+        .filter-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
             padding: 20px;
-            margin-bottom: 20px;
-            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .my-booking-card h3 {
-            margin-top: 0;
-            color: #333;
+        .filter-form div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .my-booking-card p {
-            color: #666;
+        .filter-form input[type="text"],
+        .filter-form select {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            flex: 1;
         }
 
-        .my-booking-card:hover {
-            background-color: #7C638F;
+        .filter-form select {
+            max-width: 200px;
+        }
+
+        .filter-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
             cursor: pointer;
         }
 
-        .my-booking-card:hover h3,
-        .my-booking-card:hover p {
-            color: #fff;
+        .filter-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Optional: Adjust styles for placeholder text */
+        .filter-form input[type="text"]::placeholder {
+            color: #aaa;
         }
     </style>
 
@@ -126,22 +112,31 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h2>My Bookings</h2>
-                    </div>
                     <div class="card-body">
-                        <div class="row">
+                        <form class="filter-form" method="GET" action="{{ route('bookings.index', 'booking') }}">
+                            <div>
+                                <input type="text" name="search" placeholder="Search by description name" value="{{ request('search') }}">
+                                <select name="location">
+                                    <option value="">Select Location</option>
+                                    @foreach($locations as $location)
+                                        <option value="{{ $location }}" {{ request('location') == $location ? 'selected' : '' }}>{{ $location }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" style="background-color: #7C638F;">Filter</button>
+                            </div>
+                        </form>
+                        <div class="card-body">
+                        <div class="my-bookings-section">
                             @foreach($bookings as $booking)
-                                <div class="col-md-3">
-                                    <div class="booking-card" onclick="window.location='{{ route('bookings.show', $booking->id) }}'">
-                                        <h3>{{ $booking->workDescription->work_description_name }}</h3>
-                                        <p>{{ Str::words($booking->workDescription->work_description, 10, '...') }}</p>
-                                        <p><strong>Fee:</strong> RM{{ $booking->booking_fee }}</p>
-                                        <p><strong>Status:</strong> {{ ucfirst($booking->booking_status) }}</p>
-                                    </div>
+                                <div class="booking-card mb-3" onclick="window.location='{{ route('bookings.show', $booking->id) }}'">
+                                    <h3>{{ $booking->workDescription->work_description_name }}</h3>
+                                    <p>{{ Str::words($booking->workDescription->work_description, 10, '...') }}</p>
+                                    <p><strong>Fee:</strong> RM{{ $booking->booking_fee }}</p>
+                                    <p><strong>Status:</strong> {{ ucfirst($booking->booking_status) }}</p>
                                 </div>
                             @endforeach
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

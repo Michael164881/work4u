@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\booking;
+use App\Models\work_description;
 use App\Models\user;
+use App\Models\freelancer_profile;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -11,7 +13,7 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
         $bookings = collect(); // Initialize as an empty collection
@@ -26,7 +28,28 @@ class BookingController extends Controller
                 ->get();
         }
 
-        return view('customer.pages.booking', compact('bookings'));
+        $query = booking::query();
+        $locationsQuery = freelancer_profile::query()->distinct('location');
+
+        if ($request->has('search') && $request->search != '') {
+            $query->whereHas('workDescription', function($q) use ($request) {
+                $q->where('work_description_name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->has('location') && $request->location != '') {
+            // Assuming FreelancerProfile is related through WorkDescription
+            $query->whereHas('workDescription.freelancerProfile', function($q) use ($request) {
+                $q->where('location', $request->location);
+            });
+        }
+    
+        $bookings = $query->get();
+
+        // Extract unique locations from the filtered bookings
+        $locations = Booking::with('workDescription.freelancerProfile')->get()->pluck('workDescription.freelancerProfile.location')->unique();
+
+        return view('customer.pages.booking', compact('bookings', 'locations'));
     }
 
     public function cancel($id)
@@ -77,7 +100,9 @@ class BookingController extends Controller
     public function show($id)
     {
         $booking = booking::findOrFail($id);
-        return view('customer.pages.bookingDetails', compact('booking'));
+
+        // Assuming you have a view file for showing a single booking, adjust this according to your structure
+        return view('customer.pages.bookingView', compact('booking'));
     }
 
     /**

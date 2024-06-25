@@ -146,7 +146,7 @@
                         <a href="{{ route('pageCustMap.index' , 'map') }}" class="back">Back</a>
                     </div>
                     <div class="card-body">
-                        <form class="filter-form" method="GET" action="{{ route('pageCustBrowse.index', 'browse')}}">
+                        <form class="filter-form" method="GET" action="{{ route('booking.index', 'browse')}}">
                             <div>
                                 <input type="text" name="search" placeholder="Search by description name" value="{{ request('search') }}">
                                 <select name="location">
