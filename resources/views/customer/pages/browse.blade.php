@@ -160,7 +160,7 @@
                         </form>
                         <div class="row">
                             @foreach($services as $service)
-                                @if(str_contain($services->work_status, 'available'))
+                                @if(strpos("{{$service->work_status}}", 'available') !== false)
                                     <div class="col-md-3">
                                         <div class="service-card" onclick="window.location='{{ route('service.index', $service->id) }}'">
                                             <h3>{{ $service->work_description_name }}</h3>
