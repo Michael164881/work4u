@@ -14,12 +14,10 @@ return new class extends Migration
         Schema::create('booking', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('booking_id');
-            $table->string('cust_id');
+            $table->unsignedInteger('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('job_request_id')->unsigned();
             $table->integer('work_profile_id')->unsigned();
             $table->string('booking_status');
-            $table->string('bidding_status')->nullable();
             $table->integer('notification_id')->unsigned()->nullable();
             $table->dateTime('booking_start_date')->nullable();
             $table->dateTime('booking_end_date')->nullable();

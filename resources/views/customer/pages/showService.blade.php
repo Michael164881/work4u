@@ -104,7 +104,7 @@
                             <p>{{ $service->work_description }}</p>
                             <h5><strong>Fee:</strong> RM{{ $service->work_fee }}</h5>
                             <h5><strong>Period:</strong> {{ $service->work_period }} days</h5>
-                            <a href="#" class="hire-now-btn">HIRE NOW</a>
+                            <a href="{{ route('hire.show', ['service' => $service->id]) }}" class="hire-now-btn">HIRE NOW</a>
                         </center>
                     </div>
                 </div>

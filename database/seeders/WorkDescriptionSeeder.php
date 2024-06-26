@@ -21,6 +21,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 1500.00,
                 'work_period' => 30,
                 'work_address' => 'No. 8, Jalan USJ 9/3B, Subang Business Centre, 47620 Subang Jaya, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -30,6 +31,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 1200.00,
                 'work_period' => 25,
                 'work_address' => 'No. 34, Lorong Turi 4C, Taman Gembira, 41200 Klang, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -39,6 +41,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 500.00,
                 'work_period' => 10,
                 'work_address' => 'No. 5, Jalan Kasuarina 2/KS7, Bandar Botanic, 41200 Klang, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -48,6 +51,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 800.00,
                 'work_period' => 20,
                 'work_address' => 'No. 18, Jalan SS 2/72, SS 2, 47300 Petaling Jaya, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -57,6 +61,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 1000.00,
                 'work_period' => 15,
                 'work_address' => 'No. 22, Jalan PJU 1/43, Aman Suria Damansara, 47301 Petaling Jaya, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -66,6 +71,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 1200.00,
                 'work_period' => 20,
                 'work_address' => 'No. 7, Jalan 5, Taman Putra, 68000 Ampang, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -75,6 +81,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 300.00,
                 'work_period' => 5,
                 'work_address' => 'No. 15, Jalan Wawasan 4/2, Bandar Baru Ampang, 68000 Ampang, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -84,6 +91,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 400.00,
                 'work_period' => 7,
                 'work_address' => 'No. 9, Jalan TIB 3, Taman Industri Bolton, 68100 Batu Caves, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -93,6 +101,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 800.00,
                 'work_period' => 10,
                 'work_address' => 'No. 21, Jalan Samudra Utara 2, Taman Samudra, 68100 Batu Caves, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -102,6 +111,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 1500.00,
                 'work_period' => 25,
                 'work_address' => 'No. 16, Jalan Meranti Jaya 7/2, Taman Meranti Jaya, 47120 Puchong, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -111,6 +121,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 2000.00,
                 'work_period' => 40,
                 'work_address' => 'No. 11, Jalan 18/38B, Taman Sri Serdang, 43300 Seri Kembangan, Selangor, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
             [
@@ -120,6 +131,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_fee' => 1800.00,
                 'work_period' => 35,
                 'work_address' => 'No. 4, Jalan Sri Hartamas 8, Sri Hartamas, 50480 Kuala Lumpur, Malaysia',
+                'work_status' => 'available',
                 'work_description_image' => null
             ],
         ];

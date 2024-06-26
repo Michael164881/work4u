@@ -41,8 +41,8 @@
                     <p class="nav-text">{{ __('Jobs') }}</p>
                 </a>
             </li>
-            <li class="nav-item {{ $elementActive == 'notifications' ? 'active' : '' }}">
-                <a href="{{ route('pageCust.index', 'notifications') }}">
+            <li class="nav-item {{ $elementActive == 'booking' ? 'active' : '' }}">
+                <a href="{{ route('bookings.index', 'booking') }}">
                     <i class="nc-icon nc-bookmark-2"></i>
                     <p class="nav-text">{{ __('Booking') }}</p>
                 </a>
