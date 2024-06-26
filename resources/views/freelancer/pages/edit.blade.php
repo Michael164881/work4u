@@ -3,6 +3,11 @@
     'elementActive' => 'profile'
 ])
 
+<head>
+    <!-- Other head contents -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
 <style>
     #whole-card{
         background-color: #7C638F;
@@ -55,30 +60,34 @@
                     <div class="card-body">
                         <div class="author">
                             <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
-                            <h5 class="title">{{ __(auth()->user()->name)}}</h5><br><br>
-                            
+                            <h5 class="title">{{ __(auth()->user()->name) }}</h5><br><br>
+
                             <h2 class="title-text">Email</h2>
-                            <p class="description" id="description">{{ __(auth()->user()->email)}}</p><br>
+                            <p class="description" id="description">{{ __(auth()->user()->email) }}</p><br>
 
                             <h2 class="title-text">IC</h2>
-                            <p class="description" id="description">{{ __(auth()->user()->ic)}}</p><br>
+                            <p class="description" id="description">{{ __(auth()->user()->ic) }}</p><br>
 
                             <h2 class="title-text">Phone Number</h2>
-                            <p class="description" id="description">{{ __(auth()->user()->phone_number)}}</p><br>
+                            <p class="description" id="description">{{ __(auth()->user()->phone_number) }}</p><br>
 
                             <h2 class="title-text">Location</h2>
-                            <p class="description" id="description">{{ __(auth()->user()->location)}}</p><br>
+                            <p class="description" id="description">{{ __(auth()->user()->location) }}</p><br>
                         </div>
                     </div>
                     <div class="card-footer">
                         <hr>
                         <div class="button-container">
                             <h1 class="title-ewallet">E-WALLET</h1><br><br>
-                                    <h5 class="amount">RM **.**
-                                        <br>
-                                        <small>{{ __('BALANCE') }}</small>
-                                    </h5><br>
-                                    <button type="submit" class="btn btn-info btn-round">{{ __('WITHDRAW') }}</button>
+                            <h5 class="amount">
+                                <span id="balance" style="display: none;">RM {{ __(auth()->user()->ewallet_balance) }}</span>
+                                <i id="toggle-icon" class="fas fa-eye toggle-icon"></i>
+                                <br>
+                                <small>{{ __('BALANCE') }}</small>
+                            </h5><br>
+                            <!-- Replace the existing Withdraw button -->
+                            <button type="button" class="btn btn-info btn-round" onclick="window.location='{{ route('ewallet.withdrawPage') }}'">{{ __('WITHDRAW') }}</button>
+
                         </div>
                     </div>
                 </div>
@@ -151,7 +160,7 @@
                                 <label class="col-md-3 col-form-label">{{ __('LOCATION') }}</label>
                                 <div class="col-md-9">
                                     <div class="form-group">
-                                        <input type="location" name="location" class="form-control" placeholder="Phone Number" value="{{ auth()->user()->location }}" required>
+                                        <input type="location" name="location" class="form-control" placeholder="Location" value="{{ auth()->user()->location }}" required>
                                     </div>
                                     @if ($errors->has('location'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
@@ -229,7 +238,24 @@
                         </div>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('toggle-icon').addEventListener('click', function () {
+            var balance = document.getElementById('balance');
+            var icon = document.getElementById('toggle-icon');
+            if (balance.style.display === 'none') {
+                balance.style.display = 'inline';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                balance.style.display = 'none';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    </script>
 @endsection

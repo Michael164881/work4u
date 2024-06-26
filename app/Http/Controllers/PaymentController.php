@@ -14,7 +14,7 @@ class PaymentController extends Controller
     public function index()
     {
         //
-        return view('payment.method');
+        return view('customer.pages.payment.method');
     }
 
     public function showPaymentMethod()
@@ -76,4 +76,20 @@ class PaymentController extends Controller
         // Validate and process the payment details
         // Redirect or respond accordingly
     }
+
+    public function debit()
+{
+    return view('customer.pages.payment.debit');
+}
+
+public function ewallet()
+{
+    return view('customer.pages.payment.ewallet');
+}
+
+public function qr()
+{
+    return view('customer.pages.payment.qr');
+}
+
 }

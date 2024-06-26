@@ -80,7 +80,7 @@
                                         <br>
                                         <small>{{ __('BALANCE') }}</small>
                                     </h5><br>
-                                    <a href="{{ route('payment.method') }}" class="btn btn-info btn-round">{{ __('TOP UP') }}</a>
+                                    <a class="btn btn-info btn-round" href="{{ route('top-up.payment-method') }}">{{ __('TOP UP') }}</a>
                         </div>
                     <!-- End Card Footer -->    
                     </div>

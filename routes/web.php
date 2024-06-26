@@ -1,7 +1,56 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TopUpController;
+
+
+
+
+// Routes for displaying the payment method selection page
+Route::get('/payment/debit', function() {
+    return view('customer.pages.payment.debit');
+})->name('payment.debit');
+
+Route::get('/payment/ewallet', function() {
+    return view('customer.pages.payment.ewallet');
+})->name('payment.ewallet');
+
+Route::get('/payment/qr', function() {
+    return view('customer.pages.payment.qr');
+})->name('payment.qr');
+
+// Routes for processing the payment forms
+Route::post('/payment/debit', [App\Http\Controllers\TopUpController::class, 'processDebit'])->name('payment.debit.process');
+Route::post('/payment/ewallet', [App\Http\Controllers\TopUpController::class, 'processEwallet'])->name('payment.ewallet.process');
+Route::post('/payment/qr', [App\Http\Controllers\TopUpController::class, 'processQr'])->name('payment.qr.process');
+
+Route::post('/payment/ewallet/redirect', [App\Http\Controllers\TopUpController::class, 'redirectToTouchNGo'])->name('payment.ewallet.redirect');
+
+
+Route::post('/payment/process', [App\Http\Controllers\TopUpController::class, 'process'])->name('payment.process');
+Route::get('/payment/debit', [App\Http\Controllers\TopUpController::class, 'debit'])->name('payment.debit');
+Route::get('/payment/ewallet', [App\Http\Controllers\TopUpController::class, 'ewallet'])->name('payment.ewallet');
+Route::post('/ewallet/reload', [App\Http\Controllers\TopUpController::class, 'reloadEwallet'])->name('ewallet.reload');
+Route::get('/payment/qr', [App\Http\Controllers\TopUpController::class, 'qr'])->name('payment.qr');
+
+Route::get('/ewallet/withdraw', [App\Http\Controllers\WithdrawController::class, 'withdrawPage'])->name('ewallet.withdrawPage');
+Route::post('/ewallet/withdraw', [App\Http\Controllers\WithdrawController::class, 'withdraw'])->name('ewallet.withdraw');
+
+Route::post('/ewallet/withdraw', [App\Http\Controllers\EWalletController::class, 'withdraw'])->name('ewallet.withdraw');
+
+Route::get('/ewallet/withdraw', [App\Http\Controllers\WithdrawController::class, 'withdrawPage'])->name('ewallet.withdrawPage');
+Route::post('/ewallet/withdraw', [App\Http\Controllers\WithdrawController::class, 'withdraw'])->name('ewallet.withdraw');
+
+
+
+
+
+
+
+
+// Add routes for processing debit and QR code payments similarly
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +121,24 @@ Route::get('pageFLBrowse/{page}', [App\Http\Controllers\PageControllerFLBrowse::
 Route::get('pageFLMap/{page}', [App\Http\Controllers\PageControllerFLMap::class, 'index'])->name('pageFLMap.index');
 Route::get('pageFL/{page}', [App\Http\Controllers\PageControllerFL::class, 'index'])->name('pageFL.index');
 
+Route::get('/top-up/payment-method', [App\Http\Controllers\TopUpController::class, 'showPaymentMethod'])->name('top-up.payment-method');
+Route::post('/top-up/process', [App\Http\Controllers\TopUpController::class, 'processPayment'])->name('top-up.process');
+
+Route::get('/payment/debit', function () {
+    return view('customer.pages.payment.debit');
+})->name('payment.debit');
+
+Route::get('/payment/ewallet', function () {
+    return view('customer.pages.payment.ewallet');
+})->name('payment.ewallet');
+
+Route::get('/payment/qr', function () {
+    return view('customer.pages.payment.qr');
+})->name('payment.qr');
+
+
+
+
 Auth::routes();
 
 Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
@@ -88,7 +155,6 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-Route::get('/payment-method', [PaymentController::class, 'showPaymentMethod'])->name('payment.method');
-Route::post('/payment-process', [PaymentController::class, 'process'])->name('payment.process');
+
 
 
