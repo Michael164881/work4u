@@ -22,7 +22,7 @@ class PageControllerCustMap extends Controller
      */
     public function index()
     {
-        $services = work_description::all();
+        $services = work_description::where('work_status', 'available')->take(4)->get();
         $user = Auth::user();
 
         $jobRequests = collect();

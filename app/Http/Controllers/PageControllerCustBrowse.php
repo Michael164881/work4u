@@ -22,7 +22,11 @@ class PageControllerCustBrowse extends Controller
      */
     public function index(Request $request)
     {
+        
+
         $query = work_description::query();
+
+        $query->where('work_status', 'available');
 
         if ($request->has('search') && $request->search != '') {
             $query->where('work_description_name', 'like', '%' . $request->search . '%');

@@ -1,72 +1,61 @@
-@php
-    use Illuminate\Support\Str;
-@endphp
-
-@extends('customer.app', [
+@extends('freelancer.app', [
     'class' => '',
-    'elementActive' => 'map'
+    'elementActive' => 'booking'
 ])
 
 @section('content')
-    <style>
-        .card-header{
+<style>
+        .card-header {
             margin-left: 2%;
+            margin-top: 2%;
         }
 
-        .service-card {
+        .booking-card {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
-            border-radius: 25px;
+            border-radius: 10px; /* Adjusted border-radius for rectangular shape */
             padding: 20px;
             margin-bottom: 20px;
             text-align: center;
-            height: 100%;
-            cursor: pointer; 
-            transition: background-color 0.3s; 
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 70%; /* Ensures cards take full width of parent */
+            margin: 0 auto; /* Centers cards horizontally */
         }
 
-        .service-card:hover {
-            background-color: #7C638F; 
+        .booking-card:hover {
+            background-color: #7C638F;
         }
 
-        .service-card:hover h3,
-        .service-card:hover p {
-            color: #fff; 
+        .booking-card:hover h3,
+        .booking-card:hover p {
+            color: #fff;
         }
 
-        .service-card h3 {
+        .booking-card h3 {
             margin-top: 0;
             color: #333;
             font-weight: bolder;
-            font-size: 150%;
+            font-size: 18px; /* Adjust font size for better fit */
         }
 
-        .service-card p {
+        .booking-card p {
             color: #666;
+            margin-bottom: 10px; /* Adds space between paragraphs */
         }
 
         .content .card-header h2 {
-            font-size: 24px;
             font-weight: bolder;
+            color: #7C638F;
+            font-family: Impact, sans-serif;
+            letter-spacing: 3px;
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center; /* Center-aligns heading */
         }
 
-        .card-body .row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-
-        .col-md-3 {
-            flex: 0 0 22%;
-            max-width: 22%;
-            margin: 1%;
-        }
-
-        @media (max-width: 768px) {
-            .col-md-3 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
+        .my-bookings-section {
+            margin-top: 40px;
         }
 
         .filter-form {
@@ -117,36 +106,14 @@
         .filter-form input[type="text"]::placeholder {
             color: #aaa;
         }
-
-        .back {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #7C638F;
-            color: #fff;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .back:hover {
-            background-color: #7C638F;
-            text-decoration: none;
-        }
     </style>
 
     <div class="content">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h2>Browse Services</h2>
-                        <a href="{{ route('pageCustMap.index' , 'map') }}" class="back">Back</a>
-                    </div>
                     <div class="card-body">
-                        <form class="filter-form" method="GET" action="{{ route('bookings.index', 'browse')}}">
+                        <form class="filter-form" method="GET" action="{{ route('pageFLBooking.index', 'booking') }}">
                             <div>
                                 <input type="text" name="search" placeholder="Search by description name" value="{{ request('search') }}">
                                 <select name="location">
@@ -158,25 +125,27 @@
                                 <button type="submit" style="background-color: #7C638F;">Filter</button>
                             </div>
                         </form>
-                        <div class="row">
-                            @foreach($services as $service)
-                                @if(strpos("{{$service->work_status}}", 'available') == true)
-                                    <div class="col-md-3">
-                                        <div class="service-card" onclick="window.location='{{ route('service.index', $service->id) }}'">
-                                            <h3>{{ $service->work_description_name }}</h3>
-                                            <p>{{ Str::words($service->work_description, 4, '...') }}</p>
-                                            <p>Fee: RM{{ $service->work_fee }}</p>
-                                            <p>Period: {{ $service->work_period }} days</p>
-                                            <p>Freelancer: {{ $service->freelancerProfile->nickname }}</p>
-                                            <p><strong>Location: {{ $service->freelancerProfile->location }}</strong></p>
-                                        </div>
+                        <div class="card-body">
+                        <div class="my-bookings-section">
+                            @foreach($bookings as $booking)
+                                @if($booking->workDescription->freelancer_id == $freelancerId)
+                                    <div class="booking-card mb-3" onclick="window.location='{{ route('pageFLBooking.show', $booking->id) }}'">
+                                        <h3>{{ $booking->workDescription->work_description_name }}</h3>
+                                        <p>{{ Str::words($booking->workDescription->work_description, 10, '...') }}</p>
+                                        <p><strong>Fee:</strong> RM{{ $booking->booking_fee }}</p>
+                                        <p><strong>Status:</strong> {{ ucfirst($booking->booking_status) }}</p>
                                     </div>
                                 @endif
                             @endforeach
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        console.log('Freelancer ID:', {{ json_encode($freelancerId) }});
+    </script>
 @endsection

@@ -160,8 +160,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach($services->take(4) as $service)
-                                @if(strpos("{{$service->work_status}}", 'available') !== false)
+                            @foreach($services as $service)
                                     <div class="col-md-3">
                                         <div class="service-card" onclick="window.location='{{ route('service.index', $service->id) }}'">
                                             <h3>{{ $service->work_description_name }}</h3>
@@ -172,7 +171,6 @@
                                             <p><strong>Location: {{ $service->freelancerProfile->location }}</strong></p>
                                         </div>
                                     </div>
-                                @endif
                             @endforeach
                         </div>
                         <a href="{{ route('pageCustBrowse.index' , 'browse') }}" class="view-more">View More</a>
