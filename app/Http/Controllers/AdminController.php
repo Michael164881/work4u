@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\admin;
+use App\Models\admin; //Probably useless
+use App\Models\booking;
+use App\Models\User;
+use App\Models\work_description;
+use App\Models\job_request;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -12,7 +16,38 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        // Fetch data count from each table for dashboard widget
+        $freelancerCount = User::where('role', 'freelancer')->count();
+        $customerCount = User::where('role', 'customer')->count();
+        $bookingCount = booking::where('booking_status', 'pending')->count();
+        $workDescriptionCount = work_description::count();
+        $jobRequestCount = job_request::count();
+
+        //Fetch data from tables
+        $admin = User::where('role', 'admin')->get();
+        $customer = User::where('role', 'customer')->get();
+        $freelancer = User::where('role', 'freelancer')->get();
+        $work = work_description::get();
+        $job = job_request::get();
+
+        // Pass the data to the view
+        return view('pages.dashboard', compact(
+            'freelancerCount',
+            'customerCount',
+            'bookingCount',
+            'workDescriptionCount',
+            'jobRequestCount',
+            'admin',
+            'customer',
+            'freelancer',
+            'work',
+            'job'
+        ));
+    }
+
+    public function __construct()
+    {
+        $this->middleware('auth');
     }
 
     /**

@@ -69,18 +69,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
 Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/home', 'App\Http\Controllers\AdminController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
@@ -126,8 +126,13 @@ Route::get('/work-description/{id}/edit', [App\Http\Controllers\WorkDescriptionC
 Route::post('/work-description/{id}', [App\Http\Controllers\WorkDescriptionController::class, 'update'])->name('workDescription.update');
 Route::delete('/work-description/{id}', [App\Http\Controllers\WorkDescriptionController::class, 'destroy'])->name('workDescription.destroy');
 
+use App\Http\Controllers\PageControllerFLBrowse;
+use App\Http\Controllers\PageControllerFLBooking;
+
 Route::get('/serviceFL/{id}', [App\Http\Controllers\ServiceFLController::class, 'index'])->name('serviceFL.index');
 Route::get('pageFLBrowse/{page}', [App\Http\Controllers\PageControllerFLBrowse::class, 'index'])->name('pageFLBrowse.index');
+Route::get('pageFLBooking/{page}', [App\Http\Controllers\PageControllerFLBooking::class, 'index'])->name('pageFLBooking.index');
+Route::get('pageFLBooking/{id}/show', [App\Http\Controllers\PageControllerFLBooking::class, 'show'])->name('pageFLBooking.show');
 Route::get('pageFLMap/{page}', [App\Http\Controllers\PageControllerFLMap::class, 'index'])->name('pageFLMap.index');
 Route::get('pageFL/{page}', [App\Http\Controllers\PageControllerFL::class, 'index'])->name('pageFL.index');
 
@@ -151,11 +156,11 @@ Route::get('/payment/qr', function () {
 
 Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/home', 'App\Http\Controllers\AdminController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/home', 'App\Http\Controllers\AdminController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);

@@ -1,4 +1,4 @@
-@extends('customer.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'booking'
 ])

@@ -23,8 +23,8 @@
     
 <div class="sidebar-wrapper">
         <ul class="nav">
-            <li class="nav-item {{ $elementActive == 'dashboard' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'dashboard') }}">
+            <li class="nav-item {{ $elementActive == 'home' ? 'active' : '' }}">
+                <a href="{{ route('page.index', 'home') }}">
                     <i class="nc-icon nc-pin-3"></i>
                     <p class="nav-text">{{ __('Dashboard') }}</p>
                 </a>
