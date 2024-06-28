@@ -131,7 +131,7 @@
                             @if($service->work_description_image)
                                 <img  src="{{ asset($service->work_description_image) }}" alt="..."  class="desc-img">
                             @else
-
+                            <img class="avatar border-gray" src="{{ asset('images/work_description_pictures/default.png') }}" alt="...">
                             @endif
                             <h4><strong>{{ $service->work_description_name }}</strong></h4>
                             <p>{{ $service->work_description }}</p>

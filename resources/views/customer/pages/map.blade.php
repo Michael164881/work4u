@@ -375,7 +375,7 @@
                                         <h3>{{ $jobRequest->job_name }}</h3>
                                         <p>{{ $jobRequest->job_description }}</p>
                                         <p>Period: {{ $jobRequest->job_period }}</p>
-                                        <p>Initial Price: RM{{ $jobRequest->initial_price }}</p>
+                                        <p>Initial Price: RM{{ $bid->bid_amount }}</p>
                                     </div>
                                     <div class="bids-container">
                                         <h4>Bids</h4>
@@ -384,7 +384,7 @@
                                                 @if($bid->freelancerProfile)
                                                     <li>
                                                         <span>{{ $bid->freelancerProfile->nickname }}: RM{{ $bid->bid_amount }}</span>
-                                                        <a href="{{ route('hireBid.show', $bid->id) }}" class="btn btn-primary">Hire</a>
+                                                        <a href="{{ route('hireBid.index', $bid->id) }}" class="btn btn-primary">Hire</a>
                                                     </li>
                                                 @endif
                                             @endforeach

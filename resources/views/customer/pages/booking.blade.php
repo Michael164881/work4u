@@ -167,21 +167,26 @@
                     <div class="card-body">
                         <div class="my-bookings-section">
                             @foreach($bookings as $booking)
-                                <div class="booking-card mb-3" onclick="window.location='{{ route('bookings.show', $booking->id) }}'">
+                            <div class="booking-card mb-3" onclick="window.location='{{ route('bookings.show', $booking->id) }}'">
+                                @if($booking->work_profile_id != 0)
                                     <h3>{{ $booking->workDescription->work_description_name }}</h3>
                                     <p>{{ Str::words($booking->workDescription->work_description, 10, '...') }}</p>
-                                    <p><strong>Fee:</strong> RM{{ $booking->booking_fee }}</p>
-                                    <p>
-                                        <strong>Status:</strong> <br>
-                                        <span class="status-box 
-                                            @if($booking->booking_status == 'pending') status-pending 
-                                            @elseif($booking->booking_status == 'completed') status-completed 
-                                            @elseif($booking->booking_status == 'cancelled') status-cancelled 
-                                            @endif">
-                                            {{ ucfirst($booking->booking_status) }}
-                                        </span>
-                                    </p>
-                                </div>
+                                @else
+                                    <h3>{{ $booking->jobRequest->job_name }}</h3>
+                                    <p>{{ Str::words($booking->jobRequest->job_description, 10, '...') }}</p>
+                                @endif
+                                <p><strong>Fee:</strong> RM{{ $booking->booking_fee }}</p>
+                                <p>
+                                    <strong>Status:</strong> <br>
+                                    <span class="status-box 
+                                        @if($booking->booking_status == 'pending') status-pending 
+                                        @elseif($booking->booking_status == 'completed') status-completed 
+                                        @elseif($booking->booking_status == 'cancelled') status-cancelled 
+                                        @endif">
+                                        {{ ucfirst($booking->booking_status) }}
+                                    </span>
+                                </p>
+                            </div>
                             @endforeach
                         </div>
                     </div>

@@ -55,19 +55,19 @@
     <div class="container">
         <div class="hire-container">
             <div class="work-description">
-                <h4>{{ $service->work_description_name }}</h4><br>
-                <p><strong>Description:</strong> {{ $service->work_description }}</p>
-                <p><strong>Fee:</strong> RM{{ $service->work_fee }}</p>
-                <p><strong>Period:</strong> {{ $service->work_period }} days</p>
-                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $address->work_address }}">
-                <div id="jobAddressDisplay">{{ $address->work_address }}</div>
+                <h4>{{ $bid->jobRequest->job_name }}</h4><br>
+                <p><strong>Description:</strong> {{ $bid->jobRequest->job_description }}</p>
+                <p><strong>Fee:</strong> RM{{ $bid->bid_amount }}</p>
+                <p><strong>Period:</strong> {{ $bid->jobRequest->job_period }} days</p>
+                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->work_address }}">
+                <div id="jobAddressDisplay">{{ $jobRequest->work_address }}</div>
                 <div id="map"></div>
             </div>
 
             <div class="payment-method">
                 <h4>Payment Method</h4>
                 
-                <form action="{{ route('hire.process', ['service' => $service->id]) }}" method="POST">
+                <form action="{{ route('hireBid.process', ['bid' => $bid->id]) }}" method="POST">
                     @csrf
                     <label for="payment-method">Choose Payment Method:</label>
                     <select id="payment-method" name="payment_method" required>

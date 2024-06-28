@@ -111,7 +111,9 @@ Route::get('pageCust/{page}', [App\Http\Controllers\PageControllerCust::class, '
 Route::get('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'showHirePage'])->name('hire.show');
 Route::post('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'processHire'])->name('hire.process');
 
-Route::get('/bid/{bid}', [App\Http\Controllers\BidController::class, 'showHirePage'])->name('hireBid.show');
+Route::get('/bid/{id}', [App\Http\Controllers\BidController::class, 'index'])->name('hireBid.index');
+Route::get('/hireBid/{bid}', [App\Http\Controllers\BidController::class, 'showHireBid'])->name('hireBid.show');
+Route::post('/hireProcessBid/{bid}', [App\Http\Controllers\BidController::class, 'processHireBid'])->name('hireBid.process');
 
 use App\Http\Controllers\BookingController;
 

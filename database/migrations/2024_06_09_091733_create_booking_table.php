@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->unsignedInteger('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedInteger('freelancer_profile_id')->references('id')->on('freelancer_profile')->onDelete('cascade');
             $table->integer('job_request_id')->unsigned();
             $table->integer('work_profile_id')->unsigned();
             $table->string('booking_status');

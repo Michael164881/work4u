@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\booking;
 use App\Models\work_description;
+use App\Models\job_request;
 use App\Models\user;
 use App\Models\freelancer_profile;
 use Illuminate\Http\Request;
@@ -22,32 +23,38 @@ class BookingController extends Controller
             // Retrieve user ID
             $userId = $user->id;
             
-            // Execute the query to retrieve bookings and include work_description
+            // Execute the query to retrieve bookings and include related models
             $bookings = Booking::where('user_id', $userId)
-                ->with('workDescription') // Eager load the work_description relationship
+                ->with(['workDescription', 'jobRequest']) // Eager load the relationships
                 ->get();
         }
 
         $query = booking::query();
-        $locationsQuery = freelancer_profile::query()->distinct('location');
 
         if ($request->has('search') && $request->search != '') {
-            $query->whereHas('workDescription', function($q) use ($request) {
-                $q->where('work_description_name', 'like', '%' . $request->search . '%');
+            $query->where(function($q) use ($request) {
+                $q->whereHas('workDescription', function($q) use ($request) {
+                    $q->where('work_description_name', 'like', '%' . $request->search . '%');
+                })->orWhereHas('jobRequest', function($q) use ($request) {
+                    $q->where('job_name', 'like', '%' . $request->search . '%');
+                });
             });
         }
 
         if ($request->has('location') && $request->location != '') {
-            // Assuming FreelancerProfile is related through WorkDescription
-            $query->whereHas('workDescription.freelancerProfile', function($q) use ($request) {
-                $q->where('location', $request->location);
+            $query->where(function($q) use ($request) {
+                $q->whereHas('workDescription.freelancerProfile', function($q) use ($request) {
+                    $q->where('location', $request->location);
+                })->orWhereHas('jobRequest', function($q) use ($request) {
+                    $q->where('job_address', $request->location);
+                });
             });
         }
-    
+
         $bookings = $query->get();
 
         // Extract unique locations from the filtered bookings
-        $locations = Booking::with('workDescription.freelancerProfile')->get()->pluck('workDescription.freelancerProfile.location')->unique();
+        $locations = $bookings->pluck('workDescription.freelancerProfile.location')->merge($bookings->pluck('jobRequest.job_address'))->unique();
 
         return view('customer.pages.booking', compact('bookings', 'locations'));
     }
@@ -125,8 +132,13 @@ class BookingController extends Controller
      */
     public function show($id)
     {
-        $booking = Booking::with(['workDescription.freelancerProfile.user', 'taskChecklists'])->findOrFail($id);
-
+        $booking = Booking::with([
+            'workDescription.freelancerProfile.user', 
+            'jobRequest', 
+            'taskChecklists',
+            'freelancerProfile.user'
+        ])->findOrFail($id);
+    
         // Assuming you have a view file for showing a single booking, adjust this according to your structure
         return view('customer.pages.bookingView', compact('booking'));
     }

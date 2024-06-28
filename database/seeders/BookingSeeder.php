@@ -27,7 +27,8 @@ class BookingSeeder extends Seeder
                 'notification_id' => null,
                 'booking_start_date' => Carbon::parse('2024-06-27 10:47:08'),
                 'booking_end_date' => Carbon::parse('2024-07-02 10:47:08'),
-                'booking_fee' => 300.00
+                'booking_fee' => 300.00,
+                'freelancer_profile_id' => 1 // Add appropriate freelancer_profile_id
             ],
             [
                 'id' => 2,
@@ -40,7 +41,8 @@ class BookingSeeder extends Seeder
                 'notification_id' => null,
                 'booking_start_date' => Carbon::parse('2024-06-27 10:47:23'),
                 'booking_end_date' => Carbon::parse('2024-07-07 10:47:23'),
-                'booking_fee' => 500.00
+                'booking_fee' => 500.00,
+                'freelancer_profile_id' => 2 // Add appropriate freelancer_profile_id
             ],
             [
                 'id' => 3,
@@ -53,7 +55,8 @@ class BookingSeeder extends Seeder
                 'notification_id' => null,
                 'booking_start_date' => Carbon::parse('2024-06-27 12:24:46'),
                 'booking_end_date' => Carbon::parse('2024-07-27 12:24:46'),
-                'booking_fee' => 1500.00
+                'booking_fee' => 1500.00,
+                'freelancer_profile_id' => 3 // Add appropriate freelancer_profile_id
             ],
             [
                 'id' => 4,
@@ -66,7 +69,8 @@ class BookingSeeder extends Seeder
                 'notification_id' => null,
                 'booking_start_date' => Carbon::parse('2024-06-27 12:34:48'),
                 'booking_end_date' => Carbon::parse('2024-07-17 12:34:48'),
-                'booking_fee' => 800.00
+                'booking_fee' => 800.00,
+                'freelancer_profile_id' => 4 // Add appropriate freelancer_profile_id
             ]
         ];
 

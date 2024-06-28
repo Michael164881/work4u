@@ -230,7 +230,6 @@
         @endif
         <center>
             <div class="card-body">
-                
                 <div class="service-card service-description">
                     <span class="status-box 
                         @if($booking->booking_status == 'pending') status-pending 
@@ -239,23 +238,30 @@
                         @endif">
                         {{ ucfirst($booking->booking_status) }}
                     </span><br>
-                    @if($booking->workDescription->work_description_image)
-                        <img  src="{{ asset($booking->workDescription->work_description_image) }}" alt="..."  class="desc-img">
+                    @if($booking->work_profile_id != 0 && $booking->workDescription->work_description_image)
+                        <img src="{{ asset($booking->workDescription->work_description_image) }}" alt="..." class="desc-img">
+                    @elseif($booking->job_request_id != 0 && $booking->jobRequest->job_image)
+                        <img src="{{ asset($booking->jobRequest->job_image) }}" alt="..." class="desc-img">
                     @else
-                        <img  src="{{ asset('images/work_description_pictures/default.png') }}" alt="..." class="desc-img-default">
+                        <img src="{{ asset('images/work_description_pictures/default.png') }}" alt="..." class="desc-img-default">
                     @endif
                     <br><br>
-                    <h5 class="card-title">{{ $booking->workDescription->work_description_name }}</h5>
+                    @if($booking->work_profile_id != 0)
+                        <h5 class="card-title">{{ $booking->workDescription->work_description_name }}</h5>
+                        <p class="card-text">{{ $booking->workDescription->work_description }}</p>
+                    @else
+                        <h5 class="card-title">{{ $booking->jobRequest->job_name }}</h5>
+                        <p class="card-text">{{ $booking->jobRequest->job_description }}</p>
+                    @endif
 
                     <div class="task-checklist">
                         <br>
-                        <p class="card-text">{{ $booking->workDescription->work_description }}</p><br>
                         <p class="card-text"><strong>Start Date:</strong><br> {{ $booking->booking_start_date }}</p>
                         <p class="card-text"><strong>End Date:</strong><br> {{ $booking->booking_end_date }}</p>
                         <p class="card-text"><strong>Fee:</strong><br> RM{{ $booking->booking_fee }}</p>
-                        <p class="card-text"><strong>Freelancer Name:</strong><br> {{ $booking->workDescription->freelancerProfile->user->name }}</p>
-                        <p class="card-text"><strong>Freelancer Phone:</strong><br> {{ $booking->workDescription->freelancerProfile->user->phone_number }}</p>
-                        <a href="https://api.whatsapp.com/send?phone={{ $booking->workDescription->freelancerProfile->user->phone_number }}" class="btn btn-primary">Contact via WhatsApp</a>
+                        <p class="card-text"><strong>Freelancer Name:</strong><br> {{ $booking->freelancerProfile->user->name }}</p>
+                        <p class="card-text"><strong>Freelancer Phone:</strong><br> {{ $booking->freelancerProfile->user->phone_number }}</p>
+                        <a href="https://api.whatsapp.com/send?phone={{ $booking->freelancerProfile->user->phone_number }}" class="btn btn-primary">Contact via WhatsApp</a>
                         @if($booking->booking_status == 'pending')
                             <form action="{{ route('bookings.cancel', $booking->id) }}" method="POST" class="mt-2">
                                 @csrf
@@ -301,42 +307,42 @@
                 </div>
             </div>
         </center>
-        
     </div>
 @endsection
 
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ratingLabels = document.querySelectorAll('.rating label');
-            const ratingInputs = document.querySelectorAll('.rating input');
+    document.addEventListener('DOMContentLoaded', function() {
+        const ratingLabels = document.querySelectorAll('.rating label');
+        const ratingInputs = document.querySelectorAll('.rating input');
 
-            function updateStars() {
-                ratingLabels.forEach(label => label.style.color = 'gray');
-                const checkedInput = document.querySelector('.rating input:checked');
-                if (checkedInput) {
-                    const index = Array.from(ratingInputs).indexOf(checkedInput);
-                    for (let i = 0; i <= index-1; i++) {
-                        ratingLabels[i].style.color = 'gold';
-                    }
+        function updateStars() {
+            ratingLabels.forEach(label => label.style.color = 'gray');
+            const checkedInput = document.querySelector('.rating input:checked');
+            if (checkedInput) {
+                const index = Array.from(ratingInputs).indexOf(checkedInput);
+                for (let i = 0; i <= index-1; i++) {
+                    ratingLabels[i].style.color = 'gold';
                 }
             }
+        }
 
-            ratingLabels.forEach(label => {
-                label.addEventListener('mouseenter', function() {
-                    const index = Array.from(ratingLabels).indexOf(label);
-                    for (let i = 0; i <= index; i++) {
-                        ratingLabels[i].style.color = 'gold';
-                    }
-                });
-
-                label.addEventListener('mouseleave', updateStars);
+        ratingLabels.forEach(label => {
+            label.addEventListener('mouseenter', function() {
+                const index = Array.from(ratingLabels).indexOf(label);
+                for (let i = 0; i <= index; i++) {
+                    ratingLabels[i].style.color = 'gold';
+                }
             });
 
-            ratingInputs.forEach(input => {
-                input.addEventListener('change', updateStars);
-            });
-
-            // Initial call to set the correct state on page load
-            updateStars();
+            label.addEventListener('mouseleave', updateStars);
         });
-    </script>
+
+        ratingInputs.forEach(input => {
+            input.addEventListener('change', updateStars);
+        });
+
+        // Initial call to set the correct state on page load
+        updateStars();
+    });
+</script>
+

@@ -4,7 +4,13 @@
 ])
 
 @section('content')
-    <style>
+<style>
+        h2{
+            font-size: 30px;
+            font-weight: bold;
+            margin-left: 2%;
+        }
+
         .service-detail-container {
             display: flex;
             flex-wrap: wrap;
@@ -36,22 +42,77 @@
             color: #666;
         }
 
+        .hire-now-btn {
+            display: block;
+            margin: 20px auto;
+            margin-top: 5%;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            width: 40%;
+            color: white;
+            background-color: #f1d05c;
+            padding: 5px;
+            border-radius: 15px;
+        }
+
+        .hire-now-btn:hover {
+            color: #7C638F; 
+            text-decoration: none;
+        }
+
+        .service-description{
+            background-color: #7C638F;
+            color: white;
+            width: 70%;
+        }
+
+        .desc-img{
+            width: 40%;
+            height: 40%;
+            margin-bottom: 5%;
+            border-radius: 25px;
+        }
+
+        .service-description p{
+            color: white;
+        }
+
+        .service-description h4{
+            color: white;
+            font-size: 50px;
+        }
+
+        .service-description h5{
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+        }
+
         #map {
             height: 500px;
             width: 99%;
             border: 1px solid #ccc;
             border-radius: 8px;
         }
+
+        .avatar{
+            margin: 5% 0 5% 0;
+            width: 20%;
+            border-radius: 25px;
+        }
     </style>
 
-    <div class="container">
-        <h2>Hire Service</h2>
-        <div class="service-detail-container">
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="service-detail-container">
                     <div class="service-card freelancer-profile">
                         <center>
                             <h4>Freelancer Profile</h4>
                                 @if($bid->freelancerProfile->user->profile_picture)
-                                    <img class="avatar border-gray" src="{{ asset(bid->freelancerProfile->user->profile_picture) }}" alt="...">
+                                    <img class="avatar border-gray" src="{{ asset(service->freelancerProfile->user->profile_picture) }}" alt="...">
                                 @else
                                     <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
                                 @endif
@@ -64,17 +125,27 @@
                             <p><strong>Phone Number:</strong> {{ $bid->freelancerProfile->user->phone_number }}</p>
                         </center>
                     </div>
-            <div class="service-card work-description">
-                <h4>{{ $jobRequest->job_name }}</h4><br>
-                <p><strong>Description:</strong> {{ $jobRequest->job_description }}</p>
-                <p><strong>Fee:</strong> RM{{ $bid->bid_amount }}</p>
-                <p><strong>Period:</strong> {{ $jobRequest->job_period }} days</p>
-                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->job_address }}">
-                <div id="jobAddressDisplay">{{ $jobRequest->job_address }}</div>
+                    <div class="service-card service-description">
+                        <center>
+                            @if($bid->jobRequest->job_image)
+                                <img  src="{{ asset($bid->jobRequest->job_image) }}" alt="..."  class="desc-img">
+                            @else
+
+                            @endif
+                            <h4><strong>{{ $bid->jobRequest->job_name }}</strong></h4>
+                            <p>{{ $bid->jobRequest->job_description }}</p>
+                            <h5><strong>Fee:</strong> RM{{ $bid->bid_amount }}</h5>
+                            <h5><strong>Period:</strong> {{ $bid->jobRequest->job_period }} days</h5>
+                            <a href="{{ route('hireBid.show', ['bid' => $bid->id]) }}" class="hire-now-btn">HIRE NOW</a>
+                        </center>
+                    </div>
+                </div>
+                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->work_address }}">
+                <div id="jobAddressDisplay">{{ $jobRequest->work_address }}</div>
                 <div id="map"></div>
-            </div>
         </div>
     </div>
+</div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe7wj_DF_0i-sP8vkZG-S2NxbuTqH63dI&callback=initMap" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
