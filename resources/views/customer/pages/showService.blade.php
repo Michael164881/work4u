@@ -15,6 +15,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
+            margin: 0 0 0 5%;
         }
 
         .service-card {
@@ -25,6 +26,11 @@
             margin-bottom: 20px;
             width: 48%;
             box-sizing: border-box;
+        }
+
+        .freelancer-profile{
+            width: 25%;
+            padding-top: 5%;
         }
 
         .service-card h4 {
@@ -59,6 +65,14 @@
         .service-description{
             background-color: #7C638F;
             color: white;
+            width: 70%;
+        }
+
+        .desc-img{
+            width: 40%;
+            height: 40%;
+            margin-bottom: 5%;
+            border-radius: 25px;
         }
 
         .service-description p{
@@ -67,6 +81,7 @@
 
         .service-description h4{
             color: white;
+            font-size: 50px;
         }
 
         .service-description h5{
@@ -81,6 +96,12 @@
             border: 1px solid #ccc;
             border-radius: 8px;
         }
+
+        .avatar{
+            margin: 5% 0 5% 0;
+            width: 20%;
+            border-radius: 25px;
+        }
     </style>
 
     <div class="content">
@@ -89,18 +110,30 @@
             <div class="col-md-12">
                 <div class="service-detail-container">
                     <div class="service-card freelancer-profile">
-                        <h4>Freelancer Profile</h4>
-                        <p><strong>Nickname:</strong> {{ $service->freelancerProfile->nickname }}</p>
-                        <p><strong>Name:</strong> {{ $service->freelancerProfile->user->name }}</p>
-                        <p><strong>Location:</strong> {{ $service->freelancerProfile->location }}</p>
-                        <p><strong>Work Experience:</strong> {{ $service->freelancerProfile->work_experience }}</p>
-                        <p><strong>Educational Qualification:</strong> {{ $service->freelancerProfile->edu_quality }}</p>
-                        <p><strong>Email:</strong> {{ $service->freelancerProfile->user->email }}</p>
-                        <p><strong>Phone Number:</strong> {{ $service->freelancerProfile->user->phone_number }}</p>
+                        <center>
+                            <h4>Freelancer Profile</h4>
+                                @if($service->freelancerProfile->user->profile_picture)
+                                    <img class="avatar border-gray" src="{{ asset(service->freelancerProfile->user->profile_picture) }}" alt="...">
+                                @else
+                                    <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
+                                @endif
+                            <p><strong>Nickname:</strong> {{ $service->freelancerProfile->nickname }}</p>
+                            <p><strong>Name:</strong> {{ $service->freelancerProfile->user->name }}</p>
+                            <p><strong>Location:</strong> {{ $service->freelancerProfile->location }}</p>
+                            <p><strong>Work Experience:</strong> {{ $service->freelancerProfile->work_experience }}</p>
+                            <p><strong>Educational Qualification:</strong> {{ $service->freelancerProfile->edu_quality }}</p>
+                            <p><strong>Email:</strong> {{ $service->freelancerProfile->user->email }}</p>
+                            <p><strong>Phone Number:</strong> {{ $service->freelancerProfile->user->phone_number }}</p>
+                        </center>
                     </div>
                     <div class="service-card service-description">
                         <center>
-                            <h4>{{ $service->work_description_name }}</h4>
+                            @if($service->work_description_image)
+                                <img  src="{{ asset($service->work_description_image) }}" alt="..."  class="desc-img">
+                            @else
+
+                            @endif
+                            <h4><strong>{{ $service->work_description_name }}</strong></h4>
                             <p>{{ $service->work_description }}</p>
                             <h5><strong>Fee:</strong> RM{{ $service->work_fee }}</h5>
                             <h5><strong>Period:</strong> {{ $service->work_period }} days</h5>

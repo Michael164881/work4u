@@ -19,14 +19,18 @@ class FreelancerProfileSeeder extends Seeder
                 'location' => 'Shah Alam',
                 'work_experience' => '5 years of experience in software development.',
                 'edu_quality' => 'BSc in Computer Science',
-                'nickname' => 'johnny'
+                'nickname' => 'johnny',
+                'average_rating' => 4.0,
+                'rating_count' => 10,
             ],
             [
                 'user_id' => 3,
                 'location' => 'Subang Jaya',
                 'work_experience' => '3 years of experience in graphic design.',
                 'edu_quality' => 'BA in Graphic Design',
-                'nickname' => 'jane'
+                'nickname' => 'jane',
+                'average_rating' => 4.5,
+                'rating_count' => 15,
             ],
             [
                 'user_id' => 4,

@@ -26,4 +26,9 @@ class job_request extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function bids()
+    {
+        return $this->hasMany(bid::class);
+    }
 }

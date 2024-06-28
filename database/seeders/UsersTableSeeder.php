@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -106,6 +107,7 @@ class UsersTableSeeder extends Seeder
                 'location' => 'Shah Alam',
                 'password' => Hash::make('123456789'),
                 'ewallet_balance' => '200.00',
+                'profile_picture' => 'images/profile_pictures/1719485130.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

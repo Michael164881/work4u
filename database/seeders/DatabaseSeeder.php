@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             FreelancerProfileSeeder::class,
             WorkDescriptionSeeder::class,
             PaymentSeeder::class,
+            TaskChecklistsSeeder::class,
+            BidSeeder::class,
     ]);
     }
 }

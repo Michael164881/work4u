@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('work_experience');
             $table->text('edu_quality');
             $table->string('nickname');
+            $table->float('average_rating')->default(0);
+            $table->integer('rating_count')->default(0);
         });
     }
 

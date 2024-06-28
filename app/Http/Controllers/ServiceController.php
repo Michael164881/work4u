@@ -24,6 +24,7 @@ class ServiceController extends Controller
         $address = work_description::select('work_address')->findOrFail($id);
         return view('customer.pages.hire', compact('service', 'user', 'address'));
     }
+    
 
     public function processHire(Request $request, $id)
     {

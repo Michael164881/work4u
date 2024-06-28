@@ -55,8 +55,7 @@
         <h2>Hire Service</h2>
         <div class="hire-container">
             <div class="work-description">
-                <h4>Work Description</h4>
-                <p><strong>Job Name:</strong> {{ $service->work_description_name }}</p>
+                <h4>{{ $service->work_description_name }}</h4><br>
                 <p><strong>Description:</strong> {{ $service->work_description }}</p>
                 <p><strong>Fee:</strong> RM{{ $service->work_fee }}</p>
                 <p><strong>Period:</strong> {{ $service->work_period }} days</p>
@@ -79,10 +78,10 @@
                     </select>
 
                     <div id="debit-card-fields" style="display: none;">
-                        <input type="text" name="card_number" placeholder="Card Number">
-                        <input type="text" name="card_name" placeholder="Card Name">
-                        <input type="text" name="expiry_date" placeholder="Expiry Date">
-                        <input type="text" name="cvv" placeholder="CVV">
+                        <input type="text" name="card_number" placeholder="Card Number" required>
+                        <input type="text" name="card_name" placeholder="Card Name" required>
+                        <input type="text" name="expiry_date" placeholder="Expiry Date" required>
+                        <input type="text" name="cvv" placeholder="CVV" required>
                     </div>
 
                     <div id="ewallet-fields" style="display: none;">
@@ -92,10 +91,10 @@
 
                     <div id="qr-code-fields" style="display: none;">
                         <p>Scan the QR code to pay:</p>
-                        <img src="/path/to/your/qr-code-image.png" alt="QR Code">
+                        <img src="{{ asset('images/QR_Code.png') }}" alt="QR Code">
                     </div>
 
-                    <button type="submit">Pay Now</button>
+                    <button type="submit" style="background-color: #7C638F;">Pay Now</button>
                 </form>
             </div>
         </div>
@@ -153,10 +152,22 @@
 
             if (this.value === 'debit_card') {
                 debitCardFields.style.display = 'block';
+                document.getElementsByName('card_number')[0].setAttribute('required', 'true');
+                document.getElementsByName('card_name')[0].setAttribute('required', 'true');
+                document.getElementsByName('expiry_date')[0].setAttribute('required', 'true');
+                document.getElementsByName('cvv')[0].setAttribute('required', 'true');
             } else if (this.value === 'ewallet') {
                 ewalletFields.style.display = 'block';
+                document.getElementsByName('card_number')[0].removeAttribute('required');
+                document.getElementsByName('card_name')[0].removeAttribute('required');
+                document.getElementsByName('expiry_date')[0].removeAttribute('required');
+                document.getElementsByName('cvv')[0].removeAttribute('required');
             } else if (this.value === 'qr_code') {
                 qrCodeFields.style.display = 'block';
+                document.getElementsByName('card_number')[0].removeAttribute('required');
+                document.getElementsByName('card_name')[0].removeAttribute('required');
+                document.getElementsByName('expiry_date')[0].removeAttribute('required');
+                document.getElementsByName('cvv')[0].removeAttribute('required');
             }
         });
 

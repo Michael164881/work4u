@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ewallet', function (Blueprint $table) {
+        Schema::create('bids', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('freelancer_profile_id')->references('id')->on('freelancer_profile')->onDelete('cascade');
+            $table->unsignedInteger('job_request_id')->references('id')->on('job_requests')->onDelete('cascade');
+            $table->decimal('bid_amount', 8, 2);
             $table->timestamps();
-            $table->unsignedInteger('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->decimal('ewallet_balance', 10, 2)->default(0.00);
         });
     }
 
@@ -24,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('ewallet');
-        });
+        Schema::dropIfExists('bids');
     }
 };

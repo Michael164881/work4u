@@ -4,33 +4,37 @@
 ])
 
 <style>
-    #whole-card{
+    #whole-card {
         background-color: #7C638F;
         color: white;
     }
 
-    .title-text{
+    .title-text {
         font-size: 20px;
         margin-bottom: 5px;
     }
 
-    .title{
-        font-weight:bolder;
+    .title {
+        font-weight: bolder;
         font-size: 30px;
     }
 
-    #description{
+    #description {
         color: #c8ccc9;
     }
 
-    .title-ewallet{
+    .title-ewallet {
         color: white;
         letter-spacing: 5px;
         margin-bottom: 10px;
     }
-    
-    .amount{
+
+    .amount {
         font-weight: bolder;
+    }
+
+    .custom-file-label::after {
+        content: "Browse";
     }
 </style>
 
@@ -54,7 +58,11 @@
                     </div>
                     <div class="card-body">
                         <div class="author">
-                            <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
+                            @if(auth()->user()->profile_picture)
+                                <img class="avatar border-gray" src="{{ asset(auth()->user()->profile_picture) }}" alt="...">
+                            @else
+                                <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
+                            @endif
                             <h5 class="title">{{ __(auth()->user()->name)}}</h5><br><br>
                             
                             <h2 class="title-text">Email</h2>
@@ -76,7 +84,7 @@
                         <hr>
                         <div class="button-container">
                             <h1 class="title-ewallet">E-WALLET</h1><br><br>
-                                    <h5 class="amount">RM **.**
+                                    <h5 class="amount">RM {{ __(auth()->user()->ewallet_balance)}}
                                         <br>
                                         <small>{{ __('BALANCE') }}</small>
                                     </h5><br>
@@ -164,11 +172,28 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Profile Picture') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="profile_picture" class="custom-file-input" id="profilePicture" accept="image/*">
+                                            <label class="custom-file-label" for="profilePicture">{{ __('Choose file') }}</label>
+                                        </div>
+                                    </div>
+                                    @if ($errors->has('profile_picture'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('profile_picture') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer ">
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-info btn-round">{{ __('Save Changes') }}</button>
+                                    <button type="submit" style="background-color: #7C638F;" class="btn btn-info btn-round">{{ __('Save Changes') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +252,7 @@
                         <div class="card-footer ">
                             <div class="row">
                                 <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-info btn-round">{{ __('Save Changes') }}</button>
+                                    <button type="submit" style="background-color: #7C638F;" class="btn btn-info btn-round">{{ __('Save Changes') }}</button>
                                 </div>
                             </div>
                         </div>

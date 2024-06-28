@@ -22,7 +22,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_period' => 30,
                 'work_address' => 'No. 8, Jalan USJ 9/3B, Subang Business Centre, 47620 Subang Jaya, Selangor, Malaysia',
                 'work_status' => 'available',
-                'work_description_image' => null
+                'work_description_image' => 'images/work_description_pictures/1719504588.jpg'
             ],
             [
                 'freelancer_id' => 1,
@@ -42,7 +42,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_period' => 10,
                 'work_address' => 'No. 5, Jalan Kasuarina 2/KS7, Bandar Botanic, 41200 Klang, Selangor, Malaysia',
                 'work_status' => 'available',
-                'work_description_image' => null
+                'work_description_image' => 'images/work_description_pictures/1719504597.jpg'
             ],
             [
                 'freelancer_id' => 2,
@@ -102,7 +102,7 @@ class WorkDescriptionSeeder extends Seeder
                 'work_period' => 10,
                 'work_address' => 'No. 21, Jalan Samudra Utara 2, Taman Samudra, 68100 Batu Caves, Selangor, Malaysia',
                 'work_status' => 'available',
-                'work_description_image' => null
+                'work_description_image' => 'images/work_description_pictures/1719504603.jpg'
             ],
             [
                 'freelancer_id' => 5,

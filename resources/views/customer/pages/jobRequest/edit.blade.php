@@ -99,7 +99,7 @@
                     <input type="number" id="initial_price" name="initial_price" step="0.01" value="{{ $jobRequest->initial_price }}" required>
                 </div>
                 <div class="form-group">
-                    <button type="submit">Update</button>
+                    <button type="submit" style="background-color: #7C638F;">Update</button>
                 </div>
             </form>
         </div>

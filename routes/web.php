@@ -111,11 +111,17 @@ Route::get('pageCust/{page}', [App\Http\Controllers\PageControllerCust::class, '
 Route::get('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'showHirePage'])->name('hire.show');
 Route::post('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'processHire'])->name('hire.process');
 
+Route::get('/bid/{bid}', [App\Http\Controllers\BidController::class, 'showHirePage'])->name('hireBid.show');
+
 use App\Http\Controllers\BookingController;
 
 Route::get('/bookings/{page}', [App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
 Route::post('/bookings/{id}/cancel', [App\Http\Controllers\BookingController::class, 'cancel'])->name('bookings.cancel');
 Route::get('/bookings/{id}/show', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+Route::post('/bookings/{id}/rate', [App\Http\Controllers\BookingController::class, 'rate'])->name('bookings.rate');
+
+Route::get('/top-up/payment-method', [App\Http\Controllers\TopUpController::class, 'showPaymentMethod'])->name('top-up.payment-method');
+Route::post('/top-up/process', [App\Http\Controllers\TopUpController::class, 'reloadEWallet'])->name('top-up.process');
 
 
 /* Freelancer */
@@ -136,20 +142,6 @@ Route::get('pageFLBooking/{id}/show', [App\Http\Controllers\PageControllerFLBook
 Route::get('pageFLMap/{page}', [App\Http\Controllers\PageControllerFLMap::class, 'index'])->name('pageFLMap.index');
 Route::get('pageFL/{page}', [App\Http\Controllers\PageControllerFL::class, 'index'])->name('pageFL.index');
 
-Route::get('/top-up/payment-method', [App\Http\Controllers\TopUpController::class, 'showPaymentMethod'])->name('top-up.payment-method');
-Route::post('/top-up/process', [App\Http\Controllers\TopUpController::class, 'processPayment'])->name('top-up.process');
-
-Route::get('/payment/debit', function () {
-    return view('customer.pages.payment.debit');
-})->name('payment.debit');
-
-Route::get('/payment/ewallet', function () {
-    return view('customer.pages.payment.ewallet');
-})->name('payment.ewallet');
-
-Route::get('/payment/qr', function () {
-    return view('customer.pages.payment.qr');
-})->name('payment.qr');
 
 
 

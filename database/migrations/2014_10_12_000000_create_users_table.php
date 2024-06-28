@@ -22,6 +22,7 @@ return new class extends Migration
             $table->longText('location')->nullable();
             $table->string('password');
             $table->decimal('ewallet_balance', 10, 2)->default(0.00);
+            $table->string('profile_picture')->nullable();
             $table->rememberToken();
             
         });

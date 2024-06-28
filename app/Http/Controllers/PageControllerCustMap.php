@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\work_description;
 use Illuminate\Http\Request;
 use App\Models\job_request;
+use App\Models\bid;
 use Illuminate\Support\Facades\Auth;
 
 class PageControllerCustMap extends Controller
@@ -34,7 +35,9 @@ class PageControllerCustMap extends Controller
             
             // Retrieve job requests for the authenticated user
             $jobRequests = job_request::where('user_id', $userId)->get();
+            $jobRequestsID = $jobRequests->id;
+            $bid = bid::where('job_request_id', $jobRequestsID);
         }
-        return view('customer.pages.map',compact('services', 'jobRequests'));
+        return view('customer.pages.map',compact('services', 'jobRequests', '$bid'));
     }
 }
