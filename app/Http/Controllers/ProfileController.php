@@ -34,7 +34,7 @@ class ProfileController extends Controller
             'ic' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
         if ($request->hasFile('profile_picture')) {

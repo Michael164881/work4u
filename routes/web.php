@@ -137,13 +137,12 @@ use App\Http\Controllers\PageControllerFLBooking;
 
 Route::get('/serviceFL/{id}', [App\Http\Controllers\ServiceFLController::class, 'index'])->name('serviceFL.index');
 Route::get('pageFLBrowse/{page}', [App\Http\Controllers\PageControllerFLBrowse::class, 'index'])->name('pageFLBrowse.index');
-Route::get('pageFLBooking/{page}', [App\Http\Controllers\PageControllerFLBooking::class, 'index'])->name('pageFLBooking.index');
-Route::get('pageFLBooking/{id}/show', [App\Http\Controllers\PageControllerFLBooking::class, 'show'])->name('pageFLBooking.show');
 Route::get('pageFLMap/{page}', [App\Http\Controllers\PageControllerFLMap::class, 'index'])->name('pageFLMap.index');
 Route::get('pageFL/{page}', [App\Http\Controllers\PageControllerFL::class, 'index'])->name('pageFL.index');
 
 
-
+Route::get('pageFLBooking/{page}', [App\Http\Controllers\PageControllerFLBooking::class, 'index'])->name('pageFLBooking.index');
+Route::get('pageFLBooking/{id}/show', [App\Http\Controllers\PageControllerFLBooking::class, 'show'])->name('pageFLBooking.show');
 
 
 Auth::routes();

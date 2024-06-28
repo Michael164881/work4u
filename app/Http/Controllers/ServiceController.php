@@ -22,7 +22,7 @@ class ServiceController extends Controller
         $service = work_description::findOrFail($id);
         $user = auth()->user(); // Assuming the user is logged in
         $address = work_description::select('work_address')->findOrFail($id);
-        return view('customer.pages.hire', compact('service', 'user', 'address'));
+        return view('customer.pages.hire.hire', compact('service', 'user', 'address'));
     }
     
 

@@ -32,8 +32,13 @@ class booking extends Model
         return $this->belongsTo(work_description::class, 'work_profile_id');
     }
 
+
     public function taskChecklists()
     {
         return $this->hasMany(TaskChecklist::class);
+    }
+    public function jobRequest()
+    {
+        return $this->belongsTo(job_request::class, 'job_request_id');
     }
 }

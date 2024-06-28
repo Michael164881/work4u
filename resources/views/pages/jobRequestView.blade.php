@@ -1,6 +1,8 @@
-@extends('customer.app', [
+{{-- resources/views/admin/show_job_request.blade.php --}}
+
+@extends('layouts.app', [
     'class' => '',
-    'elementActive' => 'map'
+    'elementActive' => 'work-job-management'
 ])
 
 @section('content')
@@ -29,49 +31,35 @@
             font-weight: bold;
         }
 
-        .form-group label {
-            font-weight: bold;
-        }
-
-        .for label {
-            font-weight: bold;
-        }
-
         .job-details p {
             margin: 5px 0 15px;
         }
 
-        .delete-job-btn {
+        .edit-job-btn, .delete-job-btn {
             display: block;
             width: 40%;
             text-align: center;
             padding: 10px;
-            background-color: #D74646;;
-            color: white;
             border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
             text-decoration: none;
+            margin: 10px auto;
         }
 
         .edit-job-btn {
-            display: block;
-            width: 40%;
-            text-align: center;
-            padding: 10px;
             background-color: #f1d05c;
             color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
         }
 
-        .edit-job-btn:hover,  .delete-job-btn:hover{
+        .delete-job-btn {
+            background-color: #D74646;
+            color: white;
+        }
+
+        .edit-job-btn:hover, .delete-job-btn:hover {
             color: #7C638F;
             text-decoration: none;
             font-weight: bolder;
@@ -83,55 +71,41 @@
             border: 1px solid #ccc;
             border-radius: 8px;
         }
-
-        .avatar{
-            width: 40%;
-            border-radius: 25px;
-            margin: 5%;
-        }
     </style>
 
     <div class="content">
-        <center>
-            <div class="job-details-container">
-                <div class="job-details-header">
-                    <h2>{{ $jobRequest->job_name }}</h2>
-                </div>
-                @if($jobRequest->job_image)
-                    <img class="avatar border-gray" src="{{ asset($jobRequest->job_image) }}" alt="...">
-                @else
-                    <img class="avatar border-gray" src="{{ asset('images/work_description_pictures/default.png') }}" alt="...">
-                @endif
-                <div class="job-details">
-                    <label>Job Description:</label>
-                    <p>{{ $jobRequest->job_description }}</p>
-                </div>
-                <div class="form-group">
-                    <label>Job Address:</label>
-                    <!-- Hidden input field for job address -->
-                    <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->job_address }}">
-                    <!-- Visible div to display job address -->
-                    <div id="jobAddressDisplay">{{ $jobRequest->job_address }}</div>
-                    <!-- Map container -->
-                    <div id="map"></div>
-                </div>
-                <div class="job-details">
-                    <label>Job Period:</label>
-                    <p>{{ $jobRequest->job_period }} days</p>
-                </div>
-                <div class="job-details">
-                    <label>Initial Price:</label>
-                    <p>RM{{ $jobRequest->initial_price }}</p>
-                </div>
-                    <a href="{{ route('jobRequest.edit', $jobRequest->id) }}" class="edit-job-btn">Edit Job Request</a><br>
-                    <form action="{{ route('jobRequest.destroy', $jobRequest->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this job request?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="delete-job-btn">Delete Job Request</button>
-                    </form>
+        <div class="job-details-container">
+            <div class="job-details-header">
+                <h2>{{ $jobRequest->job_name }}</h2>
             </div>
-        </center>
-        
+            <div class="job-details">
+                <label>Job Description:</label>
+                <p>{{ $jobRequest->job_description }}</p>
+            </div>
+            <div class="form-group">
+                <label>Job Address:</label>
+                <!-- Hidden input field for job address -->
+                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->job_address }}">
+                <!-- Visible div to display job address -->
+                <div id="jobAddressDisplay">{{ $jobRequest->job_address }}</div>
+                <!-- Map container -->
+                <div id="map"></div>
+            </div>
+            <div class="job-details">
+                <label>Job Period:</label>
+                <p>{{ $jobRequest->job_period }} days</p>
+            </div>
+            <div class="job-details">
+                <label>Initial Price:</label>
+                <p>RM{{ $jobRequest->initial_price }}</p>
+            </div>
+            <a href="{{ route('job.editJobRequest', $jobRequest->id) }}" class="edit-job-btn">Edit Job Request</a><br>
+            <form action="{{ route('job.destroyJobRequest', $jobRequest->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this job request?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="delete-job-btn">Delete Job Request</button>
+            </form>
+        </div>
     </div>
 
     <script>
@@ -180,46 +154,8 @@
 
             disablePOIInfoWindow();
 
-            // Try HTML5 geolocation to get the user's location
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                        };
-
-                        // Center and zoom the map on the user's location
-                        map.setCenter(pos);
-                        map.setZoom(15); // Adjust the zoom level as desired
-                    },
-                    () => {
-                        handleLocationError(true, map.getCenter());
-                    },
-                    { timeout: 50000 }
-                );
-            } else {
-                // Browser doesn't support Geolocation
-                handleLocationError(false, map.getCenter());
-            }
-
             // Initialize geocoder
             geocoder = new google.maps.Geocoder();
-
-            // Initialize autocomplete for address input
-            autocomplete = new google.maps.places.Autocomplete(document.getElementById('jobAddressDisplay'));
-            autocomplete.bindTo('bounds', map);
-
-            // Autocomplete place changed event
-            autocomplete.addListener('place_changed', function() {
-                const place = autocomplete.getPlace();
-                if (!place.geometry) {
-                    return;
-                }
-
-                placeMarker(place.geometry.location);
-                displayAddress(place.formatted_address);
-            });
 
             // Geocode the old address and place the marker
             const oldAddress = document.getElementById('jobAddressInput').value;
@@ -261,21 +197,6 @@
             });
         }
 
-        // Function to geocode latitude and longitude to address
-        function geocodeLatLng(latlng) {
-            geocoder.geocode({ location: latlng }, function(results, status) {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        displayAddress(results[0].formatted_address);
-                    } else {
-                        displayAddress('No results found');
-                    }
-                } else {
-                    displayAddress('Geocoder failed due to: ' + status);
-                }
-            });
-        }
-
         // Function to display address in address box
         function displayAddress(address) {
             document.getElementById('jobAddressDisplay').innerText = address;
@@ -287,10 +208,9 @@
                 ? "Error: The Geolocation service failed."
                 : "Error: Your browser doesn't support geolocation.");
         }
-        
+
         document.addEventListener('DOMContentLoaded', function() {
             initMap();
         });
     </script>
-    
 @endsection

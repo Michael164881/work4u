@@ -14,7 +14,6 @@ class PageControllerFLBooking extends Controller
     {
         $user = auth()->user();
         $bookings = collect(); // Initialize as an empty collection
-        $freelancerId = $user ? $user->id : null; // Retrieve the authenticated user's ID
 
         if ($user) {
             // Retrieve user ID
@@ -22,7 +21,7 @@ class PageControllerFLBooking extends Controller
             
             // Execute the query to retrieve bookings and include work_description
             $bookings = Booking::where('user_id', $userId)
-                ->with('workDescription') // Eager load the work_description relationship
+                ->with('jobRequest') // Eager load the work_description relationship
                 ->get();
         }
 
@@ -30,14 +29,14 @@ class PageControllerFLBooking extends Controller
         $locationsQuery = freelancer_profile::query()->distinct('location');
 
         if ($request->has('search') && $request->search != '') {
-            $query->whereHas('workDescription', function($q) use ($request) {
+            $query->whereHas('jobRequest', function($q) use ($request) {
                 $q->where('work_description_name', 'like', '%' . $request->search . '%');
             });
         }
 
         if ($request->has('location') && $request->location != '') {
             // Assuming FreelancerProfile is related through WorkDescription
-            $query->whereHas('workDescription.freelancerProfile', function($q) use ($request) {
+            $query->whereHas('jobRequest.freelancerProfile', function($q) use ($request) {
                 $q->where('location', $request->location);
             });
         }

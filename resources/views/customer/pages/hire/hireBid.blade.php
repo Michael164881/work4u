@@ -5,42 +5,35 @@
 
 @section('content')
     <style>
-        .hire-container {
+        .service-detail-container {
             display: flex;
-            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 0 0 0 5%;
         }
 
-        .work-description, .payment-method {
-            width: 48%;
-            padding: 20px;
+        .service-card {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 48%;
+            box-sizing: border-box;
         }
 
-        .payment-method form {
-            display: flex;
-            flex-direction: column;
+        .freelancer-profile{
+            width: 25%;
+            padding-top: 5%;
         }
 
-        .payment-method form input, .payment-method form select {
-            margin-bottom: 15px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .service-card h4 {
+            margin-top: 0;
+            color: #333;
         }
 
-        .payment-method form button {
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .payment-method form button:hover {
-            background-color: #218838;
+        .service-card p {
+            color: #666;
         }
 
         #map {
@@ -53,8 +46,25 @@
 
     <div class="container">
         <h2>Hire Service</h2>
-        <div class="hire-container">
-            <div class="work-description">
+        <div class="service-detail-container">
+                    <div class="service-card freelancer-profile">
+                        <center>
+                            <h4>Freelancer Profile</h4>
+                                @if($bid->freelancerProfile->user->profile_picture)
+                                    <img class="avatar border-gray" src="{{ asset(bid->freelancerProfile->user->profile_picture) }}" alt="...">
+                                @else
+                                    <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
+                                @endif
+                            <p><strong>Nickname:</strong> {{ $bid->freelancerProfile->nickname }}</p>
+                            <p><strong>Name:</strong> {{ $bid->freelancerProfile->user->name }}</p>
+                            <p><strong>Location:</strong> {{ $bid->freelancerProfile->location }}</p>
+                            <p><strong>Work Experience:</strong> {{ $bid->freelancerProfile->work_experience }}</p>
+                            <p><strong>Educational Qualification:</strong> {{ $bid->freelancerProfile->edu_quality }}</p>
+                            <p><strong>Email:</strong> {{ $bid->freelancerProfile->user->email }}</p>
+                            <p><strong>Phone Number:</strong> {{ $bid->freelancerProfile->user->phone_number }}</p>
+                        </center>
+                    </div>
+            <div class="service-card work-description">
                 <h4>{{ $jobRequest->job_name }}</h4><br>
                 <p><strong>Description:</strong> {{ $jobRequest->job_description }}</p>
                 <p><strong>Fee:</strong> RM{{ $bid->bid_amount }}</p>

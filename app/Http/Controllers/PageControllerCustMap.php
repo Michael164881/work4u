@@ -27,17 +27,19 @@ class PageControllerCustMap extends Controller
         $user = Auth::user();
 
         $jobRequests = collect();
-        $userId = null;
+        $bids = collect();
 
         if ($user) {
-            // Retrieve user ID
-            $userId = $user->id;
-            
             // Retrieve job requests for the authenticated user
-            $jobRequests = job_request::where('user_id', $userId)->get();
-            $jobRequestsID = $jobRequests->id;
-            $bid = bid::where('job_request_id', $jobRequestsID);
+            $jobRequests = job_request::where('user_id', $user->id)->get();
+
+            // Retrieve bids for each job request
+            foreach ($jobRequests as $jobRequest) {
+                $jobRequestBids = bid::where('job_request_id', $jobRequest->id)->get();
+                $bids = $bids->merge($jobRequestBids);
+            }
         }
-        return view('customer.pages.map',compact('services', 'jobRequests', '$bid'));
+
+        return view('customer.pages.map', compact('services', 'jobRequests', 'bids'));
     }
 }

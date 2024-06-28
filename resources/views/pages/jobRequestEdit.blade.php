@@ -1,6 +1,8 @@
-@extends('customer.app', [
+{{-- resources/views/admin/edit_job_request.blade.php --}}
+
+@extends('layouts.app', [
     'class' => '',
-    'elementActive' => 'map'
+    'elementActive' => 'work-job-management'
 ])
 
 @section('content')
@@ -72,7 +74,7 @@
             <div class="form-header">
                 <h2>Edit Job Request</h2>
             </div>
-            <form action="{{ route('jobRequest.update', $jobRequest->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('job.updateJobRequest', $jobRequest->id) }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="job_name">Job Name</label>
@@ -82,23 +84,9 @@
                     <label for="job_description">Job Description</label>
                     <textarea id="job_description" name="job_description" required>{{ $jobRequest->job_description }}</textarea>
                 </div>
-
-                <div class="form-group">
-                <label class="col-md-3 col-form-label">{{ __('Job Image') }}</label>
-                    <div class="custom-file">
-                        <input type="file" name="job_image" class="custom-file-input" id="jobImage" accept="image/*">
-                        <label class="custom-file-label" for="jobImage">{{ __('Choose file') }}</label>
-                    </div>
-                </div>
-                @if ($errors->has('job_image'))
-                    <span class="invalid-feedback" style="display: block;" role="alert">
-                    <strong>{{ $errors->first('job_image') }}</strong>
-                    </span>
-                @endif
-
                 <div class="form-group">
                     <!-- Hidden input field for job address -->
-                    <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->job_address }}" required>
+                    <input name="job_address" id="jobAddressInput" type="hidden" value="{{ $jobRequest->job_address }}" required>
                     <!-- Visible div to display job address -->
                     <div id="jobAddressDisplay">{{ $jobRequest->job_address }}</div>
                     <!-- Map container -->

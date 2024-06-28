@@ -128,22 +128,132 @@
             font-weight: bolder;
         }
 
+        .card-body {
+            padding: 20px;
+        }
+
         .my-job-card {
-            background-color: #f1f1f1;
-            border: 1px solid #ccc;
-            border-radius: 25px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            width: 70%;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
         }
 
         .my-job-card h3 {
             margin-top: 0;
             color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
         }
 
         .my-job-card p {
             color: #666;
+            margin-bottom: 10px;
+        }
+
+        .my-job-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .my-job-card ul li {
+            background-color: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .my-job-card ul li:hover {
+            background-color: #f1f1f1;
+        }
+
+        .my-job-card ul li .btn {
+            margin-left: 10px;
+        }
+
+        .bids-container {
+            max-height: 12vh;
+            overflow-y: hidden;
+            padding: 10px;
+            margin-top: 10px;
+            width: 20%;
+            transition: max-height 0.3s;
+            transition: 1s;
+        }
+
+        .bids-container h4 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .bids-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bids-container ul li {
+            background-color: #ffffff;
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .bids-container ul li:hover {
+            background-color: #f1d05c;
+        }
+
+        .bids-container ul li .btn {
+            font-size: 1rem;
+            padding: 5px 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            
+        }
+
+        .bids-container ul li .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .add-job-button {
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #28a745;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .add-job-button:hover {
+            background-color: #218838;
+            text-decoration: none;
         }
 
         .my-job-card:hover{
@@ -151,29 +261,65 @@
             cursor: pointer;
         }
 
-        .my-job-card:hover h3,
-        .my-job-card:hover p {
-            color: #fff;
+        
+        .my-job-card:hover p, .my-job-card:hover h3{
+            color: white;
+        }
+
+        .my-job-card:hover .bids-container {
+            max-height: 200px; 
+            overflow-y: auto;
+            width: 30%;
+            transition: 1s;
+        }
+
+        .my-job-card:hover h4 {
+            color: white;
+        }
+
+        .my-job-card:hover li{
+            text-transform: uppercase;
+        }
+
+        .my-job-card:hover .btn-primary{
+            width: 30%;
+        }
+
+        .my-job-card h3 {
+            margin-top: 0;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .my-job-card p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .job-details {
+            width: 60%;
         }
 
         .add-job-button {
-
             display: block;
-            margin: 40px auto;
+            margin: 20px auto;
             text-align: center;
-            font-size: 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             text-decoration: none;
-            width: 30%;
             color: white;
-            background-color: #f1d05c;
-            padding: 10px;
-            border-radius: 15px;
+            background-color: #28a745;
+            width: 40%;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
 
         .add-job-button:hover {
-            color: #7C638F;
+            background-color: #218838;
             text-decoration: none;
+            color: white;
         }
     </style>
 
@@ -225,30 +371,29 @@
                         @foreach($jobRequests as $jobRequest)
                             @if(strpos($jobRequest->job_status, 'available') !== false)
                                 <div class="my-job-card" onclick="window.location='{{ route('jobRequest.show', $jobRequest->id) }}'">
-                                    <h3>{{ $jobRequest->job_name }}</h3>
-                                    <p>{{ $jobRequest->job_description }}</p>
-                                    <p>Period: {{ $jobRequest->job_period }}</p>
-                                    <p>Initial Price: RM{{ $jobRequest->initial_price }}</p>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h2>Bids for {{ $jobRequest->job_name }}</h2>
+                                    <div class="job-details">
+                                        <h3>{{ $jobRequest->job_name }}</h3>
+                                        <p>{{ $jobRequest->job_description }}</p>
+                                        <p>Period: {{ $jobRequest->job_period }}</p>
+                                        <p>Initial Price: RM{{ $jobRequest->initial_price }}</p>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="bids-container">
+                                        <h4>Bids</h4>
                                         <ul>
-                                            @foreach($bid as $bid)
-                                                <li>
-                                                    {{ $bid->freelancerProfile->nickname }}: RM{{ $bid->bid_amount }}
-                                                    <a href="{{ route('hireBid.show', ['bid' => $bid->id]) }}" class="btn btn-primary">Hire</a>
-                                                </li>
+                                            @foreach($bids->where('job_request_id', $jobRequest->id) as $bid)
+                                                @if($bid->freelancerProfile)
+                                                    <li>
+                                                        <span>{{ $bid->freelancerProfile->nickname }}: RM{{ $bid->bid_amount }}</span>
+                                                        <a href="{{ route('hireBid.show', $bid->id) }}" class="btn btn-primary">Hire</a>
+                                                    </li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
                             @endif
                         @endforeach
-                        <a href="{{ route('jobRequest.create') }}" class="add-job-button">Add New Job Request</a>
+                        <br><br><a href="{{ route('jobRequest.create') }}" class="add-job-button">Add New Job Request</a>
                     </div>
                 </div>
             </div>

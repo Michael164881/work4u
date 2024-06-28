@@ -24,6 +24,7 @@ class JobRequestSeeder extends Seeder
                 'job_status' => 'available',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'job_image' => 'images/work_description_pictures/1719504588.jpg',
             ],
             [
                 'user_id' => 8,
@@ -46,6 +47,7 @@ class JobRequestSeeder extends Seeder
                 'job_status' => 'available',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'job_image' => 'images/work_description_pictures/1719504597.jpg',
             ],
             // Add more seed data as needed
         ];

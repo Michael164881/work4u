@@ -17,11 +17,11 @@ class Bid extends Model
 
     public function freelancerProfile()
     {
-        return $this->belongsTo(freelancer_profile::class);
+        return $this->belongsTo(freelancer_profile::class, 'freelancer_profile_id');
     }
 
     public function jobRequest()
     {
-        return $this->belongsTo(job_request::class);
+        return $this->belongsTo(job_request::class, 'job_request_id');
     }
 }

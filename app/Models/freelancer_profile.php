@@ -33,6 +33,6 @@ class freelancer_profile extends Model
 
     public function bids()
     {
-        return $this->hasMany(bid::class);
+        return $this->hasMany(bid::class, 'freelancer_profile_id');
     }
 }

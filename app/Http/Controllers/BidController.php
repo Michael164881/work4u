@@ -11,8 +11,9 @@ class BidController extends Controller
     public function showHirePage($id)
     {
         $bid = bid::findOrFail($id);
+
         $jobRequestID = $bid->job_request_id;
-        $jobRequest = job_request::where('id', $jobRequestID);
+        $jobRequest = job_request::findOrFail($jobRequestID);
         return view('customer.pages.hire.hireBid', compact('bid', 'jobRequest'));
     }
 }

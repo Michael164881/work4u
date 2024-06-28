@@ -30,13 +30,25 @@ class JobRequestController extends Controller
      */
     public function store(Request $request)
     {
+        $jobImageStore = null;
+
         $request->validate([
             'job_name' => 'required|string|max:255',
             'job_description' => 'required|string',
             'job_period' => 'required|integer',
             'initial_price' => 'required|numeric',
             'jobAddress' => 'required|string',
+            'job_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        if ($request->hasFile('job_image')) {
+            $jobImage = $request->file('job_image');
+            $jobImageName = time() . '.' . $jobImage->getClientOriginalExtension();
+            $jobImage->move(public_path('images/job_image'), $jobImageName);
+
+            // Save the new profile picture path in the user profile
+            $jobImageStore = 'images/job_image/' . $jobImageName;
+        }
 
         DB::table('job_request')->insert([
             'job_name' => $request->job_name,
@@ -44,7 +56,9 @@ class JobRequestController extends Controller
             'job_period' => $request->job_period,
             'initial_price' => $request->initial_price,
             'job_address' => $request->jobAddress,
+            'job_image' => $jobImageStore,
             'user_id' => Auth::id(),
+            'job_status' => 'available',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -75,13 +89,26 @@ class JobRequestController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $jobRequest = job_request::findOrFail($id);
+
         $request->validate([
             'job_name' => 'required|string|max:255',
             'job_description' => 'required|string',
             'job_period' => 'required|integer',
             'initial_price' => 'required|numeric',
             'jobAddress' => 'required|string',
+            'job_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        if ($request->hasFile('job_image')) {
+            $jobImage = $request->file('job_image');
+            $jobImageName = time() . '.' . $jobImage->getClientOriginalExtension();
+            $jobImage->move(public_path('images/job_image'), $jobImageName);
+
+            // Save the new profile picture path in the user profile
+            $jobRequest->job_image = 'images/job_image/' . $jobImageName;
+            $jobRequest->save();
+        }
 
         DB::table('job_request')->where('id', $request->id)->update([
             'job_name' => $request->job_name,

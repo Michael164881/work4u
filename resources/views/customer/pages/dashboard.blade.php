@@ -113,7 +113,6 @@
                 //To be used inside infoWindow
                 if(role == "freelancer"){
                     var contentString = '<div class="info-window" onclick="window.location=\'/service/' + id + '\'">' +
-                        '<h2><strong>Work Request</strong></h2>' +    
                         '<h2><strong>' + title + '</strong></h2>' +
                         '<p>' + description + '</p>' +
                         '<p>RM' + fee + '</p>' +
@@ -214,14 +213,15 @@
 
     @foreach($workAddress as $workAddress)
         @if(strpos("{{$workAddress->work_status}}", 'available') !== false)
-            <script>//call geocode
+            <script>
                 var role = "freelancer";
                 var address = "{{$workAddress->work_address}}";
                 var title = "{{$workAddress->work_description_name}}";
-                var description = "{{$workAddress->work_description, 4, '...'}}";
+                var description = "{{ Str::words($workAddress->work_description, 4, '...') }}";
                 var fee = "{{$workAddress->work_fee}}";
                 var period = "{{$workAddress->work_period}}";
                 var id = "{{$workAddress->id}}";
+                          
                 geocode(address, title, description, fee, period, id, role);
             </script>
         @endif

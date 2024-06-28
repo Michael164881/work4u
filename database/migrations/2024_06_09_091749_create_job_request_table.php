@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('initial_price', 8, 2)->default(10.00);
             $table->string('job_address');
             $table->string('job_status');
+            $table->string('job_image')->nullable();
         });
     }
 
