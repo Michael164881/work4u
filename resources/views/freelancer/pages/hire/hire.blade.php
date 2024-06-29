@@ -1,4 +1,4 @@
-@extends('customer.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'map'
 ])
@@ -11,7 +11,7 @@
             margin: 5%;
         }
 
-        .work-description, .payment-method {
+        .work-description, .bid-method {
             width: 48%;
             padding: 20px;
             background-color: #f8f9fa;
@@ -19,31 +19,58 @@
             border-radius: 5px;
         }
 
-        .payment-method form {
+        .bid-method{
+            padding: 10% 5% 10% 5%;
+        }
+
+        .bid-method form {
             display: flex;
             flex-direction: column;
         }
 
-        .payment-method form input, .payment-method form select {
+        .bid-method form input {
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
 
-        .payment-method form button {
+        .bid-method form button {
             padding: 10px;
-            background-color: #28a745;
+            background-color: #7C638F;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
-        .payment-method form button:hover {
+        .bid-method form button:hover {
             background-color: #218838;
         }
 
+        .bid-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 15%;
+        }
+
+        .bid-options button {
+            background: #7C638F;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            flex: 1 1 calc(33.333% - 10px);
+        }
+
+        .bid-options button:hover {
+            background: #9472ad;
+        }
+        
         #map {
             height: 500px;
             width: 99%;
@@ -55,71 +82,56 @@
     <div class="container">
         <div class="hire-container">
             <div class="work-description">
-                <h4>{{ $bid->jobRequest->job_name }}</h4><br>
-                <p><strong>Description:</strong> {{ $bid->jobRequest->job_description }}</p>
-                <p><strong>Fee:</strong> RM{{ $bid->bid_amount }}</p>
-                <p><strong>Period:</strong> {{ $bid->jobRequest->job_period }} days</p>
-                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->work_address }}">
-                <div id="jobAddressDisplay">{{ $jobRequest->work_address }}</div>
+                <h4>{{ $service->job_name }}</h4><br>
+                <p><strong>Description:</strong> {{ $service->job_description }}</p>
+                <p><strong>Fee:</strong> RM{{ $service->initial_price }}</p>
+                <p><strong>Period:</strong> {{ $service->job_period }} days</p>
                 <div id="map"></div>
             </div>
 
-            <div class="payment-method">
-                <h4>Payment Method</h4>
-                
-                <form action="{{ route('hireBid.process', ['bid' => $bid->id]) }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="freelancer" value="{{ $bid->freelancer_profile_id }}">
-                    <label for="payment-method">Choose Payment Method:</label>
-                    <select id="payment-method" name="payment_method" required>
-                        <option value="">Select Payment Method</option>
-                        <option value="debit_card">Debit Card</option>
-                        <option value="ewallet">eWallet</option>
-                        <option value="qr_code">QR Code</option>
-                    </select>
+            <div class="bid-method">
+                <center>
+                    <h4>Bid for the Job</h4>
+                    <form action="{{ route('bid.process', ['service' => $service->id]) }}" method="POST">
+                        @csrf
+                        <label for="bid-amount">Enter Your Bid Amount:</label><br><br>
+                        <input name="bid_amount" type="text" id="bid-amount-input" placeholder="Enter your bid amount" style="text-align: center;">
 
-                    <div id="debit-card-fields" style="display: none;">
-                        <input type="text" name="card_number" placeholder="Card Number" required>
-                        <input type="text" name="card_name" placeholder="Card Name" required>
-                        <input type="text" name="expiry_date" placeholder="Expiry Date" required>
-                        <input type="text" name="cvv" placeholder="CVV" required>
-                    </div>
-
-                    <div id="ewallet-fields" style="display: none;">
-                        <br><br><br><p>Pay using your eWallet</p>
-                        <center><h3><strong>Your Balance:</strong> RM{{ $user->ewallet_balance }}</h3></center>
-                    </div>
-
-                    <div id="qr-code-fields" style="display: none;">
-                        <p>Scan the QR code to pay:</p>
-                        <img src="{{ asset('images/QR_Code.png') }}" alt="QR Code">
-                    </div>
-
-                    <button type="submit" style="background-color: #7C638F;">Pay Now</button>
-                </form>
+                        <div class="bid-options">
+                            <button type="button">RM 100</button>
+                            <button type="button">RM 200</button>
+                            <button type="button">RM 300</button>
+                            <button type="button">RM 500</button>
+                            <button type="button">RM 1,000</button>
+                            <button type="button">RM 5,000</button>
+                        </div>
+                        
+                        <br><button type="submit">Submit Bid</button>
+                    </form>
+                </center>
             </div>
         </div>
     </div>
-    
+
     <!-- Success Modal -->
     <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="successModalLabel">Success</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Payment successful. Booking created.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                    </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Your bid has been successfully placed.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Error Modal -->
     <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
@@ -132,7 +144,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Insufficient balance in eWallet.
+                    An error occurred while placing your bid. Please try again.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -142,42 +154,19 @@
     </div>
 
     <script>
-        document.getElementById('payment-method').addEventListener('change', function () {
-            var debitCardFields = document.getElementById('debit-card-fields');
-            var ewalletFields = document.getElementById('ewallet-fields');
-            var qrCodeFields = document.getElementById('qr-code-fields');
+        document.addEventListener('DOMContentLoaded', function() {
+            const bidAmountInput = document.getElementById('bid-amount-input');
+            const bidOptions = document.querySelector('.bid-options');
 
-            debitCardFields.style.display = 'none';
-            ewalletFields.style.display = 'none';
-            qrCodeFields.style.display = 'none';
-
-            if (this.value === 'debit_card') {
-                debitCardFields.style.display = 'block';
-                document.getElementsByName('card_number')[0].setAttribute('required', 'true');
-                document.getElementsByName('card_name')[0].setAttribute('required', 'true');
-                document.getElementsByName('expiry_date')[0].setAttribute('required', 'true');
-                document.getElementsByName('cvv')[0].setAttribute('required', 'true');
-            } else if (this.value === 'ewallet') {
-                ewalletFields.style.display = 'block';
-                document.getElementsByName('card_number')[0].removeAttribute('required');
-                document.getElementsByName('card_name')[0].removeAttribute('required');
-                document.getElementsByName('expiry_date')[0].removeAttribute('required');
-                document.getElementsByName('cvv')[0].removeAttribute('required');
-            } else if (this.value === 'qr_code') {
-                qrCodeFields.style.display = 'block';
-                document.getElementsByName('card_number')[0].removeAttribute('required');
-                document.getElementsByName('card_name')[0].removeAttribute('required');
-                document.getElementsByName('expiry_date')[0].removeAttribute('required');
-                document.getElementsByName('cvv')[0].removeAttribute('required');
-            }
+            bidOptions.addEventListener('click', function(event) {
+                if (event.target.tagName === 'BUTTON') {
+                    const amount = event.target.textContent.replace(/\D/g, '');
+                    bidAmountInput.value = amount;
+                }
+            });
         });
-
-        @if(session('success'))
-            $('#successModal').modal('show');
-        @elseif(session('error'))
-            $('#errorModal').modal('show');
-        @endif
     </script>
+
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe7wj_DF_0i-sP8vkZG-S2NxbuTqH63dI&callback=initMap" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>

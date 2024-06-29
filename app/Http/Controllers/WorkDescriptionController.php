@@ -31,13 +31,25 @@ class WorkDescriptionController extends Controller
      */
     public function store(Request $request)
     {
+        $jobImageStore = null;
+
         $request->validate([
             'job_name' => 'required|string|max:255',
             'job_description' => 'required|string',
             'job_period' => 'required|integer',
             'initial_price' => 'required|numeric',
             'jobAddress' => 'required|string',
+            'work_description_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        if ($request->hasFile('job_image')) {
+            $jobImage = $request->file('job_image');
+            $jobImageName = time() . '.' . $jobImage->getClientOriginalExtension();
+            $jobImage->move(public_path('images/work_description_pictures'), $jobImageName);
+
+            // Save the new profile picture path in the user profile
+            $jobImageStore = 'images/work_description_pictures/' . $jobImageName;
+        }
 
         $freelancerProfile = freelancer_profile::where('user_id', Auth::id())->firstOrFail();
 
@@ -47,7 +59,9 @@ class WorkDescriptionController extends Controller
             'work_period' => $request->job_period,
             'work_fee' => $request->initial_price,
             'work_address' => $request->jobAddress,
+            'work_description_image' => $jobImageStore,
             'freelancer_id' => $freelancerProfile->id,
+            'work_status' => 'available',
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -78,6 +92,7 @@ class WorkDescriptionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $workDescription = work_description::findOrFail($id);
 
         $request->validate([
             'job_name' => 'required|string|max:255',
@@ -85,7 +100,18 @@ class WorkDescriptionController extends Controller
             'job_period' => 'required|integer',
             'initial_price' => 'required|numeric',
             'jobAddress' => 'required|string',
+            'job_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
         ]);
+
+        if ($request->hasFile('job_image')) {
+            $jobImage = $request->file('job_image');
+            $jobImageName = time() . '.' . $jobImage->getClientOriginalExtension();
+            $jobImage->move(public_path('images/work_description_pictures'), $jobImageName);
+
+            // Save the new profile picture path in the user profile
+            $workDescription->work_description_image = 'images/work_description_pictures/' . $jobImageName;
+            $workDescription->save();
+        }
 
         $freelancerProfile = freelancer_profile::where('user_id', Auth::id())->firstOrFail();
 

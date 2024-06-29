@@ -91,6 +91,11 @@
                 <div class="job-details-header">
                     <h2>{{ $workDescription->work_description_name }}</h2>
                 </div>
+                @if($workDescription->work_description_image)
+                    <img class="avatar border-gray" src="{{ asset($workDescription->work_description_image) }}" alt="...">
+                @else
+                    <img class="avatar border-gray" src="{{ asset('images/work_description_pictures/default.png') }}" alt="...">
+                @endif
                 <div class="job-details">
                     <label>Work Description:</label>
                     <p>{{ $workDescription->work_description }}</p>

@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-    <style>
+<style>
         h2{
             font-size: 30px;
             font-weight: bold;
@@ -16,6 +16,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
+            margin: 0 0 0 5%;
         }
 
         .service-card {
@@ -26,6 +27,11 @@
             margin-bottom: 20px;
             width: 48%;
             box-sizing: border-box;
+        }
+
+        .freelancer-profile{
+            width: 25%;
+            padding-top: 5%;
         }
 
         .service-card h4 {
@@ -60,6 +66,14 @@
         .service-description{
             background-color: #7C638F;
             color: white;
+            width: 70%;
+        }
+
+        .desc-img{
+            width: 40%;
+            height: 40%;
+            margin-bottom: 5%;
+            border-radius: 25px;
         }
 
         .service-description p{
@@ -68,6 +82,7 @@
 
         .service-description h4{
             color: white;
+            font-size: 50px;
         }
 
         .service-description h5{
@@ -82,6 +97,12 @@
             border: 1px solid #ccc;
             border-radius: 8px;
         }
+
+        .avatar{
+            margin: 5% 0 5% 0;
+            width: 20%;
+            border-radius: 25px;
+        }
     </style>
 
     <div class="content">
@@ -90,19 +111,32 @@
             <div class="col-md-12">
                 <div class="service-detail-container">
                     <div class="service-card freelancer-profile">
-                        <h4>Freelancer Profile</h4>
-                        <p><strong>Name:</strong> {{ $service->user->name }}</p>
-                        <p><strong>Location:</strong> {{ $service->user->location }}</p>
-                        <p><strong>Email:</strong> {{ $service->user->email }}</p>
-                        <p><strong>Phone Number:</strong> {{ $service->user->phone_number }}</p>
+                        <center>
+                            <h4>Customer Profile</h4>
+                                    @if($service->user->profile_picture)
+                                        <img class="avatar border-gray" src="{{ asset($service->user->profile_picture) }}" alt="...">
+                                    @else
+                                        <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
+                                    @endif
+                            
+                            <p><strong>Name:</strong> {{ $service->user->name }}</p>
+                            <p><strong>Location:</strong> {{ $service->user->location }}</p>
+                            <p><strong>Email:</strong> {{ $service->user->email }}</p>
+                            <p><strong>Phone Number:</strong> {{ $service->user->phone_number }}</p>
+                        </center>    
                     </div>
                     <div class="service-card service-description">
                         <center>
+                            @if($service->job_image)
+                                <img  src="{{ asset($service->job_image) }}" alt="..."  class="desc-img">
+                            @else
+                                <img class="avatar border-gray" src="{{ asset('images/work_description_pictures/default.png') }}" alt="...">
+                            @endif
                             <h4>{{ $service->job_name }}</h4>
                             <p>{{ $service->job_description }}</p>
                             <h5><strong>Fee:</strong> RM{{ $service->initial_price }}</h5>
                             <h5><strong>Period:</strong> {{ $service->job_period }} days</h5>
-                            <a href="#" class="hire-now-btn">HIRE NOW</a>
+                            <a href="{{ route('hireFL.show', ['service' => $service->id]) }}" class="hire-now-btn">BID NOW</a>
                         </center>
                     </div>
                 </div>

@@ -15,6 +15,7 @@ class booking extends Model
         'user_id',
         'job_request_id',
         'work_profile_id',
+        'freelancer_profile_id',
         'booking_status',
         'notification_id',
         'booking_start_date',

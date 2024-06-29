@@ -35,4 +35,10 @@ class freelancer_profile extends Model
     {
         return $this->hasMany(bid::class, 'freelancer_profile_id');
     }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
 }

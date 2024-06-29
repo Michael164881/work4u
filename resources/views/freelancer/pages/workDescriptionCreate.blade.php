@@ -83,7 +83,7 @@
             <div class="form-header">
                 <h2>Create New Work Description</h2>
             </div>
-            <form action="{{ route('workDescription.store') }}" method="POST">
+            <form action="{{ route('workDescription.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="job_name">Work Name</label>
@@ -93,6 +93,20 @@
                     <label for="job_description">Work Description</label>
                     <textarea id="job_description" name="job_description" required>{{ old('job_description') }}</textarea>
                 </div>
+
+                <div class="form-group">
+                <label class="col-md-3 col-form-label">{{ __('Job Image') }}</label>
+                    <div class="custom-file">
+                        <input type="file" name="job_image" class="custom-file-input" id="jobImage" accept="image/*">
+                        <label class="custom-file-label" for="jobImage">{{ __('Choose file') }}</label>
+                    </div>
+                </div>
+                @if ($errors->has('job_image'))
+                    <span class="invalid-feedback" style="display: block;" role="alert">
+                    <strong>{{ $errors->first('job_image') }}</strong>
+                    </span>
+                @endif
+
                 <div class="form-group">
                     <!-- Hidden input field for job address -->
                     <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ old('jobAddress') }}" required>

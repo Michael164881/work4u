@@ -155,12 +155,7 @@
                     <form class="filter-form" method="GET" action="{{ route('bookings.index', 'booking') }}">
                         <div>
                             <input type="text" name="search" placeholder="Search by description name" value="{{ request('search') }}">
-                            <select name="location">
-                                <option value="">Select Location</option>
-                                @foreach($locations as $location)
-                                    <option value="{{ $location }}" {{ request('location') == $location ? 'selected' : '' }}>{{ $location }}</option>
-                                @endforeach
-                            </select>
+                            
                             <button type="submit" style="background-color: #7C638F;">Filter</button>
                         </div>
                     </form>

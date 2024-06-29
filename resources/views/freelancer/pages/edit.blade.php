@@ -59,7 +59,11 @@
                     </div>
                     <div class="card-body">
                         <div class="author">
-                            <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
+                            @if(auth()->user()->profile_picture)
+                                <img class="avatar border-gray" src="{{ asset(auth()->user()->profile_picture) }}" alt="...">
+                            @else
+                                <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
+                            @endif
                             <h5 class="title">{{ __(auth()->user()->name) }}</h5><br><br>
 
                             <h2 class="title-text">Email</h2>
@@ -165,6 +169,22 @@
                                     @if ($errors->has('location'))
                                         <span class="invalid-feedback" style="display: block;" role="alert">
                                             <strong>{{ $errors->first('location') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Profile Picture') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="profile_picture" class="custom-file-input" id="profilePicture" accept="image/*">
+                                            <label class="custom-file-label" for="profilePicture">{{ __('Choose file') }}</label>
+                                        </div>
+                                    </div>
+                                    @if ($errors->has('profile_picture'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('profile_picture') }}</strong>
                                         </span>
                                     @endif
                                 </div>

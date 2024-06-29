@@ -67,8 +67,9 @@
             <div class="payment-method">
                 <h4>Payment Method</h4>
                 
-                <form action="{{ route('hire.process', ['service' => $service->id]) }}" method="POST">
+                <form action="{{ route('hire.process', ['service' => $service->id])}}" method="POST">
                     @csrf
+                    <input type="hidden" name="freelancer" value="{{ $freelancer->id }}">
                     <label for="payment-method">Choose Payment Method:</label>
                     <select id="payment-method" name="payment_method" required>
                         <option value="">Select Payment Method</option>

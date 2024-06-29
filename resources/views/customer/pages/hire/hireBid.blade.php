@@ -29,7 +29,7 @@
         }
 
         .freelancer-profile{
-            width: 25%;
+            width: 30%;
             padding-top: 5%;
         }
 
@@ -65,7 +65,7 @@
         .service-description{
             background-color: #7C638F;
             color: white;
-            width: 70%;
+            width: 65%;
         }
 
         .desc-img{
@@ -99,8 +99,19 @@
 
         .avatar{
             margin: 5% 0 5% 0;
-            width: 20%;
+            width: 30%;
+            height: 5%;
             border-radius: 25px;
+        }
+
+        .ratings {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .star {
+            color: #FFD700; /* gold color for stars */
+            font-size: 20px;
         }
     </style>
 
@@ -112,7 +123,7 @@
                         <center>
                             <h4>Freelancer Profile</h4>
                                 @if($bid->freelancerProfile->user->profile_picture)
-                                    <img class="avatar border-gray" src="{{ asset(service->freelancerProfile->user->profile_picture) }}" alt="...">
+                                    <img class="avatar border-gray" src="{{ asset($bid->freelancerProfile->user->profile_picture) }}" alt="...">
                                 @else
                                     <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
                                 @endif
@@ -123,6 +134,23 @@
                             <p><strong>Educational Qualification:</strong> {{ $bid->freelancerProfile->edu_quality }}</p>
                             <p><strong>Email:</strong> {{ $bid->freelancerProfile->user->email }}</p>
                             <p><strong>Phone Number:</strong> {{ $bid->freelancerProfile->user->phone_number }}</p>
+                            <div class="ratings"><br><br>
+                                <h5>Ratings:</h5>
+                                @php
+                                    $averageRating =  $bid->freelancerProfile->average_rating;
+                                    $ratingCount =  $bid->freelancerProfile->rating_count;
+                                @endphp
+                                <div>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $averageRating)
+                                            <span class="star">&#9733;</span>
+                                        @else
+                                            <span class="star">&#9734;</span>
+                                        @endif
+                                    @endfor
+                                </div>
+                                <p>{{ $averageRating }} out of 5 stars ({{ $ratingCount }} reviews)</p>
+                            </div>
                         </center>
                     </div>
                     <div class="service-card service-description">

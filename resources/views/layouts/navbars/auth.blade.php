@@ -29,28 +29,40 @@
                     <p class="nav-text">{{ __('Dashboard') }}</p>
                 </a>
             </li>
-            <li class="nav-item {{ $elementActive == 'icons' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'icons') }}">
+            <li class="nav-item {{ $elementActive == 'cancel' ? 'active' : '' }}">
+                <a href="{{ route('cancel.index', 'cancel') }}">
                     <i class="nc-icon nc-bell-55"></i>
-                    <p class="nav-text">{{ __('Notifications') }}</p>
+                    <p class="nav-text">{{ __('Cancelation') }}</p>
                 </a>
             </li>
-            <li class="nav-item {{ $elementActive == 'map' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'map') }}">
+            <li class="nav-item {{ $elementActive == 'users' ? 'active' : '' }}">
+                <a href="{{ route('users.index', 'users') }}"> 
                     <i class="nc-icon nc-settings"></i>
-                    <p class="nav-text">{{ __('Jobs') }}</p>
+                    <p class="nav-text">{{ __('User Management') }}</p>
                 </a>
             </li>
-            <li class="nav-item {{ $elementActive == 'notifications' ? 'active' : '' }}">
-                <a href="{{ route('page.index', 'notifications') }}">
+            <li class="nav-item {{ $elementActive == 'freelancers' ? 'active' : '' }}">
+                <a href="{{ route('freelancers.index', 'freelancers') }}"> 
+                    <i class="nc-icon nc-settings"></i>
+                    <p class="nav-text">{{ __('Freelancer') }}</p>
+                </a>
+            </li>
+            <li class="nav-item {{ $elementActive == 'job' ? 'active' : '' }}">
+                <a href="{{ route('job.index', 'job') }}"> 
+                    <i class="nc-icon nc-settings"></i>
+                    <p class="nav-text">{{ __('Work/Job') }}</p>
+                </a>
+            </li>
+            <!-- <li class="nav-item {{ $elementActive == 'statistic' ? 'active' : '' }}">
+                <a href="{{ route('statistic.index', 'statistic') }}">
                     <i class="nc-icon nc-bookmark-2"></i>
-                    <p class="nav-text">{{ __('Booking') }}</p>
+                    <p class="nav-text">{{ __('Statistic') }}</p>
                 </a>
-            </li>
-            <li class="nav-item {{ $elementActive == 'tables' ? 'active' : '' }}">
-                <a href="{{ route('profile.edit') }}">
+            </li> -->
+            <li class="nav-item {{ $elementActive == 'statistic' ? 'active' : '' }}">
+                <a href="{{ route('statistic.index', 'statistic') }}">
                     <i class="nc-icon nc-circle-10"></i>
-                    <p class="nav-text">{{ __('Profile') }}</p>
+                    <p class="nav-text">{{ __('Statistic') }}</p>
                 </a>
             </li>
         </ul>

@@ -109,8 +109,7 @@
                 
                 if (role == "customer"){
                     var contentString = '<div class="info-window" onclick="window.location=\'/serviceFL/' + id + '\'">' +
-                                    '<h2><strong>Job Request</strong></h2>' +
-                                    '<p>' + title + '</p>' +
+                                    '<h2><strong>' + title + '</strong></h2>' +
                                     '<p>' + description + '</p>' +
                                     '<p>RM' + fee + '</p>' +
                                     '<p>' + period + ' Days</p>' +

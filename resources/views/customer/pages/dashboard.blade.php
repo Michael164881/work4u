@@ -220,8 +220,7 @@
                 var description = "{{ Str::words($workAddress->work_description, 4, '...') }}";
                 var fee = "{{$workAddress->work_fee}}";
                 var period = "{{$workAddress->work_period}}";
-                var id = "{{$workAddress->id}}";
-                          
+                var id = "{{$workAddress->id}}";       
                 geocode(address, title, description, fee, period, id, role);
             </script>
         @endif

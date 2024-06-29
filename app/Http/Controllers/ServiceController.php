@@ -13,16 +13,21 @@ class ServiceController extends Controller
     public function index($id)
     {
         $service = work_description::with('freelancerProfile.user')->findOrFail($id);
+
+        // Assuming you have a relationship `ratings` on your FreelancerProfile model
+        $freelancerProfile = $service->freelancerProfile;
+
         $address = work_description::select('work_address')->findOrFail($id);
-        return view('customer.pages.showService', compact('service', 'address'));
+        return view('customer.pages.showService', compact('service', 'address', 'freelancerProfile'));
     }
 
     public function showHirePage($id)
     {
         $service = work_description::findOrFail($id);
+        $freelancer = $service->freelancerProfile;
         $user = auth()->user(); // Assuming the user is logged in
         $address = work_description::select('work_address')->findOrFail($id);
-        return view('customer.pages.hire.hire', compact('service', 'user', 'address'));
+        return view('customer.pages.hire.hire', compact('service', 'user', 'address', 'freelancer'));
     }
     
 
@@ -53,6 +58,7 @@ class ServiceController extends Controller
         booking::create([
             'user_id' => $user->id,
             'work_profile_id' => $service->id,
+            'freelancer_profile_id' => $request->freelancer,
             'job_request_id' => 0,
             'booking_status' => 'pending',
             'booking_start_date' => $bookingStartDate,

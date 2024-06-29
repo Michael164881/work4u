@@ -333,6 +333,7 @@
                     <div class="card-body">
                         <div class="row">
                             @foreach($services as $service)
+                                @if(strpos("{{$service->work_status}}", 'available') == true)
                                     <div class="col-md-3">
                                         <div class="service-card" onclick="window.location='{{ route('service.index', $service->id) }}'">
                                             <div class="front face">
@@ -356,6 +357,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                @endif
                             @endforeach
                         </div>
                         <a href="{{ route('pageCustBrowse.index' , 'browse') }}" class="view-more">View More</a>
@@ -375,7 +377,7 @@
                                         <h3>{{ $jobRequest->job_name }}</h3>
                                         <p>{{ $jobRequest->job_description }}</p>
                                         <p>Period: {{ $jobRequest->job_period }}</p>
-                                        <p>Initial Price: RM{{ $bid->bid_amount }}</p>
+                                        <p>Initial Price: RM{{ $jobRequest->initial_price }}</p>
                                     </div>
                                     <div class="bids-container">
                                         <h4>Bids</h4>

@@ -67,20 +67,59 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//ADMIN
 
-Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
+use App\Http\Controllers\AdminCancelationController;
+use App\Http\Controllers\AdminStatisticController;
+use App\Http\Controllers\AdminUserManagementController;
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\AdminController::class, 'index'])->name('home');
-Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\AdminController@index')->name('home');
+Route::get('/cancel', [App\Http\Controllers\AdminCancelationController::class, 'index'])->name('cancel.index');
+
+Route::get('/statistic', [App\Http\Controllers\AdminStatisticController::class, 'index'])->name('statistic.index');
+Route::get('/statistic/export', [App\Http\Controllers\AdminStatisticController::class, 'export'])->name('statistic.export');
+
+
+Route::get('/users', [App\Http\Controllers\AdminUserManagementController::class, 'index'])->name('users.index'); 
+Route::get('/user/{id}', [App\Http\Controllers\AdminUserManagementController::class, 'show'])->name('users.show');
+Route::get('/user/{id}/edit', [App\Http\Controllers\AdminUserManagementController::class, 'edit'])->name('users.edit');
+Route::put('/user/{id}', [App\Http\Controllers\AdminUserManagementController::class, 'update'])->name('users.update');
+Route::delete('/user/{id}', [App\Http\Controllers\AdminUserManagementController::class, 'destroy'])->name('users.destroy');
+
+use App\Http\Controllers\AdminFreelancerManagementController;
+
+Route::get('/freelancers', [App\Http\Controllers\AdminFreelancerManagementController::class, 'index'])->name('freelancers.index');
+Route::get('/freelancers/{id}', [App\Http\Controllers\AdminFreelancerManagementController::class, 'show'])->name('freelancers.show');
+Route::get('/freelancers/{id}/edit', [App\Http\Controllers\AdminFreelancerManagementController::class, 'edit'])->name('freelancers.edit');
+Route::put('/freelancers/{id}', [App\Http\Controllers\AdminFreelancerManagementController::class, 'update'])->name('freelancers.update');
+Route::delete('/freelancers/{id}', [App\Http\Controllers\AdminFreelancerManagementController::class, 'destroy'])->name('freelancers.destroy');
+
+use App\Http\Controllers\AdminJobController;
+
+Route::get('/job', [App\Http\Controllers\AdminJobController::class, 'index'])->name('job.index');
+Route::get('/job/job-request/{id}', [App\Http\Controllers\AdminJobController::class, 'showJobRequest'])->name('job.showJobRequest');
+Route::get('/job/work-description/{id}', [App\Http\Controllers\AdminJobController::class, 'showWorkDescription'])->name('job.showWorkDescription');
+
+Route::get('/job/job-request/edit/{id}', [App\Http\Controllers\AdminJobController::class, 'editJobRequest'])->name('job.editJobRequest');
+Route::post('/job/job-request/update/{id}', [App\Http\Controllers\AdminJobController::class, 'updateJobRequest'])->name('job.updateJobRequest');
+
+Route::get('/job/work-description/edit/{id}', [App\Http\Controllers\AdminJobController::class, 'editWorkDescription'])->name('job.editWorkDescription');
+Route::post('/job/work-description/update/{id}', [App\Http\Controllers\AdminJobController::class, 'updateWorkDescription'])->name('job.updateWorkDescription');
+
+Route::delete('/job/job-request/delete/{id}', [App\Http\Controllers\AdminJobController::class, 'destroyJobRequest'])->name('job.destroyJobRequest');
+Route::delete('/job/work-description/delete/{id}', [App\Http\Controllers\AdminJobController::class, 'destroyWorkDescription'])->name('job.destroyWorkDescription');
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\ExportController;
+
+Route::get('/export/work-descriptions', [ExportController::class, 'exportWorkDescriptions'])->name('export.work_descriptions');
+Route::get('/export/job-requests', [ExportController::class, 'exportJobRequests'])->name('export.job_requests');
+
+
+//ADMIN
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
@@ -137,7 +176,13 @@ Route::delete('/work-description/{id}', [App\Http\Controllers\WorkDescriptionCon
 use App\Http\Controllers\PageControllerFLBrowse;
 use App\Http\Controllers\PageControllerFLBooking;
 
-Route::get('/serviceFL/{id}', [App\Http\Controllers\ServiceFLController::class, 'index'])->name('serviceFL.index');
+Route::get('/hireFL/{service}', [App\Http\Controllers\ServiceFLController::class, 'showHirePage'])->name('hireFL.show');
+Route::get('/serviceFL/{service}', [App\Http\Controllers\ServiceFLController::class, 'index'])->name('serviceFL.index');
+
+
+Route::post('/bid/process/{service}', [App\Http\Controllers\BidController::class, 'processBid'])->name('bid.process');
+Route::post('/bid/update/{id}', [App\Http\Controllers\BidController::class, 'update'])->name('bid.update');
+
 Route::get('pageFLBrowse/{page}', [App\Http\Controllers\PageControllerFLBrowse::class, 'index'])->name('pageFLBrowse.index');
 Route::get('pageFLMap/{page}', [App\Http\Controllers\PageControllerFLMap::class, 'index'])->name('pageFLMap.index');
 Route::get('pageFL/{page}', [App\Http\Controllers\PageControllerFL::class, 'index'])->name('pageFL.index');
@@ -145,6 +190,11 @@ Route::get('pageFL/{page}', [App\Http\Controllers\PageControllerFL::class, 'inde
 
 Route::get('pageFLBooking/{page}', [App\Http\Controllers\PageControllerFLBooking::class, 'index'])->name('pageFLBooking.index');
 Route::get('pageFLBooking/{id}/show', [App\Http\Controllers\PageControllerFLBooking::class, 'show'])->name('pageFLBooking.show');
+
+Route::post('/bookings/{bookingId}/checklist', [PageControllerFLBooking::class, 'addChecklistItem'])->name('checklist.add');
+Route::put('/checklist/{itemId}', [PageControllerFLBooking::class, 'updateChecklistItem'])->name('checklist.update');
+Route::delete('/checklist/{itemId}', [PageControllerFLBooking::class, 'deleteChecklistItem'])->name('checklist.delete');
+Route::post('/bookings/{bookingId}/end', [PageControllerFLBooking::class, 'endTask'])->name('task.end');
 
 
 Auth::routes();

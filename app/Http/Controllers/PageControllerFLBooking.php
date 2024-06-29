@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\booking;
 use App\Models\work_description;
 use App\Models\user;
+use App\Models\TaskChecklist;
 use App\Models\freelancer_profile;
 use Illuminate\Http\Request;
 
@@ -15,114 +16,108 @@ class PageControllerFLBooking extends Controller
         $user = auth()->user();
         $bookings = collect(); // Initialize as an empty collection
 
-        if ($user) {
-            // Retrieve user ID
-            $userId = $user->id;
-            
-            // Execute the query to retrieve bookings and include work_description
-            $bookings = Booking::where('user_id', $userId)
-                ->with('jobRequest') // Eager load the work_description relationship
-                ->get();
+        if ($user && $user->freelancerProfile) {
+            // Retrieve freelancer profile ID
+            $freelancerProfileId = $user->freelancerProfile->id;
+
+            // Initialize query for bookings based on freelancer profile ID
+            $query = Booking::where('freelancer_profile_id', $freelancerProfileId)
+                            ->with(['jobRequest.freelancerProfile', 'workDescription']);
+
+            // Apply search filter
+            if ($request->has('search') && $request->search != '') {
+                $query->where(function($q) use ($request) {
+                    $q->whereHas('workDescription', function($q) use ($request) {
+                        $q->where('work_description_name', 'like', '%' . $request->search . '%');
+                    })->orWhereHas('jobRequest', function($q) use ($request) {
+                        $q->where('job_name', 'like', '%' . $request->search . '%');
+                    });
+                });
+            }
+
+            // Apply location filter
+            if ($request->has('location') && $request->location != '') {
+                $query->whereHas('jobRequest.freelancerProfile', function($q) use ($request) {
+                    $q->where('location', $request->location);
+                });
+            }
+
+            // Get filtered bookings
+            $bookings = $query->get();
         }
 
-        $query = booking::query();
-        $locationsQuery = freelancer_profile::query()->distinct('location');
+        // Get distinct locations for filtering
+        $locations = freelancer_profile::distinct('location')->pluck('location');
 
-        if ($request->has('search') && $request->search != '') {
-            $query->whereHas('jobRequest', function($q) use ($request) {
-                $q->where('work_description_name', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        if ($request->has('location') && $request->location != '') {
-            // Assuming FreelancerProfile is related through WorkDescription
-            $query->whereHas('jobRequest.freelancerProfile', function($q) use ($request) {
-                $q->where('location', $request->location);
-            });
-        }
-    
-        $bookings = $query->get();
-
-        // Extract unique locations from the filtered bookings
-        $locations = Booking::with('workDescription.freelancerProfile')->get()->pluck('workDescription.freelancerProfile.location')->unique();
-
-        return view('freelancer.pages.booking', compact('bookings', 'locations', 'freelancerId'));
-    } 
-
-    public function cancel($id)
-    {
-        $booking = booking::findOrFail($id);
-        $user = auth()->user();
-
-        // Check if the booking belongs to the authenticated user
-        if ($booking->user_id != $user->id) {
-            return redirect()->back()->with('error', 'You do not have permission to cancel this booking.');
-        }
-
-        // Refund the eWallet balance if payment was made through eWallet
-        $user->balance += $booking->booking_fee;
-        $user->save();
-
-        // Update booking status to cancelled
-        $booking->booking_status = 'cancelled';
-        $booking->save();
-
-        // Update service status to available
-        $service = $booking->service;
-        $service->status = 'available';
-        $service->save();
-
-        return redirect()->route('bookings.index')->with('success', 'Booking cancelled and payment refunded.');
+        return view('freelancer.pages.booking', compact('bookings', 'locations'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $booking = booking::findOrFail($id);
+        $userID = $booking->user_id;
+        $phone = null;
+
+        $user = User::findOrFail($userID);
 
         // Assuming you have a view file for showing a single booking, adjust this according to your structure
-        return view('freelancer.pages.bookingView', compact('booking'));
+        return view('freelancer.pages.bookingView', compact('booking', 'user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(booking $booking)
+    public function addChecklistItem(Request $request, $bookingId)
     {
-        //
+        $request->validate([
+            'description' => 'required|string|max:255',
+        ]);
+
+        $checklistItem = new TaskChecklist();
+        $checklistItem->booking_id = $bookingId;
+        $checklistItem->checklist_description = $request->description;
+        $checklistItem->status = 'pending';
+        $checklistItem->created_at = now();
+        $checklistItem->updated_at = now();
+        $checklistItem->save();
+
+        return redirect()->back()->with('success', 'Checklist item added successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, booking $booking)
+    public function updateChecklistItem(Request $request, $itemId)
     {
-        //
+        $request->validate([
+            'status' => 'required|string|in:pending,completed,failed',
+        ]);
+
+        $checklistItem = TaskChecklist::findOrFail($itemId);
+        $checklistItem->status = $request->status;
+        $checklistItem->save();
+
+        return redirect()->back()->with('success', 'Checklist item updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(booking $booking)
+    public function deleteChecklistItem($itemId)
     {
-        //
+        $checklistItem = TaskChecklist::findOrFail($itemId);
+        $checklistItem->delete();
+
+        return redirect()->back()->with('success', 'Checklist item deleted successfully.');
+    }
+
+    public function endTask($bookingId)
+    {
+        $booking = Booking::findOrFail($bookingId);
+
+        // Retrieve the user associated with the booking
+        $user = auth()->user();
+
+        // Update the booking status to 'completed'
+        $booking->booking_status = 'completed';
+        $booking->save();
+
+        // Add the booking fee to the user's e-wallet balance
+        $user->ewallet_balance += $booking->booking_fee;
+        $user->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Task completed successfully and e-wallet balance updated.');
     }
 }

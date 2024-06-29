@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'class' => '',
-    'elementActive' => 'work-job-management'
+    'elementActive' => 'job'
 ])
 
 @section('content')

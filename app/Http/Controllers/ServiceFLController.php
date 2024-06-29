@@ -13,6 +13,14 @@ class ServiceFLController extends Controller
         $address = job_request::select('job_address')->findOrFail($id);
         return view('freelancer.pages.showService', compact('service', 'address'));
     }
+
+    public function showHirePage($id)
+    {
+        $service = job_request::findOrFail($id);
+        $user = auth()->user(); // Assuming the user is logged in
+        $address = job_request::select('job_address')->findOrFail($id);
+        return view('freelancer.pages.hire.hire', compact('service', 'user', 'address'));
+    }
 }
 
 

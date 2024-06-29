@@ -31,4 +31,9 @@ class job_request extends Model
     {
         return $this->hasMany(bid::class);
     }
+
+    public function freelancerProfile()
+    {
+        return $this->belongsTo(freelancer_profile::class, 'freelancer_profile_id');
+    }
 }

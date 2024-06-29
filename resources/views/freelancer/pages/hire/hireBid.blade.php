@@ -1,11 +1,11 @@
-@extends('customer.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'map'
 ])
 
 @section('content')
-    <style>
-        h2 {
+<style>
+        h2{
             font-size: 30px;
             font-weight: bold;
             margin-left: 2%;
@@ -28,7 +28,7 @@
             box-sizing: border-box;
         }
 
-        .freelancer-profile {
+        .freelancer-profile{
             width: 25%;
             padding-top: 5%;
         }
@@ -58,33 +58,33 @@
         }
 
         .hire-now-btn:hover {
-            color: #7C638F;
+            color: #7C638F; 
             text-decoration: none;
         }
 
-        .service-description {
+        .service-description{
             background-color: #7C638F;
             color: white;
             width: 70%;
         }
 
-        .desc-img {
+        .desc-img{
             width: 40%;
             height: 40%;
             margin-bottom: 5%;
             border-radius: 25px;
         }
 
-        .service-description p {
+        .service-description p{
             color: white;
         }
 
-        .service-description h4 {
+        .service-description h4{
             color: white;
             font-size: 50px;
         }
 
-        .service-description h5 {
+        .service-description h5{
             font-size: 30px;
             font-weight: bold;
             color: white;
@@ -97,7 +97,7 @@
             border-radius: 8px;
         }
 
-        .avatar {
+        .avatar{
             margin: 5% 0 5% 0;
             width: 20%;
             border-radius: 25px;
@@ -114,31 +114,30 @@
         }
     </style>
 
-    <div class="content">
-        <div class="row">
-            <h2>SERVICE DETAILS</h2>
-            <div class="col-md-12">
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
                 <div class="service-detail-container">
                     <div class="service-card freelancer-profile">
                         <center>
                             <h4>Freelancer Profile</h4>
-                                @if($service->freelancerProfile->user->profile_picture)
-                                    <img class="avatar border-gray" src="{{ asset($service->freelancerProfile->user->profile_picture) }}" alt="...">
+                                @if($bid->freelancerProfile->user->profile_picture)
+                                    <img class="avatar border-gray" src="{{ asset(service->freelancerProfile->user->profile_picture) }}" alt="...">
                                 @else
                                     <img class="avatar border-gray" src="{{ asset('paper/img/mike.jpg') }}" alt="...">
                                 @endif
-                            <p><strong>Nickname:</strong> {{ $service->freelancerProfile->nickname }}</p>
-                            <p><strong>Name:</strong> {{ $service->freelancerProfile->user->name }}</p>
-                            <p><strong>Location:</strong> {{ $service->freelancerProfile->location }}</p>
-                            <p><strong>Work Experience:</strong> {{ $service->freelancerProfile->work_experience }}</p>
-                            <p><strong>Educational Qualification:</strong> {{ $service->freelancerProfile->edu_quality }}</p>
-                            <p><strong>Email:</strong> {{ $service->freelancerProfile->user->email }}</p>
-                            <p><strong>Phone Number:</strong> {{ $service->freelancerProfile->user->phone_number }}</p>
+                            <p><strong>Nickname:</strong> {{ $bid->freelancerProfile->nickname }}</p>
+                            <p><strong>Name:</strong> {{ $bid->freelancerProfile->user->name }}</p>
+                            <p><strong>Location:</strong> {{ $bid->freelancerProfile->location }}</p>
+                            <p><strong>Work Experience:</strong> {{ $bid->freelancerProfile->work_experience }}</p>
+                            <p><strong>Educational Qualification:</strong> {{ $bid->freelancerProfile->edu_quality }}</p>
+                            <p><strong>Email:</strong> {{ $bid->freelancerProfile->user->email }}</p>
+                            <p><strong>Phone Number:</strong> {{ $bid->freelancerProfile->user->phone_number }}</p>
                             <div class="ratings"><br><br>
                                 <h5>Ratings:</h5>
                                 @php
-                                    $averageRating = $service->freelancerProfile->average_rating;
-                                    $ratingCount = $service->freelancerProfile->rating_count;
+                                    $averageRating =  $bid->freelancerProfile->average_rating;
+                                    $ratingCount =  $bid->freelancerProfile->rating_count;
                                 @endphp
                                 <div>
                                     @for ($i = 1; $i <= 5; $i++)
@@ -155,27 +154,27 @@
                     </div>
                     <div class="service-card service-description">
                         <center>
-                            @if($service->work_description_image)
-                                <img  src="{{ asset($service->work_description_image) }}" alt="..."  class="desc-img">
+                            @if($bid->jobRequest->job_image)
+                                <img  src="{{ asset($bid->jobRequest->job_image) }}" alt="..."  class="desc-img">
                             @else
-                            <img class="avatar border-gray" src="{{ asset('images/work_description_pictures/default.png') }}" alt="...">
+
                             @endif
-                            <h4><strong>{{ $service->work_description_name }}</strong></h4>
-                            <p>{{ $service->work_description }}</p>
-                            <h5><strong>Fee:</strong> RM{{ $service->work_fee }}</h5>
-                            <h5><strong>Period:</strong> {{ $service->work_period }} days</h5>
-                            <a href="{{ route('hire.show', ['service' => $service->id]) }}" class="hire-now-btn">HIRE NOW</a>
+                            <h4><strong>{{ $bid->jobRequest->job_name }}</strong></h4>
+                            <p>{{ $bid->jobRequest->job_description }}</p>
+                            <h5><strong>Fee:</strong> RM{{ $bid->bid_amount }}</h5>
+                            <h5><strong>Period:</strong> {{ $bid->jobRequest->job_period }} days</h5>
+                            <a href="{{ route('hireBid.show', ['bid' => $bid->id]) }}" class="hire-now-btn">HIRE NOW</a>
                         </center>
                     </div>
                 </div>
-                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $address->work_address }}">
-                <div id="jobAddressDisplay">{{ $address->work_address }}</div>
+                <input name="jobAddress" id="jobAddressInput" type="hidden" value="{{ $jobRequest->work_address }}">
+                <div id="jobAddressDisplay">{{ $jobRequest->work_address }}</div>
                 <div id="map"></div>
-            </div>
         </div>
     </div>
+</div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe7wj_DF_0i-sP8vkZG-S2NxbuTqH63dI&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe7wj_DF_0i-sP8vkZG-S2NxbuTqH63dI&callback=initMap" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -286,4 +285,6 @@
         });
     </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 @endsection

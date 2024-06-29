@@ -24,34 +24,31 @@ class BookingController extends Controller
             $userId = $user->id;
             
             // Execute the query to retrieve bookings and include related models
-            $bookings = Booking::where('user_id', $userId)
-                ->with(['workDescription', 'jobRequest']) // Eager load the relationships
-                ->get();
+            $query = Booking::where('user_id', $userId)
+                ->with(['workDescription', 'jobRequest']);
+
+                if ($request->has('search') && $request->search != '') {
+                    $query->where(function($q) use ($request) {
+                        $q->whereHas('workDescription', function($q) use ($request) {
+                            $q->where('work_description_name', 'like', '%' . $request->search . '%');
+                        })->orWhereHas('jobRequest', function($q) use ($request) {
+                            $q->where('job_name', 'like', '%' . $request->search . '%');
+                        });
+                    });
+                }
+        
+                if ($request->has('location') && $request->location != '') {
+                    $query->where(function($q) use ($request) {
+                        $q->whereHas('workDescription.freelancerProfile', function($q) use ($request) {
+                            $q->where('location', $request->location);
+                        })->orWhereHas('jobRequest', function($q) use ($request) {
+                            $q->where('job_address', $request->location);
+                        });
+                    });
+                }
+            // Get filtered bookings
+            $bookings = $query->get();
         }
-
-        $query = booking::query();
-
-        if ($request->has('search') && $request->search != '') {
-            $query->where(function($q) use ($request) {
-                $q->whereHas('workDescription', function($q) use ($request) {
-                    $q->where('work_description_name', 'like', '%' . $request->search . '%');
-                })->orWhereHas('jobRequest', function($q) use ($request) {
-                    $q->where('job_name', 'like', '%' . $request->search . '%');
-                });
-            });
-        }
-
-        if ($request->has('location') && $request->location != '') {
-            $query->where(function($q) use ($request) {
-                $q->whereHas('workDescription.freelancerProfile', function($q) use ($request) {
-                    $q->where('location', $request->location);
-                })->orWhereHas('jobRequest', function($q) use ($request) {
-                    $q->where('job_address', $request->location);
-                });
-            });
-        }
-
-        $bookings = $query->get();
 
         // Extract unique locations from the filtered bookings
         $locations = $bookings->pluck('workDescription.freelancerProfile.location')->merge($bookings->pluck('jobRequest.job_address'))->unique();

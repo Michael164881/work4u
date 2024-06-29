@@ -201,6 +201,7 @@
                                                     <p>Period: {{ $service->work_period }} days</p>
                                                     <p>Freelancer: {{ $service->freelancerProfile->nickname }}</p>
                                                     <p><strong>Location: {{ $service->freelancerProfile->location }}</strong></p>
+                                                    
                                                 </center>
                                             </div>
                                             <div class="back face">

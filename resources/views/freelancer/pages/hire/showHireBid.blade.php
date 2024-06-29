@@ -1,4 +1,4 @@
-@extends('customer.app', [
+@extends('freelancer.app', [
     'class' => '',
     'elementActive' => 'map'
 ])
@@ -69,7 +69,6 @@
                 
                 <form action="{{ route('hireBid.process', ['bid' => $bid->id]) }}" method="POST">
                     @csrf
-                    <input type="hidden" name="freelancer" value="{{ $bid->freelancer_profile_id }}">
                     <label for="payment-method">Choose Payment Method:</label>
                     <select id="payment-method" name="payment_method" required>
                         <option value="">Select Payment Method</option>
