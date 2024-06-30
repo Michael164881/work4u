@@ -314,16 +314,16 @@
                                 
                             </span>
                             <div>
-                               
                                 <form action="{{ route('checklist.delete', $checklist->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger" @if($booking->booking_status == 'completed') disabled @endif>Delete</button>
                                 </form>
+                            
                             </div>
                         </div>
                         <div class="description-form">
-                                    @if($checklist->status == 'pending' && $booking->booking_status != 'completed')
+                                    @if($checklist->status == 'pending' && $booking->booking_status != 'completed' && $booking->booking_status != 'cancelled')
                                         <form action="{{ route('checklist.update', $checklist->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
@@ -338,7 +338,7 @@
                     </div>
                         
                     @endforeach
-                    @if($booking->booking_status != 'completed')
+                    @if($booking->booking_status != 'completed' && $booking->booking_status != 'cancelled')
                         <form action="{{ route('checklist.add', $booking->id) }}" method="POST">
                             @csrf
                             <input type="text" name="description" placeholder="Add new checklist item" class="input-form">

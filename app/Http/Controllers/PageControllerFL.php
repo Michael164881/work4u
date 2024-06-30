@@ -26,9 +26,11 @@ class PageControllerFL extends Controller
     public function index(string $page)
     {
         if (view()->exists("freelancer.pages.{$page}")) {
+            $user = auth()->user();
+            $freelancerProfile = $user->freelancerProfile;
             $workAddress = work_description::all();
             $jobRequest = job_request::all();
-            return view("freelancer.pages.{$page}",compact('workAddress', 'jobRequest'));
+            return view("freelancer.pages.{$page}",compact('workAddress', 'jobRequest', 'freelancerProfile', 'user'));
         }
 
         return abort(404);

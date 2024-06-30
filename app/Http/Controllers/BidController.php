@@ -28,8 +28,7 @@ class BidController extends Controller
         $jobRequestID = $bid->job_request_id;
         $jobRequest = job_request::findOrFail($jobRequestID);
         $user = auth()->user(); // Assuming the user is logged in
-        $address = job_request::select('job_address')->findOrFail($id);
-        return view('customer.pages.hire.showHireBid', compact('bid', 'user', 'address', 'jobRequest'));
+        return view('customer.pages.hire.showHireBid', compact('bid', 'user', 'jobRequest'));
     }
 
     public function processHireBid(Request $request, $id)
@@ -86,7 +85,7 @@ class BidController extends Controller
         $user = auth()->user();
     
         // Check if the user has a freelancer profile
-        if ($user) {
+        if ($user && $user->freelancerProfile) {
             $freelancerProfileId = $user->freelancerProfile->id;
     
             // Create and save the new bid

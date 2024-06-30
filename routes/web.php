@@ -126,6 +126,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	Route::post('/profile/freelancer', [App\Http\Controllers\ProfileController::class, 'updateFreelancerProfile'])->name('profile.freelancer.update');
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -178,7 +179,6 @@ use App\Http\Controllers\PageControllerFLBooking;
 
 Route::get('/hireFL/{service}', [App\Http\Controllers\ServiceFLController::class, 'showHirePage'])->name('hireFL.show');
 Route::get('/serviceFL/{service}', [App\Http\Controllers\ServiceFLController::class, 'index'])->name('serviceFL.index');
-
 
 Route::post('/bid/process/{service}', [App\Http\Controllers\BidController::class, 'processBid'])->name('bid.process');
 Route::post('/bid/update/{id}', [App\Http\Controllers\BidController::class, 'update'])->name('bid.update');

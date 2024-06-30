@@ -259,6 +259,64 @@
                     </div>
                 </form>
 
+                <form class="col-md-12" action="{{ route('profile.freelancer.update') }}" method="POST">
+                    @csrf
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="title">{{ $freelancerProfile ? __('Edit Freelancer Profile') : __('Create Freelancer Profile') }}</h5>
+                        </div>
+                        <input type="hidden" name="location" class="form-control" value="{{ auth()->user()->location }}">
+                        <div class="card-body">
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Work Experience') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" name="work_experience" class="form-control" placeholder="Work Experience" value="{{ $freelancerProfile->work_experience ?? '' }}" required>
+                                    </div>
+                                    @if ($errors->has('work_experience'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('work_experience') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Education Quality') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <textarea name="edu_quality" class="form-control" placeholder="Education Quality" required>{{ $freelancerProfile->edu_quality ?? '' }}</textarea>
+                                    </div>
+                                    @if ($errors->has('edu_quality'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('edu_quality') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-md-3 col-form-label">{{ __('Nickname') }}</label>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <input type="text" name="nickname" class="form-control" placeholder="Nickname" value="{{ $freelancerProfile->nickname ?? '' }}" required>
+                                    </div>
+                                    @if ($errors->has('nickname'))
+                                        <span class="invalid-feedback" style="display: block;" role="alert">
+                                            <strong>{{ $errors->first('nickname') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer ">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-info btn-round">{{ __('Save Changes') }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

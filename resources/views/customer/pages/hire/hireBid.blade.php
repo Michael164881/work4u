@@ -158,7 +158,7 @@
                             @if($bid->jobRequest->job_image)
                                 <img  src="{{ asset($bid->jobRequest->job_image) }}" alt="..."  class="desc-img">
                             @else
-
+                                <img class="avatar border-gray" src="{{ asset('images/work_description_pictures/default.png') }}" alt="...">
                             @endif
                             <h4><strong>{{ $bid->jobRequest->job_name }}</strong></h4>
                             <p>{{ $bid->jobRequest->job_description }}</p>

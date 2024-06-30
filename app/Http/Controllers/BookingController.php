@@ -92,8 +92,9 @@ class BookingController extends Controller
             return redirect()->back()->with('error', 'You do not have permission to rate this booking.');
         }
 
+        $freelancerID = $booking->freelancer_profile_id;
         // Get the freelancer profile
-        $freelancerProfile = $booking->workDescription->freelancerProfile;
+        $freelancerProfile = freelancer_profile::findOrFail($freelancerID);
 
         // Calculate the new average rating
         $newRating = $request->input('rating');
