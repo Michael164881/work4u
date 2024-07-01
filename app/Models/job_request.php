@@ -36,4 +36,9 @@ class job_request extends Model
     {
         return $this->belongsTo(freelancer_profile::class, 'freelancer_profile_id');
     }
+
+    public function notifications()
+    {
+        return $this->belongsTo(notification::class, 'job_request_id');
+    }
 }

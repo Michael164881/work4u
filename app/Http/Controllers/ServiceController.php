@@ -7,6 +7,7 @@ use App\Models\work_description;
 use App\Models\booking;
 use App\Models\user;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -55,7 +56,7 @@ class ServiceController extends Controller
         $bookingEndDate = $bookingStartDate->copy()->addDays($service->work_period);
 
         // Create a new booking
-        booking::create([
+        $booking = booking::create([
             'user_id' => $user->id,
             'work_profile_id' => $service->id,
             'freelancer_profile_id' => $request->freelancer,
@@ -64,6 +65,32 @@ class ServiceController extends Controller
             'booking_start_date' => $bookingStartDate,
             'booking_end_date' => $bookingEndDate,
             'booking_fee' => $service->work_fee,
+        ]);
+
+        $bookingId = $booking->id;
+
+        $freelancerId = $booking->freelancerProfile->user_id;
+
+         DB::table('notification')->insert([
+            'user_id' => $freelancerId,
+            'notification_info' => 'successfully booked',
+            'booking_id' => $bookingId,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('notification')->insert([
+            'user_id' => $user->id,
+            'notification_info' => 'successfully booked',
+            'booking_id' => $bookingId,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => null,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
 
         // Update service status to unavailable

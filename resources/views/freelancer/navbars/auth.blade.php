@@ -29,8 +29,8 @@
                     <p class="nav-text">{{ __('Dashboard') }}</p>
                 </a>
             </li>
-            <li class="nav-item {{ $elementActive == 'icons' ? 'active' : '' }}">
-                <a href="{{ route('pageFL.index', 'icons') }}">
+            <li class="nav-item {{ $elementActive == 'notifications' ? 'active' : '' }}">
+                <a href="{{ route('pageFL.index', 'notifications') }}">
                     <i class="nc-icon nc-bell-55"></i>
                     <p class="nav-text">{{ __('Notifications') }}</p>
                 </a>

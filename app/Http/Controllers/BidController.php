@@ -94,6 +94,31 @@ class BidController extends Controller
             $bid->job_request_id = $service->id;
             $bid->bid_amount =  $request->bid_amount;
             $bid->save();
+
+            $bidId = $bid->id;
+            $userId = $bid->jobRequest->user_id;
+
+            DB::table('notification')->insert([
+                'user_id' => $user->id,
+                'notification_info' => 'bid created',
+                'booking_id' => null,
+                'work_description_id' => null,
+                'job_request_id' => null,
+                'bids_id' => $bidId,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+
+            DB::table('notification')->insert([
+                'user_id' => $userId,
+                'notification_info' => 'bid created',
+                'booking_id' => null,
+                'work_description_id' => null,
+                'job_request_id' => null,
+                'bids_id' => $bidId,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
     
             return redirect()->route('pageFLMap.index', 'map')->with('success', 'Your bid has been submitted successfully.');
         } else {
@@ -112,6 +137,32 @@ class BidController extends Controller
 
         DB::table('bids')->where('id', $request->id)->update([
             'bid_amount' => $request->bid_amount,
+            'updated_at' => now()
+        ]);
+
+        $bidId = $bid->id;
+        $user = auth()->user();
+        $userId = $bid->jobRequest->user_id;
+
+        DB::table('notification')->insert([
+            'user_id' => $user->id,
+            'notification_info' => 'bid updated',
+            'booking_id' => null,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => $bidId,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('notification')->insert([
+            'user_id' => $userId,
+            'notification_info' => 'bid updated',
+            'booking_id' => null,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => $bidId,
+            'created_at' => now(),
             'updated_at' => now()
         ]);
 

@@ -16,7 +16,7 @@ class JobRequestSeeder extends Seeder
         $jobRequests = [
             [
                 'user_id' => 8,
-                'job_name' => 'Mobile App Development',
+                'job_name' => 'Mobile Application Design and Development',
                 'job_description' => 'Develop a native mobile application for iOS and Android.',
                 'job_period' => '20',
                 'initial_price' => 3000.00,

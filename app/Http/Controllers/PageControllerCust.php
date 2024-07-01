@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\work_description;
 use App\Models\job_request;
+use App\Models\notification;
+use Illuminate\Support\Facades\Auth;
 
 class PageControllerCust extends Controller
 {
@@ -29,7 +31,11 @@ class PageControllerCust extends Controller
         if (view()->exists("customer.pages.{$page}")) {
             $workAddress = work_description::all();
             $jobRequest = job_request::all();
-            return view("customer.pages.{$page}",compact('workAddress', 'jobRequest'));
+
+            $user = Auth::user();
+            $notification = notification::where('user_id', $user->id)->get();
+
+            return view("customer.pages.{$page}",compact('workAddress', 'jobRequest', 'notification'));
         }
 
         return abort(404);

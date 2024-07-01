@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\work_description;
 use App\Models\job_request;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\notification;
 
 class PageControllerFL extends Controller
 {
@@ -30,7 +32,11 @@ class PageControllerFL extends Controller
             $freelancerProfile = $user->freelancerProfile;
             $workAddress = work_description::all();
             $jobRequest = job_request::all();
-            return view("freelancer.pages.{$page}",compact('workAddress', 'jobRequest', 'freelancerProfile', 'user'));
+
+            $user = Auth::user();
+            $notification = notification::where('user_id', $user->id)->get();
+
+            return view("freelancer.pages.{$page}",compact('workAddress', 'jobRequest', 'freelancerProfile', 'user', 'notification'));
         }
 
         return abort(404);

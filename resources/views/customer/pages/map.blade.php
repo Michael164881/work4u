@@ -371,7 +371,7 @@
 
                     <div class="card-body">
                         @foreach($jobRequests as $jobRequest)
-                            @if(strpos($jobRequest->job_status, 'available') !== false)
+                            @if($jobRequest->job_status === 'available')
                                 <div class="my-job-card" onclick="window.location='{{ route('jobRequest.show', $jobRequest->id) }}'">
                                     <div class="job-details">
                                         <h3>{{ $jobRequest->job_name }}</h3>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\job_request;
+use App\Models\notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +51,7 @@ class JobRequestController extends Controller
             $jobImageStore = 'images/job_image/' . $jobImageName;
         }
 
-        DB::table('job_request')->insert([
+        $jobRequest = job_request::create([
             'job_name' => $request->job_name,
             'job_description' => $request->job_description,
             'job_period' => $request->job_period,
@@ -59,6 +60,20 @@ class JobRequestController extends Controller
             'job_image' => $jobImageStore,
             'user_id' => Auth::id(),
             'job_status' => 'available',
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        $jobRequestId = $jobRequest->id;
+        $user = auth()->user();
+
+        DB::table('notification')->insert([
+            'user_id' => $user->id,
+            'notification_info' => 'job request created',
+            'booking_id' => null,
+            'work_description_id' => null,
+            'job_request_id' => $jobRequestId,
+            'bids_id' => null,
             'created_at' => now(),
             'updated_at' => now()
         ]);
@@ -120,6 +135,20 @@ class JobRequestController extends Controller
             'updated_at' => now()
         ]);
 
+        $jobRequestId = $jobRequest->id;
+        $user = auth()->user();
+
+        DB::table('notification')->insert([
+            'user_id' => $user->id,
+            'notification_info' => 'job request updated',
+            'booking_id' => null,
+            'work_description_id' => null,
+            'job_request_id' => $jobRequestId,
+            'bids_id' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
         return redirect()->route('pageCustMap.index', 'map')->with('success', 'Job request updated successfully.');
     }
 
@@ -129,6 +158,8 @@ class JobRequestController extends Controller
     public function destroy($id)
     {
         $jobRequest = job_request::findOrFail($id);
+        notification::where('job_request_id', $jobRequest->id)->delete();
+
         $jobRequest->delete();
 
         return redirect()->route('pageCustMap.index', 'map')->with('success', 'Job request deleted successfully.');

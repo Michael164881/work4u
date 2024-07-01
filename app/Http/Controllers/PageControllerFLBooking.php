@@ -8,6 +8,7 @@ use App\Models\user;
 use App\Models\TaskChecklist;
 use App\Models\freelancer_profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PageControllerFLBooking extends Controller
 {
@@ -112,10 +113,37 @@ class PageControllerFLBooking extends Controller
         // Update the booking status to 'completed'
         $booking->booking_status = 'completed';
         $booking->save();
+        $bookingId = $booking -> id;
 
         // Add the booking fee to the user's e-wallet balance
         $user->ewallet_balance += $booking->booking_fee;
         $user->save();
+
+        $userId = $booking->user_id;
+
+        DB::table('notification')->insert([
+            'user_id' => $userId,
+            'notification_info' => 'booking completed',
+            'booking_id' => $bookingId,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        $freelancerId = $booking->freelancerProfile->user_id;
+
+         DB::table('notification')->insert([
+            'user_id' => $freelancerId,
+            'notification_info' => 'booking completed',
+            'booking_id' => $bookingId,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Task completed successfully and e-wallet balance updated.');

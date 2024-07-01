@@ -12,13 +12,37 @@ class notification extends Model
     public $table = 'notification';
 
     protected $fillable = [
-        'notification_id',
-        'wallet_flancer_id',
-        'cust_id',
-        'flancer_id',
-        'wallet_cust_id',
+        'user_id',
         'booking_id',
-        'work_profile_id',
+        'work_description_id',
+        'job_request_id',
+        'wallet_cust_id',
+        'bids_id',
         'notification_info',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function bids()
+    {
+        return $this->belongsTo(bid::class, 'bids_id');
+    }
+
+    public function jobRequest()
+    {
+        return $this->belongsTo(job_request::class, 'job_request_id');
+    }
+
+    public function workDescription()
+    {
+        return $this->belongsTo(work_description::class, 'work_description_id');
+    }
+
+    public function booking()
+    {
+        return $this->belongsTo(booking::class);
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\job_request;
 use App\Models\user;
 use App\Models\freelancer_profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -78,6 +79,31 @@ class BookingController extends Controller
          $service = work_description::findOrFail($booking->work_profile_id);
          $service->work_status = 'available';
          $service->save();
+
+         $bookingId = $booking->id;
+         $freelancerId = $booking->freelancerProfile->user_id;
+
+         DB::table('notification')->insert([
+            'user_id' => $user->id,
+            'notification_info' => 'booking cancelled',
+            'booking_id' => $bookingId,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        DB::table('notification')->insert([
+            'user_id' => $freelancerId,
+            'notification_info' => 'booking cancelled',
+            'booking_id' => $bookingId,
+            'work_description_id' => null,
+            'job_request_id' => null,
+            'bids_id' => null,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
 
         return redirect()->route('bookings.index', 'booking')->with('success', 'Booking cancelled and payment refunded.');
     }

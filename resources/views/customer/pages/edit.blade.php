@@ -261,4 +261,21 @@
             </div>
         </div>
     </div>
+
+    <!--Check Ewallet Balance-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let balance = {{ auth()->user()->ewallet_balance }};
+            if (balance < 10) {
+                $.ajax({
+                    url: '{{ route("user.checkEwalletBalance") }}', // Ensure this route is defined in your web.php
+                    type: 'GET',
+                    success: function(response) {
+                        console.log('Balance checked and notification created if necessary.');
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

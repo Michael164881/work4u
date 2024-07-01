@@ -148,6 +148,8 @@ Route::get('pageCustBrowse/{page}', [App\Http\Controllers\PageControllerCustBrow
 Route::get('pageCustMap/{page}', [App\Http\Controllers\PageControllerCustMap::class, 'index'])->name('pageCustMap.index');
 Route::get('pageCust/{page}', [App\Http\Controllers\PageControllerCust::class, 'index'])->name('pageCust.index');
 
+Route::get('/check-ewallet-balance', [App\Http\Controllers\UserController::class, 'checkEwalletBalance'])->name('user.checkEwalletBalance');
+
 Route::get('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'showHirePage'])->name('hire.show');
 Route::post('/hire/{service}', [App\Http\Controllers\ServiceController::class, 'processHire'])->name('hire.process');
 

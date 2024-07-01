@@ -26,4 +26,9 @@ class work_description extends Model
     {
         return $this->belongsTo(freelancer_profile::class, 'freelancer_id');
     }
+
+    public function notifications()
+    {
+        return $this->belongsTo(notification::class, 'work_description_id');
+    }
 }

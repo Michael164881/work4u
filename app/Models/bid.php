@@ -29,4 +29,9 @@ class Bid extends Model
     {
         return $this->belongsTo(booking::class);
     }
+
+    public function notifications()
+    {
+        return $this->belongsTo(notification::class, 'bids_id');
+    }
 }
