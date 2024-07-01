@@ -19,23 +19,25 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>IC</th>
-                                <th>Phone Number</th>
+                                <th>Nickname</th>
                                 <th>Location</th>
-                                <th>Actions</th>
+                                <th>Work Experience</th>
+                                <th>Education Quality</th>
+                                <th>Average Rating</th>
+                                <th>Rating Count</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($freelancers as $freelancer)
                                 <tr>
-                                    <td>{{ $freelancer->name }}</td>
-                                    <td>{{ $freelancer->email }}</td>
-                                    <td>{{ $freelancer->ic }}</td>
-                                    <td>{{ $freelancer->phone_number }}</td>
+                                    <td>{{ $freelancer->nickname }}</td>
                                     <td>{{ $freelancer->location }}</td>
+                                    <td>{{ $freelancer->work_experience }}</td>
+                                    <td>{{ $freelancer->edu_quality }}</td>
+                                    <td>{{ $freelancer->average_rating }}</td>
+                                    <td>{{ $freelancer->rating_count }}</td>
                                     <td>
+                                        <a href="{{ route('freelancers.show', $freelancer->id) }}" class="btn btn-info btn-sm">Show</a>
                                         <a href="{{ route('freelancers.edit', $freelancer->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                         <form action="{{ route('freelancers.destroy', $freelancer->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
@@ -47,9 +49,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-center">
-                        {{ $freelancers->links() }}
-                    </div>
                 </div>
             </div>
         </div>

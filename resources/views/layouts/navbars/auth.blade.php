@@ -29,12 +29,6 @@
                     <p class="nav-text">{{ __('Dashboard') }}</p>
                 </a>
             </li>
-            <li class="nav-item {{ $elementActive == 'cancel' ? 'active' : '' }}">
-                <a href="{{ route('cancel.index', 'cancel') }}">
-                    <i class="nc-icon nc-bell-55"></i>
-                    <p class="nav-text">{{ __('Cancelation') }}</p>
-                </a>
-            </li>
             <li class="nav-item {{ $elementActive == 'users' ? 'active' : '' }}">
                 <a href="{{ route('users.index', 'users') }}"> 
                     <i class="nc-icon nc-settings"></i>

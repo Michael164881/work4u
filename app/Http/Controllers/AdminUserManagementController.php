@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Exports\FreelancerExport;
+use App\Exports\CustomerExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminUserManagementController extends Controller
 {
@@ -66,6 +69,16 @@ class AdminUserManagementController extends Controller
     {
         $user = User::findOrFail($id);
         return view('pages.mapShow', compact('user'));
+    }
+
+    public function export()
+    {
+        return Excel::download(new FreelancerExport, 'freelancers.xlsx');
+    }
+
+    public function exportCustomers()
+    {
+        return Excel::download(new CustomerExport, 'customers.xlsx');
     }
 }
 

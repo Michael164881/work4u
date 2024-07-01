@@ -49,13 +49,13 @@
 
     <div class="content">
         <div class="row">
-            <form action="{{ route('export.work_descriptions') }}" method="GET">
-                <button type="submit">Export Work Descriptions</button>
-            </form>
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h2>Work Descriptions</h2>
+                        <form action="{{ route('export.work_descriptions') }}" method="GET">
+                            <button type="submit" class="btn btn-success">Export Work Descriptions</button>
+                        </form>
                     </div>
                     <div class="card-body">
                         @foreach($workDescriptions as $workDescription)
@@ -64,8 +64,6 @@
                                 <p>{{ $workDescription->work_description }}</p>
                                 <p>Fee: RM{{ $workDescription->work_fee }}</p>
                                 <p>Period: {{ $workDescription->work_period }} days</p>
-                                <p>Freelancer: {{ $workDescription->freelancerProfile->nickname }}</p>
-                                <p><strong>Location: {{ $workDescription->freelancerProfile->location }}</strong></p>
                                 <a href="{{ route('job.showWorkDescription', $workDescription->id) }}" class="view-details-button">View Details</a>
                             </div>
                         @endforeach
@@ -73,12 +71,12 @@
                 </div>
 
                 <!-- Job Requests Export Button -->
-                <form action="{{ route('export.job_requests') }}" method="GET">
-                    <button type="submit">Export Job Requests</button>
-                </form>
                 <div class="card">
                     <div class="card-header">
                         <h2>Job Requests</h2>
+                        <form action="{{ route('export.job_requests') }}" method="GET">
+                            <button type="submit" class="btn btn-success">Export Job Requests</button>
+                        </form>
                     </div>
                     <div class="card-body">
                         @foreach($jobRequests as $jobRequest)

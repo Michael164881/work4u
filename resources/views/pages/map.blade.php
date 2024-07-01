@@ -10,6 +10,8 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">User Management</h5>
+                    <a href="{{ route('users.export.freelancers') }}" class="btn btn-success">Export Freelancers to Excel</a>
+                    <a href="{{ route('users.export.customers') }}" class="btn btn-success">Export Customers to Excel</a>
                     <form method="GET" action="{{ route('users.index') }}" class="form-inline my-2 my-lg-0">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search by name" aria-label="Search" name="search" value="{{ request('search') }}">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

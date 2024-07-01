@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\freelancer_profile;
 
 class AdminFreelancerManagementController extends Controller
 {
@@ -11,51 +12,50 @@ class AdminFreelancerManagementController extends Controller
     {
         $search = $request->input('search');
 
-        // Retrieve freelancers, optionally filtered by search term
-        $freelancers = User::where('role', 'freelancer')
-            ->when($search, function ($query, $search) {
-                return $query->where('name', 'like', "%{$search}%");
-            })
-            ->paginate(10);
+        $query = freelancer_profile::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nickname', 'like', '%' . $request->search . '%');
+        }
+
+        $freelancers = $query->get();
 
         return view('pages.freelancerProfile', compact('freelancers', 'search'));
     }
 
     public function show($id)
     {
-        $freelancer = Freelancer::findOrFail($id);
-        return view('pages.freelancersProfileshow', compact('freelancer'));
+        $freelancer = freelancer_profile::findOrFail($id);
+        return view('pages.freelancerProfileShow', compact('freelancer'));
     }
 
     public function edit($id)
     {
-        $freelancers = User::where('role', 'freelancer')->findOrFail($id);
-        return view('pages.freelancerProfileEdit', compact('freelancers'));
+        $freelancer = freelancer_profile::findOrFail($id);
+        return view('pages.freelancerProfileEdit', compact('freelancer'));
     }
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $freelancer = freelancer_profile::findOrFail($id);
         
-        // Exclude the password field from the update array if it's not present
-        $data = $request->except('password');
-        
-        // If the password field is present, hash it
-        if ($request->filled('password')) {
-            $data['password'] = bcrypt($request->input('password'));
-        }
-
-        $user->update($data);
+        $data = $request->all();
+        $freelancer->update($data);
 
         return redirect()->route('freelancers.index', 'users')->with('success', 'Freelancer updated successfully');
     }
 
     public function destroy($id)
     {
-        $freelancer = User::where('role', 'freelancer')->findOrFail($id);
+        $freelancer = freelancer_profile::findOrFail($id);
         $freelancer->delete();
 
         return redirect()->route('freelancers.index', 'freelancers')->with('success', 'Freelancer deleted successfully');
+    }
+
+    public function exportFreelancers()
+    {
+        return Excel::download(new FreelancerProfileExport, 'freelancers.xlsx');
     }
 }
 

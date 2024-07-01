@@ -93,6 +93,10 @@ Route::get('/user/{id}/edit', [App\Http\Controllers\AdminUserManagementControlle
 Route::put('/user/{id}', [App\Http\Controllers\AdminUserManagementController::class, 'update'])->name('users.update');
 Route::delete('/user/{id}', [App\Http\Controllers\AdminUserManagementController::class, 'destroy'])->name('users.destroy');
 
+Route::get('/export/freelancers', [App\Http\Controllers\AdminUserManagementController::class, 'export'])->name('users.export.freelancers');
+Route::get('/export/customers', [App\Http\Controllers\AdminUserManagementController::class, 'exportCustomers'])->name('users.export.customers');
+
+
 use App\Http\Controllers\AdminFreelancerManagementController;
 
 Route::get('/freelancers', [App\Http\Controllers\AdminFreelancerManagementController::class, 'index'])->name('freelancers.index');
@@ -100,6 +104,8 @@ Route::get('/freelancers/{id}', [App\Http\Controllers\AdminFreelancerManagementC
 Route::get('/freelancers/{id}/edit', [App\Http\Controllers\AdminFreelancerManagementController::class, 'edit'])->name('freelancers.edit');
 Route::put('/freelancers/{id}', [App\Http\Controllers\AdminFreelancerManagementController::class, 'update'])->name('freelancers.update');
 Route::delete('/freelancers/{id}', [App\Http\Controllers\AdminFreelancerManagementController::class, 'destroy'])->name('freelancers.destroy');
+Route::get('/freelancers/export', [App\Http\Controllers\AdminFreelancerManagementController::class, 'exportFreelancers'])->name('freelancers.export');
+
 
 use App\Http\Controllers\AdminJobController;
 
@@ -122,6 +128,13 @@ use App\Http\Controllers\ExportController;
 Route::get('/export/work-descriptions', [ExportController::class, 'exportWorkDescriptions'])->name('export.work_descriptions');
 Route::get('/export/job-requests', [ExportController::class, 'exportJobRequests'])->name('export.job_requests');
 
+use App\Http\Controllers\AdminBookingManagement;
+
+Route::get('/adminBooking', [App\Http\Controllers\AdminBookingManagement::class, 'index'])->name('adminBooking.index');
+Route::get('/adminBooking/{id}', [App\Http\Controllers\AdminBookingManagement::class, 'show'])->name('adminBooking.show');
+Route::post('/adminBooking/{id}/cancel', [App\Http\Controllers\AdminBookingManagement::class, 'cancel'])->name('adminBooking.cancel');
+Route::post('/adminBooking/{id}/rate', [App\Http\Controllers\AdminBookingManagement::class, 'rate'])->name('adminBooking.rate');
+Route::get('/export/adminBooking', [App\Http\Controllers\AdminBookingManagement::class, 'export'])->name('adminBooking.export');
 
 //ADMIN
 
@@ -130,7 +143,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
-	Route::post('/profile/freelancer', [App\Http\Controllers\ProfileController::class, 'updateFreelancerProfile'])->name('profile.freelancer.update');
 });
 
 Route::group(['middleware' => 'auth'], function () {
