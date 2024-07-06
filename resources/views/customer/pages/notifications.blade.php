@@ -130,14 +130,14 @@
                                                             <p>A new job request, <b>{{ $notification->jobRequest->job_name }}</b> has been created.</p>
                                                             @break
 
-                                                        @case('bid created')
-                                                            <h2><STRONG>BID PLACED</STRONG></h2><br>
-                                                            <p>A new bid (ID: {{ $notification->bids_id }}) has been placed.</p>
-                                                            @break
-
                                                         @case('bid updated')
                                                             <h2><STRONG>UPDATED BID</STRONG></h2><br>
-                                                            <p>The bid (ID: {{ $notification->bids_id }}) has been updated.</p>
+                                                            <p>The bid <b>{{ $notification->bids->jobRequest->job_name }}</b> has been updated.</p>
+                                                            @break
+
+                                                        @case('bid created')
+                                                            <h2><STRONG>BID PLACED</STRONG></h2><br>
+                                                            <p>A new bid <b>{{ $notification->bids->jobRequest->job_name }}</b> has been placed.</p>
                                                             @break
 
                                                         @default

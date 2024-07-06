@@ -3,6 +3,8 @@
     'backgroundImagePath' => 'img/bg/fabio-mangione.jpg'
 ])
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @section('content')
     <div class="content">
         <div class="container">
@@ -80,6 +82,21 @@
     <script>
         $(document).ready(function() {
             demo.checkFullPageBackgroundImage();
+        });
+    </script>
+@endpush
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '{{ session('error') }}'
+                });
+            @endif
         });
     </script>
 @endpush

@@ -114,5 +114,8 @@ class LoginController extends Controller
                 'job'
             ));
         }
+        else{
+            return view('welcome')->with('error', 'Incorrect email or password. Please try again.');
+        }
     }
 }

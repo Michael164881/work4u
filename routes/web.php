@@ -217,17 +217,13 @@ Route::post('/bookings/{bookingId}/end', [PageControllerFLBooking::class, 'endTa
 
 Auth::routes();
 
-Route::get('/home', 'App\Http\Controllers\AdminController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'App\Http\Controllers\AdminController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	Route::post('/profile/freelancer', [App\Http\Controllers\ProfileController::class, 'updateFreelancerProfile'])->name('profile.freelancer.update');
 });
 
 

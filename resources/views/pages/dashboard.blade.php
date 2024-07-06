@@ -71,7 +71,7 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Commissions</p>
+                                    <p class="card-category">Work/Job</p>
                                     <p class="card-title">{{ $workDescriptionCount + $jobRequestCount }}</p>
                                 </div>
                             </div>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="col-7 col-md-8">
                                 <div class="numbers">
-                                    <p class="card-category">Pending Cancellation</p>
+                                    <p class="card-category">Bookings</p>
                                     <p class="card-title">{{ $bookingCount }}</p>
                                 </div>
                             </div>
